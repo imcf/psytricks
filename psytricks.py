@@ -6,6 +6,8 @@ from os.path import dirname, abspath
 from pathlib import Path
 from logging import warning
 
+from pprint import pprint
+
 psscripts = Path(abspath(dirname(__file__))) / "resources" / "powershell"
 pswrapper = psscripts / "psytricks-wrapper.ps1"
 warning(f"Using PowerShell script [{pswrapper}].")
@@ -15,4 +17,5 @@ if completed.stderr:
     raise RuntimeError(f"PowerShell call had issues: {completed.stderr}!")
 
 stdout = completed.stdout.decode(encoding="cp850")
-print(stdout)
+parsed = json.loads(stdout)
+pprint(parsed)
