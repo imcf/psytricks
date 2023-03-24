@@ -13,13 +13,14 @@ from sys import platform
 from loguru import logger as log
 
 
+RequestNames = Literal["GetMachineStatus", "Dummy"]
+
+
 class PSyTricksWrapper:
 
     pswrapper = (
         Path(abspath(dirname(__file__))) / "ps1scripts" / "psytricks-wrapper.ps1"
     )
-
-    RequestNames = Literal["GetMachineStatus", "Dummy"]
 
     def __init__(self, conffile):
         if platform.startswith("linux"):
