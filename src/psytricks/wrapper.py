@@ -45,6 +45,11 @@ class PSyTricksWrapper:
         ----------
         request : RequestNames
             The name of the request.
+
+        Returns
+        -------
+        list(str)
+            The JSON parsed from the output returned by the PS1 wrapper script.
         """
         try:
             tstart = time.time()
