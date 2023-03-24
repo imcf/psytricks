@@ -5,7 +5,7 @@ import sys
 import click
 from loguru import logger as log
 
-from .psytricks import PSyTricksWrapper
+from .wrapper import PSyTricksWrapper
 
 
 def configure_logging(verbose: int):
