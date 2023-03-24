@@ -7,7 +7,7 @@ include = [
 license = "GPL-3.0-or-later"
 name = "psytricks"
 readme = "README.md"
-version = "0.1.0"
+version = "0.0.0"
 
 [tool.poetry.urls]
 # "Changelog" = "https://github.com/imcf/psytricks/blob/main/CHANGELOG.md"
@@ -21,6 +21,17 @@ python = "^3.10"
 black = "^23.1.0"
 pylint = "^2.16.2"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+# pattern = "^psytricks-((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)"
+style = "semver"
+vcs = "git"
+
+[tool.poetry-dynamic-versioning.substitution]
+folders = [
+  {path = "src"},
+]
+
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
+build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
