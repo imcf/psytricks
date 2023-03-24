@@ -1,0 +1,23 @@
+[tool.poetry]
+authors = ["Niko Ehrenfeuchter <nikolaus.ehrenfeuchter@unibas.ch>"]
+description = "PowerShell Python Citrix Tricks."
+license = "GPL-3.0-or-later"
+name = "psytricks"
+readme = "README.md"
+version = "0.1.0"
+
+[tool.poetry.urls]
+# "Changelog" = "https://github.com/imcf/psytricks/blob/main/CHANGELOG.md"
+"Organisation Homepage" = "https://imcf.one/"
+"Twitter" = "https://twitter.com/imcf_basel"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+pylint = "^2.16.2"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
