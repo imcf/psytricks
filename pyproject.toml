@@ -23,6 +23,9 @@ python = "^3.10"
 black = "^23.1.0"
 pylint = "^2.16.2"
 
+[tool.poetry.scripts]
+psytricks = "psytricks.cli:run_cli"
+
 [tool.poetry-dynamic-versioning]
 enable = true
 # pattern = "^psytricks-((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)"
