@@ -1,5 +1,7 @@
 """Command line interface related functions."""
 
+import sys
+
 import click
 from loguru import logger as log
 
