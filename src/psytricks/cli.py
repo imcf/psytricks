@@ -26,7 +26,7 @@ def configure_logging(verbose: int):
 
 
 @click.command(help="Run the PSyTricks command line interface.")
-@click.option("--config", type=str, help="A JSON configuration file.")
+@click.option("--config", type=str, help="A JSON configuration file.", required=True)
 @click.option(
     "-v",
     "--verbose",
