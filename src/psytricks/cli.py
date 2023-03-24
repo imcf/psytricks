@@ -1,3 +1,5 @@
+"""Command line interface related functions."""
+
 import click
 from loguru import logger as log
 
