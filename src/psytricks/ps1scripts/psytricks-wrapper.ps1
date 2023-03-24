@@ -38,7 +38,19 @@ if ($CommandName -eq "GetMachineStatus") {
     )
     $Data = Get-BrokerMachine -AdminAddress $Config.CitrixDC | `
         Select-Object -Property $Properties
-
+}
+elseif ($CommandName -eq "GetSessions") {
+    $Properties = @(
+        "UserName",
+        "CatalogName",
+        "DNSName",
+        "Protocol",
+        "StartTime",
+        "SessionState",
+        "SessionStateChangeTime"
+    )
+    $Data = Get-BrokerSession -AdminAddress $Config.CitrixDC | `
+        Select-Object -Property $Properties
 }
 else {
     Write-Error "Unexpected command: $CommandName"
