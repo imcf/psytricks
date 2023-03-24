@@ -1,2 +1,2 @@
-# local configuration file
-/config.json
+# any JSON file in the top-level directory:
+/*.json
