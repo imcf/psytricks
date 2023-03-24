@@ -28,7 +28,6 @@ if ($CommandName -eq "GetMachineStatus") {
         "InMaintenanceMode",
         "SummaryState",
         "RegistrationState",
-        "Registered",
         "SessionUserName",
         "AssociatedUserUPNs",
         "AgentVersion",
