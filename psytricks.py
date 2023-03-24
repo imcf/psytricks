@@ -4,9 +4,13 @@ import subprocess
 import json
 from os.path import dirname, abspath
 from pathlib import Path
-from logging import warning
+import logging
+from logging import warning, debug
 
 from pprint import pprint
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 # define the full path to the PowerShell executable:
 ps_exe = (
