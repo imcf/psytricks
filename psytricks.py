@@ -8,6 +8,15 @@ from logging import warning
 
 from pprint import pprint
 
+# define the full path to the PowerShell executable:
+ps_exe = (
+    Path(os.environ["SYSTEMROOT"])
+    / "System32"
+    / "WindowsPowerShell"
+    / "v1.0"
+    / "powershell.exe"
+)
+
 psscripts = Path(abspath(dirname(__file__))) / "resources" / "powershell"
 pswrapper = psscripts / "psytricks-wrapper.ps1"
 warning(f"Using PowerShell script [{pswrapper}].")
