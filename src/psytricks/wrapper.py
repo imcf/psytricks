@@ -38,7 +38,7 @@ class PSyTricksWrapper:
         log.info(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using configuration file [{self.conffile}].")
 
-    def get_citrix_details(self, request: RequestNames) -> list:
+    def _fetch_data(self, request: RequestNames) -> list:
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
@@ -90,3 +90,13 @@ class PSyTricksWrapper:
 
         log.debug(f"Got details on {len(parsed)} machines.")
         return parsed
+
+    def get_machine_status(self) -> list:
+        """Call the wrapper with command "GetMachineStatus".
+
+        Returns
+        -------
+        list(str)
+            The parsed JSON.
+        """
+        return self._fetch_data(request="GetMachineStatus")

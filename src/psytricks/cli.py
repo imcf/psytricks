@@ -42,5 +42,5 @@ def configure_logging(verbose: int):
 def run_cli(config, verbose):
     configure_logging(verbose)
     wrapper = PSyTricksWrapper(conffile=config)
-    details = wrapper.get_citrix_details(request="GetMachineStatus")
+    details = wrapper.get_machine_status()
     # pprint(details)
