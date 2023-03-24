@@ -23,6 +23,7 @@ class PSyTricksWrapper:
     )
 
     def __init__(self, conffile):
+        # FIXME: this is a hack while implementing the package, remove for production!
         if platform.startswith("linux"):
             self.ps_exe = Path("/snap/bin/pwsh")
         else:
