@@ -13,7 +13,7 @@ from sys import platform
 from loguru import logger as log
 
 
-RequestNames = Literal["GetMachineStatus", "Dummy"]
+RequestNames = Literal["GetMachineStatus", "GetSessions"]
 
 
 class PSyTricksWrapper:
@@ -101,3 +101,13 @@ class PSyTricksWrapper:
             The parsed JSON.
         """
         return self._fetch_data(request="GetMachineStatus")
+
+    def get_sessions(self) -> list:
+        """Call the wrapper with command "GetSessions".
+
+        Returns
+        -------
+        list(str)
+            The parsed JSON.
+        """
+        return self._fetch_data(request="GetSessions")

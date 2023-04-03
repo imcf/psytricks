@@ -39,8 +39,17 @@ def configure_logging(verbose: int):
     count=True,
     help="Increase logging verbosity, may be repeated up to 3 times.",
 )
-def run_cli(config, verbose):
+@click.argument(
+    "command",
+    type=click.Choice(["sessions", "machines"]),
+)
+def run_cli(config, verbose, command):
     configure_logging(verbose)
     wrapper = PSyTricksWrapper(conffile=config)
-    details = wrapper.get_machine_status()
-    # pprint(details)
+    call_method = {
+        "sessions": wrapper.get_sessions,
+        "machines": wrapper.get_machine_status,
+    }
+    details = call_method[command]()
+
+    pprint(details)
