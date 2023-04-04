@@ -7,7 +7,12 @@ param (
 
     [Parameter()]
     [string]
-    $CommandName = ""
+    $CommandName = "",
+
+    # switch to request dummy data (testing)
+    [Parameter()]
+    [switch]
+    $Dummy
 )
 
 
@@ -18,7 +23,23 @@ catch {
     throw "Error reading JSON configuration file: [$JsonConfig]"
 }
 
-Add-PSSnapin Citrix.Broker.Admin.V2
+try {
+    Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
+}
+catch {
+    if ($Dummy.IsPresent) {
+        Write-Verbose "Attempting to return dummy data..."
+    }
+    else {
+        Write-Error "Error loading Citrix Broker Snap-In!"
+        return
+    }
+}
+
+if ($Dummy.IsPresent) {
+    Get-Content "$PSScriptRoot/dummydata/$CommandName.json"
+    return
+}
 
 
 if ($CommandName -eq "GetMachineStatus") {

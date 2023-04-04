@@ -24,8 +24,10 @@ class PSyTricksWrapper:
 
     def __init__(self, conffile):
         # FIXME: this is a hack while implementing the package, remove for production!
+        self.add_flags = []
         if platform.startswith("linux"):
             self.ps_exe = Path("/snap/bin/pwsh")
+            self.add_flags = ["-Dummy"]
         else:
             self.ps_exe = (
                 Path(os.environ["SYSTEMROOT"])
@@ -65,6 +67,7 @@ class PSyTricksWrapper:
                 "-CommandName",
                 request,
             ]
+            command = command + self.add_flags
             log.debug(f"Command for subprocess call: {command}")
             completed = subprocess.run(
                 command,
