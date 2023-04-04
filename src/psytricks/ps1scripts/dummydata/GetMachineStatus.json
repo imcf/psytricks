@@ -2,6 +2,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "HostedMachineName": "ctricks-vm-d401",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -17,6 +18,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "HostedMachineName": "ctricks-vm-d402",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -32,6 +34,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "HostedMachineName": "ctricks-vm-d403",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -49,6 +52,7 @@
     "AssociatedUserUPNs": [
       "user.a@example.xy"
     ],
+    "DesktopGroupName": "Dinner",
     "HostedMachineName": "ctricks-vm-d404",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -64,6 +68,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "HostedMachineName": "ctricks-vm-d405",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -81,6 +86,7 @@
     "AssociatedUserUPNs": [
       "user.b@example.xy"
     ],
+    "DesktopGroupName": "Dinner",
     "HostedMachineName": "ctricks-vm-d406",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -98,6 +104,7 @@
     "AssociatedUserUPNs": [
       "user.c@example.xy"
     ],
+    "DesktopGroupName": "Dinner",
     "HostedMachineName": "ctricks-vm-d501",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -188,6 +195,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Heart",
     "HostedMachineName": "ctricks-vm-h401",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -203,6 +211,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Heart",
     "HostedMachineName": "ctricks-vm-h402",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -218,6 +227,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Heart",
     "HostedMachineName": "ctricks-vm-h501",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -233,6 +243,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Heart",
     "HostedMachineName": "ctricks-vm-h502",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -250,6 +261,7 @@
     "AssociatedUserUPNs": [
       "user.a@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n401",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -267,6 +279,7 @@
     "AssociatedUserUPNs": [
       "user.b@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n402",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -284,6 +297,7 @@
     "AssociatedUserUPNs": [
       "user.c@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n403",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -301,6 +315,7 @@
     "AssociatedUserUPNs": [
       "user.d@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n404",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -318,6 +333,7 @@
     "AssociatedUserUPNs": [
       "user.e@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n501",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -335,6 +351,7 @@
     "AssociatedUserUPNs": [
       "user.f@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n502",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -352,6 +369,7 @@
     "AssociatedUserUPNs": [
       "user.g@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n503",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -369,6 +387,7 @@
     "AssociatedUserUPNs": [
       "user.h@example.xy"
     ],
+    "DesktopGroupName": "Night",
     "HostedMachineName": "ctricks-vm-n504",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -384,6 +403,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t401",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -399,6 +419,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t402",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -414,6 +435,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t403",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -429,6 +451,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t404",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -444,6 +467,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t405",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -459,6 +483,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t406",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -474,6 +499,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t501",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -489,6 +515,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t502",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -504,6 +531,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t503",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -519,6 +547,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t504",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -534,6 +563,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t505",
     "InMaintenanceMode": false,
     "PowerState": 4,
@@ -549,6 +579,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Tree",
     "HostedMachineName": "ctricks-vm-t506",
     "InMaintenanceMode": false,
     "PowerState": 4,

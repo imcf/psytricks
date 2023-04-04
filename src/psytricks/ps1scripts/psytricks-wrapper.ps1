@@ -60,6 +60,7 @@ if ($CommandName -eq "GetMachineStatus") {
     $Properties = @(
         "AgentVersion",
         "AssociatedUserUPNs",
+        "DesktopGroupName",
         "HostedMachineName",
         "InMaintenanceMode",
         "PowerState",
@@ -75,7 +76,7 @@ if ($CommandName -eq "GetMachineStatus") {
         Select-Object -Property $Properties
 } elseif ($CommandName -eq "GetSessions") {
     $Properties = @(
-        "CatalogName",
+        "DesktopGroupName",
         "DNSName",
         "Protocol",
         "SessionState",
