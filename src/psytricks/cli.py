@@ -1,6 +1,7 @@
 """Command line interface related functions."""
 
 import sys
+from pprint import pprint
 
 import click
 from loguru import logger as log
