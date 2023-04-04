@@ -62,7 +62,7 @@ class PSyTricksWrapper:
             )
 
         self.conffile = Path(conffile)
-        log.info(f"Using PowerShell script [{self.pswrapper}].")
+        log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using configuration file [{self.conffile}].")
 
     def _fetch_data(self, request: RequestNames) -> list:
@@ -99,7 +99,7 @@ class PSyTricksWrapper:
                 check=True,
             )
             elapsed = time.time() - tstart
-            log.debug(f"PowerShell call took {elapsed:.3}s.")
+            log.debug(f"[PROFILING] PowerShell call: {elapsed:.3}s.")
             if completed.stderr:
                 raise RuntimeError(
                     "Wrapper returned data on STDERR, this is not expected:"

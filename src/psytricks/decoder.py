@@ -29,7 +29,7 @@ def parse_powershell_json(json_dict):
     ret = {}
     for key, value in json_dict.items():
         if key.endswith("Time") and value is not None and "/Date(" in value:
-            log.warning(f"{key} -> {value}")
+            log.trace(f"{key} -> {value}")
             epoch_ms = re.split(r"\(|\)", value)[1]
             ret[key] = datetime.fromtimestamp(int(epoch_ms[:10]))
         else:
