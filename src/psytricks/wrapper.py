@@ -92,7 +92,7 @@ class PSyTricksWrapper:
             stdout = completed.stdout.decode(encoding="cp850")
             parsed = json.loads(stdout, object_hook=parse_powershell_json)
         except Exception as ex:
-            raise RuntimeError("Error decoding / parsing output!") from ex
+            raise ValueError("Error decoding / parsing output!") from ex
 
         log.debug(f"Got details on {len(parsed)} machines.")
         return parsed
