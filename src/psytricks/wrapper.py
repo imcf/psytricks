@@ -20,11 +20,33 @@ RequestNames = Literal["GetMachineStatus", "GetSessions"]
 
 class PSyTricksWrapper:
 
+    """Wrapper handling PowerShell calls and processing of returned data.
+
+    Raises
+    ------
+    RuntimeError
+        Raised in case the PowerShell call was producing output on `stderr`
+        (indicating something went wrong) or returned with a non-zero exit code.
+    ValueError
+        Raised in case decoding the string produced by the PowerShell call on
+        `stdout` could not be decoded using "cp850" (indicating it contains
+        characters not supported by "code page 850" like e.g. the Euro currency
+        symbol "€") or in case parsing it via `json.loads()` failed.
+    """
+
     pswrapper = (
         Path(abspath(dirname(__file__))) / "ps1scripts" / "psytricks-wrapper.ps1"
     )
 
     def __init__(self, conffile: str):
+        """Constructor for the `PSyTricksWrapper` class.
+
+        Parameters
+        ----------
+        conffile : str
+            The path to a JSON-formatted configuration file required by the
+            PowerShell script.
+        """
         # FIXME: this is a hack while implementing the package, remove for production!
         self.add_flags = []
         if platform.startswith("linux"):
