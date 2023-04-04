@@ -18,20 +18,17 @@ param (
 
 try {
     $Config = Get-Content $JsonConfig | ConvertFrom-Json -EA Stop
-}
-catch {
+} catch {
     throw "Error reading JSON configuration file: [$JsonConfig]"
 }
 
 try {
     Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
-}
-catch {
+} catch {
     # failing to load the snap-in is only acceptable in "dummy" mode:
     if ($Dummy.IsPresent) {
         Write-Verbose "Attempting to return dummy data..."
-    }
-    else {
+    } else {
         Write-Error "Error loading Citrix Broker Snap-In!"
         return
     }
@@ -66,8 +63,7 @@ if ($CommandName -eq "GetMachineStatus") {
     )
     $Data = Get-BrokerMachine -AdminAddress $Config.CitrixDC | `
         Select-Object -Property $Properties
-}
-elseif ($CommandName -eq "GetSessions") {
+} elseif ($CommandName -eq "GetSessions") {
     $Properties = @(
         "UserName",
         "CatalogName",
@@ -79,8 +75,7 @@ elseif ($CommandName -eq "GetSessions") {
     )
     $Data = Get-BrokerSession -AdminAddress $Config.CitrixDC | `
         Select-Object -Property $Properties
-}
-else {
+} else {
     Write-Error "Unexpected command: $CommandName"
 }
 
