@@ -45,7 +45,7 @@ class PSyTricksWrapper:
         ----------
         conffile : str
             The path to a JSON-formatted configuration file required by the
-            PowerShell script.
+            PowerShell script that will be called by the wrapper.
         """
         # FIXME: this is a hack while implementing the package, remove for production!
         self.add_flags = []
