@@ -111,8 +111,15 @@ class PSyTricksWrapper:
             ) from ex
 
         try:
+            tstart = time.time()
             stdout = completed.stdout.decode(encoding="cp850")
+            elapsed = time.time() - tstart
+            log.debug(f"[PROFILING] Decoding stdout: {elapsed:.5}s.")
+
+            tstart = time.time()
             parsed = json.loads(stdout, object_hook=parse_powershell_json)
+            elapsed = time.time() - tstart
+            log.debug(f"[PROFILING] Parsing JSON: {elapsed:.5}s.")
         except Exception as ex:
             raise ValueError("Error decoding / parsing output!") from ex
 
