@@ -50,6 +50,17 @@ def configure_logging(verbose: int):
     type=click.Choice(["sessions", "machines"]),
 )
 def run_cli(config, verbose, command):
+    """Create a wrapper object and call the method requested on the command line.
+
+    Parameters
+    ----------
+    config : str
+        Path to the JSON config file required by the PowerShell script.
+    verbose : int
+        The logging verbosity.
+    command : str
+        The command indicating which wrapper method to call.
+    """
     configure_logging(verbose)
     wrapper = PSyTricksWrapper(conffile=config)
     call_method = {
