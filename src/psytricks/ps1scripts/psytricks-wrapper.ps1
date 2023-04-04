@@ -15,6 +15,16 @@ param (
     $Dummy
 )
 
+<#
+TODO: commands to be implemented
+- SendSessionMessage (Send-BrokerSessionMessage)
+- GetAccessUsers (Get-BrokerAccessPolicyRule)
+- SetAccessUsers (Set-BrokerAccessPolicyRule -AddIncludedUsers / -RemoveIncludedUsers)
+- MachinePowerAction (New-BrokerHostingPowerAction)
+- DisconnectSession (Disconnect-BrokerSession)
+- SetMaintenanceMode (Set-BrokerMachineMaintenanceMode)
+#>
+
 
 try {
     $Config = Get-Content $JsonConfig | ConvertFrom-Json -EA Stop
