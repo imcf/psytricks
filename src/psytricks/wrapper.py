@@ -24,7 +24,7 @@ class PSyTricksWrapper:
         Path(abspath(dirname(__file__))) / "ps1scripts" / "psytricks-wrapper.ps1"
     )
 
-    def __init__(self, conffile):
+    def __init__(self, conffile: str):
         # FIXME: this is a hack while implementing the package, remove for production!
         self.add_flags = []
         if platform.startswith("linux"):
