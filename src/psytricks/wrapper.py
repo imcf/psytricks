@@ -12,6 +12,8 @@ from sys import platform
 
 from loguru import logger as log
 
+from .decoder import parse_powershell_json
+
 
 RequestNames = Literal["GetMachineStatus", "GetSessions"]
 
@@ -88,7 +90,7 @@ class PSyTricksWrapper:
 
         try:
             stdout = completed.stdout.decode(encoding="cp850")
-            parsed = json.loads(stdout)
+            parsed = json.loads(stdout, object_hook=parse_powershell_json)
         except Exception as ex:
             raise RuntimeError("Error decoding / parsing output!") from ex
 
