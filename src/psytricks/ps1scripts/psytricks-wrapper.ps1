@@ -27,6 +27,7 @@ try {
     Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
 }
 catch {
+    # failing to load the snap-in is only acceptable in "dummy" mode:
     if ($Dummy.IsPresent) {
         Write-Verbose "Attempting to return dummy data..."
     }
@@ -37,6 +38,12 @@ catch {
 }
 
 if ($Dummy.IsPresent) {
+    # When being called with the "-Dummy" switch, no actual calls to the Citrix
+    # stack will be done, instead simply the contents of a file in a subdir
+    # called "dummydata" having the name of the requested command followed by a
+    # ".json" suffix will be dumped on stdout.
+    # This is intended for very basic testing in an environment where a Citrix
+    # stack is not (always) available.
     Get-Content "$PSScriptRoot/dummydata/$CommandName.json"
     return
 }
