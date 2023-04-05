@@ -45,8 +45,8 @@ def configure_logging(verbose: int):
     count=True,
     help="Increase logging verbosity, may be repeated up to 3 times.",
 )
-@click.argument(
-    "command",
+@click.option(
+    "--command",
     type=click.Choice(["sessions", "machines"]),
 )
 def run_cli(config, verbose, command):
