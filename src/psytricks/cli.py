@@ -61,7 +61,12 @@ def configure_logging(verbose: int):
     ),
     required=True,
 )
-def run_cli(config, verbose, command):
+@click.option(
+    "--machine",
+    type=str,
+    help="A machine ID to performan an action command upon.",
+)
+def run_cli(config, verbose, command, machine):
     """Create a wrapper object and call the method requested on the command line.
 
     Parameters
@@ -78,7 +83,11 @@ def run_cli(config, verbose, command):
     call_method = {
         "sessions": wrapper.get_sessions,
         "machines": wrapper.get_machine_status,
+        "disconnect": wrapper.disconnect_session,
     }
-    details = call_method[command]()
+    call_kwargs = {}
+    if command == "disconnect":
+        call_kwargs["machine"] = machine
+    details = call_method[command](**call_kwargs)
 
     pprint(details)

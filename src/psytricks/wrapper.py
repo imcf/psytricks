@@ -126,7 +126,7 @@ class PSyTricksWrapper:
         log.debug(f"Got details on {len(parsed)} machines.")
         return parsed
 
-    def get_machine_status(self) -> list:
+    def get_machine_status(self, **kwargs) -> list:
         """Call the wrapper with command "GetMachineStatus".
 
         Returns
@@ -136,7 +136,7 @@ class PSyTricksWrapper:
         """
         return self._fetch_data(request="GetMachineStatus")
 
-    def get_sessions(self) -> list:
+    def get_sessions(self, **kwargs) -> list:
         """Call the wrapper with command "GetSessions".
 
         Returns
@@ -145,3 +145,6 @@ class PSyTricksWrapper:
             The parsed JSON.
         """
         return self._fetch_data(request="GetSessions")
+
+    def disconnect_session(self, **kwargs) -> list:
+        log.warning(kwargs)
