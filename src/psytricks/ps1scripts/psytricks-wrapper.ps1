@@ -56,7 +56,9 @@ if ($Dummy.IsPresent) {
 }
 
 
-if ($CommandName -eq "GetMachineStatus") {
+#region functions
+
+function Get-MachineStatus {
     $Properties = @(
         "AgentVersion",
         "AssociatedUserUPNs",
@@ -74,7 +76,10 @@ if ($CommandName -eq "GetMachineStatus") {
     )
     $Data = Get-BrokerMachine -AdminAddress $Config.CitrixDC | `
         Select-Object -Property $Properties
-} elseif ($CommandName -eq "GetSessions") {
+    return $Data
+}
+
+function Get-Sessions {
     $Properties = @(
         "DesktopGroupName",
         "DNSName",
@@ -86,6 +91,16 @@ if ($CommandName -eq "GetMachineStatus") {
     )
     $Data = Get-BrokerSession -AdminAddress $Config.CitrixDC | `
         Select-Object -Property $Properties
+    return $Data
+}
+
+#endregion functions
+
+
+if ($CommandName -eq "GetMachineStatus") {
+    $Data = Get-MachineStatus
+} elseif ($CommandName -eq "GetSessions") {
+    $Data = Get-Sessions
 } else {
     Write-Error "Unexpected command: $CommandName"
 }
