@@ -64,9 +64,28 @@ def configure_logging(verbose: int):
 @click.option(
     "--machine",
     type=str,
-    help="A machine ID to performan an action command upon.",
+    help="""A machine ID to perform an action command on. [required for: 'getaccess',
+    'setaccess']""",
 )
-def run_cli(config, verbose, command, machine):
+@click.option(
+    "--group",
+    type=str,
+    help="A Delivery Group name. [required for: 'getaccess', 'setaccess']",
+)
+@click.option(
+    "--action",
+    type=click.Choice(
+        [
+            "shutdown",
+            "restart",
+        ]
+    ),
+    required=False,
+    help="The power action to perform on a machine. [required for: 'poweraction']",
+)
+@click.option("--message")
+@click.option("--users")
+def run_cli(config, verbose, command, machine, group, action, message, users):
     """Create a wrapper object and call the method requested on the command line.
 
     Parameters
@@ -85,9 +104,13 @@ def run_cli(config, verbose, command, machine):
         "machines": wrapper.get_machine_status,
         "disconnect": wrapper.disconnect_session,
     }
-    call_kwargs = {}
-    if command == "disconnect":
-        call_kwargs["machine"] = machine
+    call_kwargs = {
+        "machine": machine,
+        "group": group,
+        "action": action,
+        "message": message,
+        "users": users,
+    }
     details = call_method[command](**call_kwargs)
 
     pprint(details)
