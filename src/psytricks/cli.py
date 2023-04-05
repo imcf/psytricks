@@ -47,7 +47,19 @@ def configure_logging(verbose: int):
 )
 @click.option(
     "--command",
-    type=click.Choice(["sessions", "machines"]),
+    type=click.Choice(
+        [
+            "disconnect",
+            "getaccess",
+            "machines",
+            "maintenance",
+            "poweraction",
+            "sendmessage",
+            "sessions",
+            "setaccess",
+        ]
+    ),
+    required=True,
 )
 def run_cli(config, verbose, command):
     """Create a wrapper object and call the method requested on the command line.
