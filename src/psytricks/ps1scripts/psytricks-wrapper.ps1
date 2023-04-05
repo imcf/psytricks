@@ -5,9 +5,20 @@ param (
     [string]
     $JsonConfig,
 
-    [Parameter()]
+    # the command defining the action to be performed by the wrapper
+    [Parameter(Mandatory = $true)]
+    [ValidateSet(
+        "DisconnectSession",
+        "GetAccessUsers",
+        "GetMachineStatus",
+        "GetSessions",
+        "MachinePowerAction",
+        "SendSessionMessage",
+        "SetAccessUsers",
+        "SetMaintenanceMode"
+    )]
     [string]
-    $CommandName = "",
+    $CommandName,
 
     # switch to request dummy data (testing)
     [Parameter()]
@@ -102,7 +113,7 @@ if ($CommandName -eq "GetMachineStatus") {
 } elseif ($CommandName -eq "GetSessions") {
     $Data = Get-Sessions
 } else {
-    Write-Error "Unexpected command: $CommandName"
+    Write-Error "Command not yet implemented: $CommandName"
 }
 
 $Data | ConvertTo-Json -Compress
