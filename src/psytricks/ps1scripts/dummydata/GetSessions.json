@@ -1,0 +1,65 @@
+[
+    {
+        "DesktopGroupName": "Night",
+        "DNSName": "ctricks-vm-n403.vdi.example.xy",
+        "Protocol": "HDX",
+        "SessionState": 2,
+        "SessionStateChangeTime": "\/Date(1680693138853)\/",
+        "StartTime": "\/Date(1680693138000)\/",
+        "UserName": "EXAMPLEDOMAIN\\usera"
+    },
+    {
+        "DesktopGroupName": "Tree",
+        "DNSName": "ctricks-vm-t402.vdi.example.xy",
+        "Protocol": "HDX",
+        "SessionState": 3,
+        "SessionStateChangeTime": "\/Date(1680694079657)\/",
+        "StartTime": "\/Date(1680276740000)\/",
+        "UserName": "EXAMPLEDOMAIN\\userf"
+    },
+    {
+        "DesktopGroupName": "Dinner",
+        "DNSName": "ctricks-vm-d501.vdi.example.xy",
+        "Protocol": "HDX",
+        "SessionState": 3,
+        "SessionStateChangeTime": "\/Date(1680620366330)\/",
+        "StartTime": "\/Date(1678963753000)\/",
+        "UserName": "EXAMPLEDOMAIN\\userh"
+    },
+    {
+        "DesktopGroupName": "Night",
+        "DNSName": "ctricks-vm-n401.vdi.example.xy",
+        "Protocol": "HDX",
+        "SessionState": 2,
+        "SessionStateChangeTime": "\/Date(1680681326513)\/",
+        "StartTime": "\/Date(1679660327000)\/",
+        "UserName": "EXAMPLEDOMAIN\\usere"
+    },
+    {
+        "DesktopGroupName": "Night",
+        "DNSName": "ctricks-vm-n504.vdi.example.xy",
+        "Protocol": "HDX",
+        "SessionState": 3,
+        "SessionStateChangeTime": "\/Date(1680629104910)\/",
+        "StartTime": "\/Date(1680595449000)\/",
+        "UserName": "EXAMPLEDOMAIN\\userc"
+    },
+    {
+        "DesktopGroupName": "Tree",
+        "DNSName": "ctricks-vm-t501.vdi.example.xy",
+        "Protocol": "HDX",
+        "SessionState": 2,
+        "SessionStateChangeTime": "\/Date(1680594312963)\/",
+        "StartTime": "\/Date(1680594312000)\/",
+        "UserName": "EXAMPLEDOMAIN\\userb"
+    },
+    {
+        "DesktopGroupName": "Dinner",
+        "DNSName": "ctricks-vm-d505.vdi.example.xy",
+        "Protocol": "HDX",
+        "SessionState": 2,
+        "SessionStateChangeTime": "\/Date(1680607636250)\/",
+        "StartTime": "\/Date(1680081865000)\/",
+        "UserName": "EXAMPLEDOMAIN\\userd"
+    }
+]
