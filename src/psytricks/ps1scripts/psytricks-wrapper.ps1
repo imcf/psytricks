@@ -131,6 +131,10 @@ function Disconnect-Session {
     if ($null -eq $Session) {
         return $null
     }
+    if ($Session.SessionState -eq "Disconnected") {
+        Write-Verbose "Session already disconnected, not disconnecting again!"
+        return Select-Object -InputObject $Session -Property $SessionProperties
+    }
     Disconnect-BrokerSession -AdminAddress $AdmAddr -InputObject $Session
 
     # wait a bit until the status update is reflected by Citrix:
