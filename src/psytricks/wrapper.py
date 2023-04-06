@@ -147,4 +147,7 @@ class PSyTricksWrapper:
         return self._run_ps1_script(request="GetSessions")
 
     def disconnect_session(self, **kwargs) -> list:
-        log.warning(kwargs)
+        return self._run_ps1_script(
+            request="DisconnectSession",
+            extra_params=["-MachineName", kwargs["machine"]],
+        )

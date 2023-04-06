@@ -20,6 +20,11 @@ param (
     [string]
     $CommandName,
 
+    # machine name to perform a specific action on
+    [Parameter()]
+    [string]
+    $MachineName = "",
+
     # switch to request dummy data (testing)
     [Parameter()]
     [switch]
@@ -112,6 +117,12 @@ if ($CommandName -eq "GetMachineStatus") {
     $Data = Get-MachineStatus
 } elseif ($CommandName -eq "GetSessions") {
     $Data = Get-Sessions
+} elseif ($CommandName -eq "DisconnectSession") {
+    if ($MachineName -eq "") {
+        throw "Parameter 'MachineName' is missing!"
+    }
+    Write-Error $MachineName
+    # $Data = Disconnect-Session
 } else {
     Write-Error "Command not yet implemented: $CommandName"
 }
