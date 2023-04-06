@@ -65,7 +65,7 @@ class PSyTricksWrapper:
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using configuration file [{self.conffile}].")
 
-    def _fetch_data(self, request: RequestNames) -> list:
+    def _run_ps1_script(self, request: RequestNames, extra_params: list = []) -> list:
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
@@ -91,7 +91,7 @@ class PSyTricksWrapper:
                 "-CommandName",
                 request,
             ]
-            command = command + self.add_flags
+            command = command + self.add_flags + extra_params
             log.debug(f"Command for subprocess call: {command}")
             completed = subprocess.run(
                 command,
@@ -134,7 +134,7 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON.
         """
-        return self._fetch_data(request="GetMachineStatus")
+        return self._run_ps1_script(request="GetMachineStatus")
 
     def get_sessions(self, **kwargs) -> list:
         """Call the wrapper with command "GetSessions".
@@ -144,7 +144,7 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON.
         """
-        return self._fetch_data(request="GetSessions")
+        return self._run_ps1_script(request="GetSessions")
 
     def disconnect_session(self, **kwargs) -> list:
         log.warning(kwargs)
