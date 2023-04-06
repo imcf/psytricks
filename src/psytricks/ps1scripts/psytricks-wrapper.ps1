@@ -127,13 +127,9 @@ function Disconnect-Session {
         [string]
         $DNSName
     )
-
     $Session = Get-BrokerSession -AdminAddress $AdmAddr -DNSName $DNSName
     if ($null -eq $Session) {
-        $Data = @{
-            "asdf" = "foo"
-        }
-        return $Data
+        return $null
     }
     Disconnect-BrokerSession -AdminAddress $AdmAddr -InputObject $Session
 
