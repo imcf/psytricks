@@ -147,6 +147,19 @@ class PSyTricksWrapper:
         return self._run_ps1_script(request="GetSessions")
 
     def disconnect_session(self, **kwargs) -> list:
+        """Call the wrapper with command "DisconnectSession".
+
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to disconnect the session on.
+
+        Returns
+        -------
+        list(str)
+            The parsed JSON as returned by the wrapper script.
+        """
         return self._run_ps1_script(
             request="DisconnectSession",
             extra_params=["-MachineName", kwargs["machine"]],
