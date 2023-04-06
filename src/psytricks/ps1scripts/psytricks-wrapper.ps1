@@ -143,18 +143,16 @@ function Disconnect-Session {
 
 #endregion functions
 
-
-if ($CommandName -eq "GetMachineStatus") {
-    $Data = Get-MachineStatus
-} elseif ($CommandName -eq "GetSessions") {
-    $Data = Get-Sessions
-} elseif ($CommandName -eq "DisconnectSession") {
-    if ($DNSName -eq "") {
-        throw "Parameter 'DNSName' is missing!"
+switch ($CommandName) {
+    "GetMachineStatus" { $Data = Get-MachineStatus }
+    "GetSessions" { $Data = Get-Sessions }
+    "DisconnectSession" {
+        if ($DNSName -eq "") {
+            throw "Parameter 'DNSName' is missing!"
+        }
+        $Data = Disconnect-Session -DNSName $DNSName
     }
-    $Data = Disconnect-Session -DNSName $DNSName
-} else {
-    Write-Error "Command not yet implemented: $CommandName"
+    Default { Write-Error "Command not yet implemented: $CommandName" }
 }
 
 $Data | ConvertTo-Json -Compress
