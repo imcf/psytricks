@@ -159,6 +159,12 @@ switch ($CommandName) {
         }
         $Data = Disconnect-Session -DNSName $DNSName
     }
+    "GetAccessUsers" {}
+    "MachinePowerAction" {}
+    "SendSessionMessage" {}
+    "SetAccessUsers" {}
+    "SetMaintenanceMode" {}
+
     Default { Write-Error "Command not yet implemented: $CommandName" }
 }
 
