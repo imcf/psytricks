@@ -110,6 +110,37 @@ function Get-Sessions {
     return $Data
 }
 
+function Disconnect-Session {
+    param (
+        # the FQDN of the machine to disconnect the session on
+        [Parameter()]
+        [string]
+        $DNSName
+    )
+
+    $Session = Get-BrokerSession `
+        -AdminAddress $Config.CitrixDC `
+        -DNSName $DNSName
+    if ($null -eq $Session) {
+        $Data = @{
+            "asdf" = "foo"
+        }
+        return $Data
+    }
+    Disconnect-BrokerSession `
+        -AdminAddress $Config.CitrixDC `
+        -InputObject $Session
+
+    # wait a bit until the status update is reflected by Citrix:
+    Start-Sleep -Seconds 0.7
+
+    $Data = Get-BrokerSession `
+        -AdminAddress $Config.CitrixDC `
+        -DNSName $DNSName | `
+        Select-Object UserUPN, SessionState, MachineSummaryState
+    return $Data
+}
+
 #endregion functions
 
 
@@ -121,8 +152,7 @@ if ($CommandName -eq "GetMachineStatus") {
     if ($DNSName -eq "") {
         throw "Parameter 'DNSName' is missing!"
     }
-    Write-Error $DNSName
-    # $Data = Disconnect-Session
+    $Data = Disconnect-Session -DNSName $DNSName
 } else {
     Write-Error "Command not yet implemented: $CommandName"
 }
