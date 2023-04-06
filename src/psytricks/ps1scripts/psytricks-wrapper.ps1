@@ -42,6 +42,39 @@ TODO: commands to be implemented
 #>
 
 
+#region properties-selectors
+
+$MachineProperties = @(
+    "AgentVersion",
+    "AssociatedUserUPNs",
+    "DesktopGroupName",
+    "HostedDNSName",
+    "InMaintenanceMode",
+    "PowerState",
+    "RegistrationState",
+    "SessionClientVersion",
+    "SessionDeviceId",
+    "SessionStartTime",
+    "SessionStateChangeTime",
+    "SessionUserName",
+    "SummaryState"
+)
+
+$SessionProperties = @(
+    "DesktopGroupName",
+    "DNSName",
+    "MachineSummaryState",
+    "Protocol",
+    "SessionState",
+    "SessionStateChangeTime",
+    "StartTime",
+    "UserName",
+    "UserUPN"
+)
+
+#endregion properties-selectors
+
+
 try {
     $Config = Get-Content $JsonConfig | ConvertFrom-Json -EA Stop
 } catch {
@@ -76,38 +109,14 @@ if ($Dummy.IsPresent) {
 #region functions
 
 function Get-MachineStatus {
-    $Properties = @(
-        "AgentVersion",
-        "AssociatedUserUPNs",
-        "DesktopGroupName",
-        "HostedDNSName",
-        "InMaintenanceMode",
-        "PowerState",
-        "RegistrationState",
-        "SessionClientVersion",
-        "SessionDeviceId",
-        "SessionStartTime",
-        "SessionStateChangeTime",
-        "SessionUserName",
-        "SummaryState"
-    )
-        Select-Object -Property $Properties
     $Data = Get-BrokerMachine -AdminAddress $AdmAddr | `
+        Select-Object -Property $MachineProperties
     return $Data
 }
 
 function Get-Sessions {
-    $Properties = @(
-        "DesktopGroupName",
-        "DNSName",
-        "Protocol",
-        "SessionState",
-        "SessionStateChangeTime",
-        "StartTime",
-        "UserName"
-    )
-        Select-Object -Property $Properties
     $Data = Get-BrokerSession -AdminAddress $AdmAddr | `
+        Select-Object -Property $SessionProperties
     return $Data
 }
 
@@ -131,8 +140,8 @@ function Disconnect-Session {
     # wait a bit until the status update is reflected by Citrix:
     Start-Sleep -Seconds 0.7
 
-        Select-Object UserUPN, SessionState, MachineSummaryState
     $Data = Get-BrokerSession -AdminAddress $AdmAddr -DNSName $DNSName | `
+        Select-Object -Property $SessionProperties
     return $Data
 }
 
