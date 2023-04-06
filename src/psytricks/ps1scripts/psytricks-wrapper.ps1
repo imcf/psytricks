@@ -47,6 +47,7 @@ try {
 } catch {
     throw "Error reading JSON configuration file: [$JsonConfig]"
 }
+$AdmAddr = $Config.CitrixDC
 
 try {
     Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
@@ -90,8 +91,8 @@ function Get-MachineStatus {
         "SessionUserName",
         "SummaryState"
     )
-    $Data = Get-BrokerMachine -AdminAddress $Config.CitrixDC | `
         Select-Object -Property $Properties
+    $Data = Get-BrokerMachine -AdminAddress $AdmAddr | `
     return $Data
 }
 
@@ -105,8 +106,8 @@ function Get-Sessions {
         "StartTime",
         "UserName"
     )
-    $Data = Get-BrokerSession -AdminAddress $Config.CitrixDC | `
         Select-Object -Property $Properties
+    $Data = Get-BrokerSession -AdminAddress $AdmAddr | `
     return $Data
 }
 
@@ -118,26 +119,20 @@ function Disconnect-Session {
         $DNSName
     )
 
-    $Session = Get-BrokerSession `
-        -AdminAddress $Config.CitrixDC `
-        -DNSName $DNSName
+    $Session = Get-BrokerSession -AdminAddress $AdmAddr -DNSName $DNSName
     if ($null -eq $Session) {
         $Data = @{
             "asdf" = "foo"
         }
         return $Data
     }
-    Disconnect-BrokerSession `
-        -AdminAddress $Config.CitrixDC `
-        -InputObject $Session
+    Disconnect-BrokerSession -AdminAddress $AdmAddr -InputObject $Session
 
     # wait a bit until the status update is reflected by Citrix:
     Start-Sleep -Seconds 0.7
 
-    $Data = Get-BrokerSession `
-        -AdminAddress $Config.CitrixDC `
-        -DNSName $DNSName | `
         Select-Object UserUPN, SessionState, MachineSummaryState
+    $Data = Get-BrokerSession -AdminAddress $AdmAddr -DNSName $DNSName | `
     return $Data
 }
 
