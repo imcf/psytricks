@@ -1,5 +1,7 @@
 """Command line interface related functions."""
 
+# pylint: disable-msg=too-many-arguments
+
 import sys
 from pprint import pprint
 
