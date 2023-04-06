@@ -20,10 +20,10 @@ param (
     [string]
     $CommandName,
 
-    # machine name to perform a specific action on
+    # machine name (FQDN) to perform a specific action on
     [Parameter()]
     [string]
-    $MachineName = "",
+    $DNSName = "",
 
     # switch to request dummy data (testing)
     [Parameter()]
@@ -79,7 +79,7 @@ function Get-MachineStatus {
         "AgentVersion",
         "AssociatedUserUPNs",
         "DesktopGroupName",
-        "HostedMachineName",
+        "HostedDNSName",
         "InMaintenanceMode",
         "PowerState",
         "RegistrationState",
@@ -118,10 +118,10 @@ if ($CommandName -eq "GetMachineStatus") {
 } elseif ($CommandName -eq "GetSessions") {
     $Data = Get-Sessions
 } elseif ($CommandName -eq "DisconnectSession") {
-    if ($MachineName -eq "") {
-        throw "Parameter 'MachineName' is missing!"
+    if ($DNSName -eq "") {
+        throw "Parameter 'DNSName' is missing!"
     }
-    Write-Error $MachineName
+    Write-Error $DNSName
     # $Data = Disconnect-Session
 } else {
     Write-Error "Command not yet implemented: $CommandName"

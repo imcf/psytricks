@@ -162,5 +162,5 @@ class PSyTricksWrapper:
         """
         return self._run_ps1_script(
             request="DisconnectSession",
-            extra_params=["-MachineName", kwargs["machine"]],
+            extra_params=["-DNSName", kwargs["machine"]],
         )
