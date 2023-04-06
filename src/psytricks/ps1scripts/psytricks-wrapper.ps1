@@ -143,6 +143,9 @@ function Disconnect-Session {
 
 #endregion functions
 
+
+#region main
+
 switch ($CommandName) {
     "GetMachineStatus" { $Data = Get-MachineStatus }
     "GetSessions" { $Data = Get-Sessions }
@@ -156,3 +159,5 @@ switch ($CommandName) {
 }
 
 $Data | ConvertTo-Json -Compress
+
+#endregion main
