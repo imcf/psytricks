@@ -113,6 +113,10 @@ def run_cli(config, verbose, command, machine, group, action, message, users):
         "message": message,
         "users": users,
     }
+
+    if command == "disconnect" and machine is None:
+        raise click.UsageError("Command 'disconnect' requires the --machine parameter!")
+
     details = call_method[command](**call_kwargs)
 
     pprint(details)
