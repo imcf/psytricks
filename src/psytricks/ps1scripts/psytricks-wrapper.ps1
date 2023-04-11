@@ -30,6 +30,17 @@ param (
     [string]
     $Group = "",
 
+    # user account name(s) to add / remove Delivery Group access permissions for
+    [Parameter()]
+    [string[]]
+    $UserNames = "",
+
+    # switch to request removal / disabling of a permission / mode, e.g. used
+    # for SetAccessUsers and SetMaintenanceMode
+    [Parameter()]
+    [switch]
+    $Disable,
+
     # switch to prevent the Citrix snap-in being loaded (only useful for testing)
     [Parameter()]
     [switch]
@@ -43,7 +54,6 @@ param (
 
 <# TODO: commands to be implemented
 - SendSessionMessage (Send-BrokerSessionMessage)
-- SetAccessUsers (Set-BrokerAccessPolicyRule -AddIncludedUsers / -RemoveIncludedUsers)
 - MachinePowerAction (New-BrokerHostingPowerAction)
 - SetMaintenanceMode (Set-BrokerMachineMaintenanceMode)
 #>
@@ -149,6 +159,44 @@ function Get-AccessUsers {
     return $Data
 }
 
+function Set-AccessUsers {
+    param (
+        # the name of the Delivery Group to set access users for
+        [Parameter()]
+        [string]
+        $Group,
+
+        # switch to request removal of the user(s) access permission
+        [Parameter()]
+        [switch]
+        $RemoveAccess,
+
+        # list of usernames to add / remove access to the given group
+        [Parameter()]
+        [string[]]
+        $UserNames
+    )
+    $Policy = Get-BrokerAccessPolicyRule `
+        -AdminAddress $AdmAddr `
+        -DesktopGroupName $Group
+    if ($RemoveAccess) {
+        $Data = Set-BrokerAccessPolicyRule `
+            -AdminAddress $AdmAddr `
+            -InputObject $Policy `
+            -RemoveIncludedUsers $UserNames `
+            -PassThru | `
+            Select-Object -ExpandProperty IncludedUsers
+    } else {
+        $Data = Set-BrokerAccessPolicyRule `
+            -AdminAddress $AdmAddr `
+            -InputObject $Policy `
+            -AddIncludedUsers $UserNames `
+            -PassThru | `
+            Select-Object -ExpandProperty IncludedUsers
+    }
+    return $Data
+}
+
 #endregion functions
 
 
@@ -186,11 +234,21 @@ try {
                     throw "Parameter 'Group' is missing!"
                 }
                 $Data = Get-AccessUsers -Group $Group
-
             }
             "MachinePowerAction" {}
             "SendSessionMessage" {}
-            "SetAccessUsers" {}
+            "SetAccessUsers" {
+                if ($Group -eq "") {
+                    throw "Parameter 'Group' is missing!"
+                }
+                if ($UserNames -eq "") {
+                    throw "Parameter 'UserNames' is missing!"
+                }
+                $Data = Set-AccessUsers `
+                    -Group $Group `
+                    -UserNames $UserNames `
+                    -RemoveAccess:$Disable
+            }
             "SetMaintenanceMode" {}
 
             # this should never be reached as $CommandName is backed by ValidateSet
