@@ -65,7 +65,7 @@ class PSyTricksWrapper:
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using configuration file [{self.conffile}].")
 
-    def _run_ps1_script(self, request: RequestNames, extra_params: list = []) -> list:
+    def _run_ps1_script(self, request: RequestNames, extra_params: list = None) -> list:
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
@@ -78,6 +78,8 @@ class PSyTricksWrapper:
         list(str)
             The JSON parsed from the output returned by the PS1 wrapper script.
         """
+        if extra_params is None:
+            extra_params = []
         try:
             tstart = time.time()
             command = [
