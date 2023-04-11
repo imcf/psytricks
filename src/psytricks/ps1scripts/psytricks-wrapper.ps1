@@ -144,16 +144,18 @@ $Status = @{
     "ErrorMessage"    = ""
 }
 
-if ($Dummy.IsPresent) {
-    # When being called with the "-Dummy" switch, no actual calls to the Citrix
-    # stack will be done, instead simply the contents of a file in a subdir
-    # called "dummydata" having the name of the requested command followed by a
-    # ".json" suffix will be loaded and returned as payload data.
-    # This is intended for very basic testing in an environment where a Citrix
-    # stack is not (always) available.
-    $Data = Get-Content "$PSScriptRoot/dummydata/$CommandName.json" | ConvertFrom-Json
-} else {
-    try {
+try {
+    if ($Dummy.IsPresent) {
+        # When being called with the "-Dummy" switch, no actual calls to the Citrix
+        # stack will be done, instead simply the contents of a file in a subdir
+        # called "dummydata" having the name of the requested command followed by a
+        # ".json" suffix will be loaded and returned as payload data.
+        # This is intended for very basic testing in an environment where a Citrix
+        # stack is not (always) available.
+        $LoadFrom = "$PSScriptRoot/dummydata/$CommandName.json"
+        Write-Verbose "Loading dummy data from [$LoadFrom]..."
+        $Data = Get-Content $LoadFrom | ConvertFrom-Json
+    } else {
         switch ($CommandName) {
             "GetMachineStatus" { $Data = Get-MachineStatus }
             "GetSessions" { $Data = Get-Sessions }
@@ -173,13 +175,13 @@ if ($Dummy.IsPresent) {
             # above, but it's good practice to have a default case nevertheless:
             Default { throw "Unknown command: $CommandName" }
         }
-    } catch {
-        $Status = @{
-            "ExecutionStatus" = "1"
-            "ErrorMessage"    = "$_"
-        }
-        $Data = ""
     }
+} catch {
+    $Status = @{
+        "ExecutionStatus" = "1"
+        "ErrorMessage"    = "$_"
+    }
+    $Data = ""
 }
 
 
