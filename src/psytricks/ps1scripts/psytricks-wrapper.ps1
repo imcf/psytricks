@@ -86,7 +86,7 @@ try {
 $AdmAddr = $Config.CitrixDC
 
 if ($NoSnapIn) {
-    Write-Error "NOT loading Citrix Broker Snap-In, can only work on 'dummy' data!"
+    Write-Debug "NOT loading Citrix Broker Snap-In, can only work on 'dummy' data!"
 } else {
     Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
 }
