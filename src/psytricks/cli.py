@@ -87,7 +87,8 @@ def configure_logging(verbose: int):
 )
 @click.option("--message")
 @click.option("--users")
-def run_cli(config, verbose, command, machine, group, action, message, users):
+@click.option("--disable", is_flag=True)
+def run_cli(config, verbose, command, machine, group, action, message, users, disable):
     """Create a wrapper object and call the method requested on the command line.
 
     Parameters
@@ -109,7 +110,7 @@ def run_cli(config, verbose, command, machine, group, action, message, users):
         "poweraction": None,
         "sendmessage": None,
         "sessions": wrapper.get_sessions,
-        "setaccess": None,
+        "setaccess": wrapper.set_access_users,
     }
     call_kwargs = {
         "machine": machine,
@@ -117,12 +118,15 @@ def run_cli(config, verbose, command, machine, group, action, message, users):
         "action": action,
         "message": message,
         "users": users,
+        "disable": disable,
     }
 
     if command == "disconnect" and machine is None:
         raise click.UsageError("Command 'disconnect' requires the --machine parameter!")
-    if command == "getaccess" and group is None:
-        raise click.UsageError("Command 'getaccess' requires the --group parameter!")
+    if command in ["getaccess", "setaccess"] and group is None:
+        raise click.UsageError("Commands 'getaccess'/'setaccess' require --group!")
+    if command == "setaccess" and users is None:
+        raise click.UsageError("Command 'setaccess' requires --users!")
 
     details = call_method[command](**call_kwargs)
 
