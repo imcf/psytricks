@@ -33,7 +33,7 @@ param (
     # user account name(s) to add / remove Delivery Group access permissions for
     [Parameter()]
     [string[]]
-    $UserNames = "",
+    $UserNames = $null,
 
     # switch to request removal / disabling of a permission / mode, e.g. used
     # for SetAccessUsers and SetMaintenanceMode
@@ -241,7 +241,7 @@ try {
                 if ($Group -eq "") {
                     throw "Parameter 'Group' is missing!"
                 }
-                if ($UserNames -eq "") {
+                if (($UserNames.Length -eq 0) -or ($UserNames -eq "") ) {
                     throw "Parameter 'UserNames' is missing!"
                 }
                 $Data = Set-AccessUsers `
