@@ -94,17 +94,6 @@ try {
     }
 }
 
-if ($Dummy.IsPresent) {
-    # When being called with the "-Dummy" switch, no actual calls to the Citrix
-    # stack will be done, instead simply the contents of a file in a subdir
-    # called "dummydata" having the name of the requested command followed by a
-    # ".json" suffix will be dumped on stdout.
-    # This is intended for very basic testing in an environment where a Citrix
-    # stack is not (always) available.
-    Get-Content "$PSScriptRoot/dummydata/$CommandName.json"
-    return
-}
-
 
 #region functions
 
@@ -150,22 +139,35 @@ function Disconnect-Session {
 
 #region main
 
-switch ($CommandName) {
-    "GetMachineStatus" { $Data = Get-MachineStatus }
-    "GetSessions" { $Data = Get-Sessions }
-    "DisconnectSession" {
-        if ($DNSName -eq "") {
-            throw "Parameter 'DNSName' is missing!"
+if ($Dummy.IsPresent) {
+    # When being called with the "-Dummy" switch, no actual calls to the Citrix
+    # stack will be done, instead simply the contents of a file in a subdir
+    # called "dummydata" having the name of the requested command followed by a
+    # ".json" suffix will be loaded and returned as payload data.
+    # This is intended for very basic testing in an environment where a Citrix
+    # stack is not (always) available.
+    $Data = Get-Content "$PSScriptRoot/dummydata/$CommandName.json" | ConvertFrom-Json
+} else {
+    switch ($CommandName) {
+        "GetMachineStatus" { $Data = Get-MachineStatus }
+        "GetSessions" { $Data = Get-Sessions }
+        "DisconnectSession" {
+            if ($DNSName -eq "") {
+                throw "Parameter 'DNSName' is missing!"
+            }
+            $Data = Disconnect-Session -DNSName $DNSName
         }
-        $Data = Disconnect-Session -DNSName $DNSName
-    }
-    "GetAccessUsers" {}
-    "MachinePowerAction" {}
-    "SendSessionMessage" {}
-    "SetAccessUsers" {}
-    "SetMaintenanceMode" {}
+        "GetAccessUsers" {}
+        "MachinePowerAction" {}
+        "SendSessionMessage" {}
+        "SetAccessUsers" {}
+        "SetMaintenanceMode" {}
 
-    Default { Write-Error "Command not yet implemented: $CommandName" }
+        Default { Write-Error "Command not yet implemented: $CommandName" }
+    }
+}
+
+
 }
 
 $Data | ConvertTo-Json -Compress
