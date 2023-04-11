@@ -199,3 +199,21 @@ class PSyTricksWrapper:
             request="DisconnectSession",
             extra_params=["-DNSName", kwargs["machine"]],
         )
+
+    def get_access_users(self, **kwargs) -> list:
+        """Call the wrapper with command "GetAccessUsers".
+
+        Parameters
+        ----------
+        group : str
+            The name of the Delivery Group to request users having access.
+
+        Returns
+        -------
+        list(str)
+            The parsed JSON as returned by the wrapper script.
+        """
+        return self._run_ps1_script(
+            request="GetAccessUsers",
+            extra_params=["-Group", kwargs["group"]],
+        )
