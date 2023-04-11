@@ -225,13 +225,13 @@ try {
             "GetSessions" { $Data = Get-Sessions }
             "DisconnectSession" {
                 if ($DNSName -eq "") {
-                    throw "Parameter 'DNSName' is missing!"
+                    throw "Parameter [DNSName] is missing!"
                 }
                 $Data = Disconnect-Session -DNSName $DNSName
             }
             "GetAccessUsers" {
                 if ($Group -eq "") {
-                    throw "Parameter 'Group' is missing!"
+                    throw "Parameter [Group] is missing!"
                 }
                 $Data = Get-AccessUsers -Group $Group
             }
@@ -239,10 +239,10 @@ try {
             "SendSessionMessage" {}
             "SetAccessUsers" {
                 if ($Group -eq "") {
-                    throw "Parameter 'Group' is missing!"
+                    throw "Parameter [Group] is missing!"
                 }
                 if (($UserNames.Length -eq 0) -or ($UserNames -eq "") ) {
-                    throw "Parameter 'UserNames' is missing!"
+                    throw "Parameter [UserNames] is missing!"
                 }
                 $Data = Set-AccessUsers `
                     -Group $Group `
