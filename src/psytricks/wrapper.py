@@ -185,7 +185,6 @@ class PSyTricksWrapper:
     def disconnect_session(self, **kwargs) -> list:
         """Call the wrapper with command "DisconnectSession".
 
-
         Parameters
         ----------
         machine : str
