@@ -217,3 +217,33 @@ class PSyTricksWrapper:
             request="GetAccessUsers",
             extra_params=["-Group", kwargs["group"]],
         )
+
+    def set_access_users(self, **kwargs) -> list:
+        """Call the wrapper with command "SetAccessUsers".
+
+        Parameters
+        ----------
+        group : str
+            The name of the Delivery Group to request users having access.
+        users : str
+            A string with one or more (comma-separated) usernames whose access
+            permissions to the given group should be adapted.
+        disable : bool
+            A flag requesting the permissions for the given username(s) to be
+            removed (if True) instead of being added (if False).
+
+        Returns
+        -------
+        list(str)
+            The parsed JSON as returned by the wrapper script.
+        """
+        extra_params = [
+            "-Group",
+            kwargs["group"],
+            "-UserNames",
+            kwargs["users"],
+        ]
+        if kwargs["disable"]:
+            extra_params.append("-Disable")
+
+        return self._run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
