@@ -153,6 +153,7 @@ if ($Dummy.IsPresent) {
     # stack is not (always) available.
     $Data = Get-Content "$PSScriptRoot/dummydata/$CommandName.json" | ConvertFrom-Json
 } else {
+    try {
     switch ($CommandName) {
         "GetMachineStatus" { $Data = Get-MachineStatus }
         "GetSessions" { $Data = Get-Sessions }
@@ -171,6 +172,13 @@ if ($Dummy.IsPresent) {
         # this should never be reached as $CommandName is backed by ValidateSet
         # above, but it's good practice to have a default case nevertheless:
         Default { throw "Unknown command: $CommandName" }
+    }
+    } catch {
+        $Status = @{
+            "ExecutionStatus" = "1"
+            "ErrorMessage"    = "$_"
+        }
+        $Data = ""
     }
 }
 
