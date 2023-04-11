@@ -25,6 +25,11 @@ param (
     [string]
     $DNSName = "",
 
+    # name of a Delivery Group to perform a specific action on
+    [Parameter()]
+    [string]
+    $Group = "",
+
     # switch to prevent the Citrix snap-in being loaded (only useful for testing)
     [Parameter()]
     [switch]
@@ -38,7 +43,6 @@ param (
 
 <# TODO: commands to be implemented
 - SendSessionMessage (Send-BrokerSessionMessage)
-- GetAccessUsers (Get-BrokerAccessPolicyRule)
 - SetAccessUsers (Set-BrokerAccessPolicyRule -AddIncludedUsers / -RemoveIncludedUsers)
 - MachinePowerAction (New-BrokerHostingPowerAction)
 - SetMaintenanceMode (Set-BrokerMachineMaintenanceMode)
@@ -131,6 +135,20 @@ function Disconnect-Session {
     return $Data
 }
 
+function Get-AccessUsers {
+    param (
+        # the name of the Delivery Group to get users with access for
+        [Parameter()]
+        [string]
+        $Group
+    )
+    $Data = Get-BrokerAccessPolicyRule `
+        -AdminAddress $AdmAddr `
+        -DesktopGroupName $Group | `
+        Select-Object -ExpandProperty IncludedUsers
+    return $Data
+}
+
 #endregion functions
 
 
@@ -163,7 +181,13 @@ try {
                 }
                 $Data = Disconnect-Session -DNSName $DNSName
             }
-            "GetAccessUsers" {}
+            "GetAccessUsers" {
+                if ($Group -eq "") {
+                    throw "Parameter 'Group' is missing!"
+                }
+                $Data = Get-AccessUsers -Group $Group
+
+            }
             "MachinePowerAction" {}
             "SendSessionMessage" {}
             "SetAccessUsers" {}
