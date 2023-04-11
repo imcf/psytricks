@@ -66,8 +66,8 @@ def configure_logging(verbose: int):
 @click.option(
     "--machine",
     type=str,
-    help="""A machine ID to perform an action command on. [required for: 'getaccess',
-    'setaccess']""",
+    help="""A machine ID to perform an action command on. [required for: 'maintenance',
+    'poweraction']""",
 )
 @click.option(
     "--group",
