@@ -179,6 +179,11 @@ function Set-AccessUsers {
     $Policy = Get-BrokerAccessPolicyRule `
         -AdminAddress $AdmAddr `
         -DesktopGroupName $Group
+
+    if ($null -eq $Policy) {
+        throw "Error fetching permissions for Delivery Group [$Group]!"
+    }
+
     if ($RemoveAccess) {
         $Data = Set-BrokerAccessPolicyRule `
             -AdminAddress $AdmAddr `
