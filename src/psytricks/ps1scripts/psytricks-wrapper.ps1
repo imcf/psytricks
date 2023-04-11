@@ -145,7 +145,7 @@ $Status = @{
 }
 
 try {
-    if ($Dummy.IsPresent) {
+    if ($Dummy) {
         # When being called with the "-Dummy" switch, no actual calls to the Citrix
         # stack will be done, instead simply the contents of a file in a subdir
         # called "dummydata" having the name of the requested command followed by a
