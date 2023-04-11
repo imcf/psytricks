@@ -25,6 +25,11 @@ param (
     [string]
     $DNSName = "",
 
+    # switch to prevent the Citrix snap-in being loaded (only useful for testing)
+    [Parameter()]
+    [switch]
+    $NoSnapIn,
+
     # switch to request dummy data (testing)
     [Parameter()]
     [switch]
@@ -82,15 +87,10 @@ try {
 }
 $AdmAddr = $Config.CitrixDC
 
-try {
+if ($NoSnapIn) {
+    Write-Error "NOT loading Citrix Broker Snap-In, can only work on 'dummy' data!"
+} else {
     Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
-} catch {
-    # failing to load the snap-in is only acceptable in "dummy" mode:
-    if ($Dummy.IsPresent) {
-        Write-Verbose "Attempting to return dummy data..."
-    } else {
-        Write-Error "Error loading Citrix Broker Snap-In, continuing in 'Dummy' mode!"
-    }
 }
 
 
