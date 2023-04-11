@@ -1,0 +1,98 @@
+[
+    {
+        "DirectoryContext": null,
+        "FullName": "User A",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\usera",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-33003",
+        "UPN": "user.a@example.xy"
+    },
+    {
+        "DirectoryContext": null,
+        "FullName": "User B",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\userb",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-118426",
+        "UPN": "user.b@example.xy"
+    },
+    {
+        "DirectoryContext": null,
+        "FullName": "User C",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\userc",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-146499",
+        "UPN": "user.c@example.xy"
+    },
+    {
+        "DirectoryContext": null,
+        "FullName": "User D‚",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\userde",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-161341",
+        "UPN": "user.de@example.xy"
+    },
+    {
+        "DirectoryContext": null,
+        "FullName": "User A",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\usera",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-33003",
+        "UPN": "user.a@example.xy"
+    },
+    {
+        "DirectoryContext": null,
+        "FullName": "User B",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\userb",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-118426",
+        "UPN": "user.b@example.xy"
+    },
+    {
+        "DirectoryContext": null,
+        "FullName": "User C",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\userc",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-146499",
+        "UPN": "user.c@example.xy"
+    },
+    {
+        "DirectoryContext": null,
+        "FullName": "User D‚",
+        "HomeZoneName": null,
+        "HomeZoneUid": null,
+        "IdentityClaims": null,
+        "Name": "EXAMPLEDOMAIN\\userde",
+        "NameLookupFailureCount": 0,
+        "PrimaryClaim": null,
+        "SID": "S-1-5-21-987654321-1122334455-6677889900-161341",
+        "UPN": "user.de@example.xy"
+    }
+]
