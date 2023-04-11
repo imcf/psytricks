@@ -138,7 +138,7 @@ class PSyTricksWrapper:
             elapsed = time.time() - tstart
             log.debug(f"[PROFILING] Parsing JSON: {elapsed:.5}s.")
         except Exception as ex:
-            raise ValueError("Error decoding / parsing output!") from ex
+            raise ValueError(f"Error decoding / parsing output:\n{stdout}") from ex
 
         if "Status" not in parsed or "Data" not in parsed:
             raise ValueError(f"Received malformed JSON from PS1 script: {parsed}")
