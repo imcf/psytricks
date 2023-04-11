@@ -154,25 +154,25 @@ if ($Dummy.IsPresent) {
     $Data = Get-Content "$PSScriptRoot/dummydata/$CommandName.json" | ConvertFrom-Json
 } else {
     try {
-    switch ($CommandName) {
-        "GetMachineStatus" { $Data = Get-MachineStatus }
-        "GetSessions" { $Data = Get-Sessions }
-        "DisconnectSession" {
-            if ($DNSName -eq "") {
-                throw "Parameter 'DNSName' is missing!"
+        switch ($CommandName) {
+            "GetMachineStatus" { $Data = Get-MachineStatus }
+            "GetSessions" { $Data = Get-Sessions }
+            "DisconnectSession" {
+                if ($DNSName -eq "") {
+                    throw "Parameter 'DNSName' is missing!"
+                }
+                $Data = Disconnect-Session -DNSName $DNSName
             }
-            $Data = Disconnect-Session -DNSName $DNSName
-        }
-        "GetAccessUsers" {}
-        "MachinePowerAction" {}
-        "SendSessionMessage" {}
-        "SetAccessUsers" {}
-        "SetMaintenanceMode" {}
+            "GetAccessUsers" {}
+            "MachinePowerAction" {}
+            "SendSessionMessage" {}
+            "SetAccessUsers" {}
+            "SetMaintenanceMode" {}
 
-        # this should never be reached as $CommandName is backed by ValidateSet
-        # above, but it's good practice to have a default case nevertheless:
-        Default { throw "Unknown command: $CommandName" }
-    }
+            # this should never be reached as $CommandName is backed by ValidateSet
+            # above, but it's good practice to have a default case nevertheless:
+            Default { throw "Unknown command: $CommandName" }
+        }
     } catch {
         $Status = @{
             "ExecutionStatus" = "1"
