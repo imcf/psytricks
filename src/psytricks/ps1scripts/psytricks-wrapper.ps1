@@ -89,8 +89,7 @@ try {
     if ($Dummy.IsPresent) {
         Write-Verbose "Attempting to return dummy data..."
     } else {
-        Write-Error "Error loading Citrix Broker Snap-In!"
-        return
+        Write-Error "Error loading Citrix Broker Snap-In, continuing in 'Dummy' mode!"
     }
 }
 
