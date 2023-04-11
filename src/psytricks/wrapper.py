@@ -125,7 +125,7 @@ class PSyTricksWrapper:
         except Exception as ex:
             raise ValueError("Error decoding / parsing output!") from ex
 
-        log.debug(f"Got details on {len(parsed)} machines.")
+        log.debug(f"Parsed 'Data' section contains {len(parsed['Data'])} items.")
         return parsed
 
     def get_machine_status(self, **kwargs) -> list:
