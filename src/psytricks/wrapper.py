@@ -126,8 +126,18 @@ class PSyTricksWrapper:
         except Exception as ex:
             raise ValueError("Error decoding / parsing output!") from ex
 
+        if "Status" not in parsed or "Data" not in parsed:
+            raise ValueError(f"Received malformed JSON from PS1 script: {parsed}")
 
         data = parsed["Data"]
+        status = parsed["Status"]
+
+        exit_code = int(status["ExecutionStatus"])
+        if exit_code > 0:
+            msg = f"PS1 wrapper returned exit code {exit_code} for command [{request}]:"
+            msg += f"\n--------\n{status['ErrorMessage']}\n--------"
+            log.error(msg)
+            raise RuntimeError(msg)
 
         log.debug(f"Parsed 'Data' section contains {len(data)} items.")
         return data
