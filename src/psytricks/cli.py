@@ -122,11 +122,17 @@ def run_cli(config, verbose, command, machine, group, action, message, users, di
     }
 
     if command == "disconnect" and machine is None:
-        raise click.UsageError("Command 'disconnect' requires the --machine parameter!")
+        raise click.UsageError("Command 'disconnect' requires --machine!")
     if command in ["getaccess", "setaccess"] and group is None:
         raise click.UsageError("Commands 'getaccess'/'setaccess' require --group!")
     if command == "setaccess" and users is None:
         raise click.UsageError("Command 'setaccess' requires --users!")
+    if command == "poweraction" and action is None:
+        raise click.UsageError("Command 'poweraction' requires --action!")
+    if command in ["maintenance", "poweraction"] and machine is None:
+        raise click.UsageError(
+            "Commands 'maintenance'/'poweraction' require --machine!"
+        )
 
     details = call_method[command](**call_kwargs)
 
