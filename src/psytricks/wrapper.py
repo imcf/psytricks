@@ -51,7 +51,7 @@ class PSyTricksWrapper:
         self.add_flags = []
         if platform.startswith("linux"):
             self.ps_exe = Path("/snap/bin/pwsh")
-            self.add_flags = ["-Dummy"]
+            self.add_flags = ["-Dummy", "-NoSnapIn"]
         else:
             self.ps_exe = (
                 Path(os.environ["SYSTEMROOT"])
