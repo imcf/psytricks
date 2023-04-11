@@ -162,7 +162,9 @@ if ($Dummy.IsPresent) {
         "SetAccessUsers" {}
         "SetMaintenanceMode" {}
 
-        Default { Write-Error "Command not yet implemented: $CommandName" }
+        # this should never be reached as $CommandName is backed by ValidateSet
+        # above, but it's good practice to have a default case nevertheless:
+        Default { throw "Unknown command: $CommandName" }
     }
 }
 
