@@ -160,6 +160,7 @@ class PSyTricksWrapper:
         log.debug(f"Parsed 'Data' section contains {len(data)} items.")
         return data
 
+    # pylint: disable-msg=unused-argument
     def get_machine_status(self, **kwargs) -> list:
         """Call the wrapper with command "GetMachineStatus".
 
@@ -170,6 +171,7 @@ class PSyTricksWrapper:
         """
         return self._run_ps1_script(request="GetMachineStatus")
 
+    # pylint: disable-msg=unused-argument
     def get_sessions(self, **kwargs) -> list:
         """Call the wrapper with command "GetSessions".
 
