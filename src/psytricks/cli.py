@@ -103,7 +103,7 @@ def run_cli(config, verbose, command, machine, group, action, message, users):
     wrapper = PSyTricksWrapper(conffile=config)
     call_method = {
         "disconnect": wrapper.disconnect_session,
-        "getaccess": None,
+        "getaccess": wrapper.get_access_users,
         "machines": wrapper.get_machine_status,
         "maintenance": None,
         "poweraction": None,
@@ -121,6 +121,8 @@ def run_cli(config, verbose, command, machine, group, action, message, users):
 
     if command == "disconnect" and machine is None:
         raise click.UsageError("Command 'disconnect' requires the --machine parameter!")
+    if command == "getaccess" and group is None:
+        raise click.UsageError("Command 'getaccess' requires the --group parameter!")
 
     details = call_method[command](**call_kwargs)
 
