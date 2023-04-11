@@ -76,7 +76,8 @@ class PSyTricksWrapper:
         Returns
         -------
         list(str)
-            The JSON parsed from the output returned by the PS1 wrapper script.
+            The "Data" section of the JSON parsed from the output returned by
+            the PS1 wrapper script.
         """
         if extra_params is None:
             extra_params = []
@@ -125,8 +126,11 @@ class PSyTricksWrapper:
         except Exception as ex:
             raise ValueError("Error decoding / parsing output!") from ex
 
-        log.debug(f"Parsed 'Data' section contains {len(parsed['Data'])} items.")
-        return parsed
+
+        data = parsed["Data"]
+
+        log.debug(f"Parsed 'Data' section contains {len(data)} items.")
+        return data
 
     def get_machine_status(self, **kwargs) -> list:
         """Call the wrapper with command "GetMachineStatus".
