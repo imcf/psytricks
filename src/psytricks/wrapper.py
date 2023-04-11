@@ -78,9 +78,23 @@ class PSyTricksWrapper:
         list(str)
             The "Data" section of the JSON parsed from the output returned by
             the PS1 wrapper script.
+
+        Raises
+        ------
+        RuntimeError
+            Raised in case the PS1 wrapper script pushed anything to STDERR or
+            the Python `subprocess` call returned a non-zero exit code or a
+            non-zero return code was passed on in the parsed JSON (indicating
+            something went wrong on the lowest level when interacting with the
+            Citrix toolstack).
+        ValueError
+            Raised in case parsing the JSON returned by the PS1 wrapper failed
+            or it doesn't conform to the expected format (e.g. missing the
+            `Data` or `Status` items).
         """
         if extra_params is None:
             extra_params = []
+
         try:
             tstart = time.time()
             command = [
