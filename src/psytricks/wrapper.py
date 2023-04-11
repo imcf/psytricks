@@ -132,10 +132,14 @@ class PSyTricksWrapper:
         data = parsed["Data"]
         status = parsed["Status"]
 
-        exit_code = int(status["ExecutionStatus"])
-        if exit_code > 0:
-            msg = f"PS1 wrapper returned exit code {exit_code} for command [{request}]:"
-            msg += f"\n--------\n{status['ErrorMessage']}\n--------"
+        exec_status = int(status["ExecutionStatus"])
+        if exec_status > 0:
+            msg = (
+                f"JSON returned by the PS1 wrapper contains execution status "
+                f"{exec_status} for command [{request}]:\n--------\n"
+                f"{status['ErrorMessage']}\n--------\n"
+                "This indicates something went wrong talking to the Citrix toolstack."
+            )
             log.error(msg)
             raise RuntimeError(msg)
 
