@@ -138,6 +138,12 @@ function Disconnect-Session {
 
 #region main
 
+# define the default status, will be overridden in case of unexpected results
+$Status = @{
+    "ExecutionStatus" = "0"
+    "ErrorMessage"    = ""
+}
+
 if ($Dummy.IsPresent) {
     # When being called with the "-Dummy" switch, no actual calls to the Citrix
     # stack will be done, instead simply the contents of a file in a subdir
@@ -169,8 +175,9 @@ if ($Dummy.IsPresent) {
 }
 
 
-}
-
-$Data | ConvertTo-Json -Compress
+@{
+    "Status" = $Status
+    "Data"   = $Data
+} | ConvertTo-Json
 
 #endregion main
