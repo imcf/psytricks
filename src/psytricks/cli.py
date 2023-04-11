@@ -102,9 +102,14 @@ def run_cli(config, verbose, command, machine, group, action, message, users):
     configure_logging(verbose)
     wrapper = PSyTricksWrapper(conffile=config)
     call_method = {
-        "sessions": wrapper.get_sessions,
-        "machines": wrapper.get_machine_status,
         "disconnect": wrapper.disconnect_session,
+        "getaccess": None,
+        "machines": wrapper.get_machine_status,
+        "maintenance": None,
+        "poweraction": None,
+        "sendmessage": None,
+        "sessions": wrapper.get_sessions,
+        "setaccess": None,
     }
     call_kwargs = {
         "machine": machine,
