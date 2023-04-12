@@ -6,15 +6,18 @@
 
 ### Added
 
-* Implementation of commands:
-  * `getaccess`
-  * `setaccess`
-  * `maintenance`
+* Implementation of CLI commands and related wrapper methods (in braces):
+  * `getaccess` (`get_access_users()`)
+  * `setaccess` (`set_access_users()`)
+  * `maintenance` (`set_maintenance()`)
+  * `sendmessage` (`send_message()`)
+  * `poweraction` (`perform_poweraction()`)
 
 ### Changed
 
 * In case of an error while parsing the JSON returned by the PS1 script the raw
   data is now included in the error message.
+* Machine properties now contain the `DNSName` item.
 
 ## 0.0.3
 
