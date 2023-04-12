@@ -55,7 +55,6 @@ param (
 <# TODO: commands to be implemented
 - SendSessionMessage (Send-BrokerSessionMessage)
 - MachinePowerAction (New-BrokerHostingPowerAction)
-- SetMaintenanceMode (Set-BrokerMachineMaintenanceMode)
 #>
 
 
@@ -199,6 +198,40 @@ function Set-AccessUsers {
             -PassThru | `
             Select-Object -ExpandProperty IncludedUsers
     }
+    return $Data
+}
+
+function Set-MaintenanceMode {
+    param (
+        # the FQDN of the machine to modify maintenance mode on
+        [Parameter()]
+        [string]
+        $DNSName,
+
+        # switch to disable maintenance mode on the given machine
+        [Parameter()]
+        [switch]
+        $Disable
+    )
+    $DesiredMode = (-not $Disable)
+
+    $Machine = Get-BrokerMachine `
+        -AdminAddress $AdmAddr `
+        -DNSName $DNSName
+
+    if ($null -eq $Machine) {
+        throw "Error fetching machine object for [$DNSName]!"
+    }
+
+    Set-BrokerMachineMaintenanceMode `
+        -AdminAddress $AdmAddr `
+        -InputObject $Machine `
+        -MaintenanceMode $DesiredMode
+
+    $Data = Get-BrokerMachine `
+        -AdminAddress $AdmAddr `
+        -DNSName $DNSName
+
     return $Data
 }
 
