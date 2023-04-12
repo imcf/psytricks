@@ -260,21 +260,31 @@ try {
     } else {
         switch ($CommandName) {
             "GetMachineStatus" { $Data = Get-MachineStatus }
+
             "GetSessions" { $Data = Get-Sessions }
+
             "DisconnectSession" {
                 if ($DNSName -eq "") {
                     throw "Parameter [DNSName] is missing!"
                 }
                 $Data = Disconnect-Session -DNSName $DNSName
             }
+
             "GetAccessUsers" {
                 if ($Group -eq "") {
                     throw "Parameter [Group] is missing!"
                 }
                 $Data = Get-AccessUsers -Group $Group
             }
-            "MachinePowerAction" {}
-            "SendSessionMessage" {}
+
+            "MachinePowerAction" {
+                throw "Not yet implemented!"
+            }
+
+            "SendSessionMessage" {
+                throw "Not yet implemented!"
+            }
+
             "SetAccessUsers" {
                 if ($Group -eq "") {
                     throw "Parameter [Group] is missing!"
@@ -287,7 +297,10 @@ try {
                     -UserNames $UserNames `
                     -RemoveAccess:$Disable
             }
-            "SetMaintenanceMode" {}
+
+            "SetMaintenanceMode" {
+                throw "Not yet implemented!"
+            }
 
             # this should never be reached as $CommandName is backed by ValidateSet
             # above, but it's good practice to have a default case nevertheless:
