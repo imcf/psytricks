@@ -160,7 +160,6 @@ class PSyTricksWrapper:
         log.debug(f"Parsed 'Data' section contains {len(data)} items.")
         return data
 
-    # pylint: disable-msg=unused-argument
     def get_machine_status(self, **kwargs) -> list:
         """Call the wrapper with command "GetMachineStatus".
 
@@ -169,9 +168,9 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON.
         """
+        log.trace(f"extra kwargs: {kwargs}")
         return self._run_ps1_script(request="GetMachineStatus")
 
-    # pylint: disable-msg=unused-argument
     def get_sessions(self, **kwargs) -> list:
         """Call the wrapper with command "GetSessions".
 
@@ -180,9 +179,10 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON.
         """
+        log.trace(f"extra kwargs: {kwargs}")
         return self._run_ps1_script(request="GetSessions")
 
-    def disconnect_session(self, **kwargs) -> list:
+    def disconnect_session(self, machine: str, **kwargs) -> list:
         """Call the wrapper with command "DisconnectSession".
 
         Parameters
@@ -195,12 +195,13 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON as returned by the wrapper script.
         """
+        log.trace(f"extra kwargs: {kwargs}")
         return self._run_ps1_script(
             request="DisconnectSession",
-            extra_params=["-DNSName", kwargs["machine"]],
+            extra_params=["-DNSName", machine],
         )
 
-    def get_access_users(self, **kwargs) -> list:
+    def get_access_users(self, group: str, **kwargs) -> list:
         """Call the wrapper with command "GetAccessUsers".
 
         Parameters
@@ -213,12 +214,13 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON as returned by the wrapper script.
         """
+        log.trace(f"extra kwargs: {kwargs}")
         return self._run_ps1_script(
             request="GetAccessUsers",
-            extra_params=["-Group", kwargs["group"]],
+            extra_params=["-Group", group],
         )
 
-    def set_access_users(self, **kwargs) -> list:
+    def set_access_users(self, group: str, users: str, disable: bool, **kwargs) -> list:
         """Call the wrapper with command "SetAccessUsers".
 
         Parameters
@@ -237,13 +239,14 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON as returned by the wrapper script.
         """
+        log.trace(f"extra kwargs: {kwargs}")
         extra_params = [
             "-Group",
-            kwargs["group"],
+            group,
             "-UserNames",
-            kwargs["users"],
+            users,
         ]
-        if kwargs["disable"]:
+        if disable:
             extra_params.append("-Disable")
 
         return self._run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
