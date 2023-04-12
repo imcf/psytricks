@@ -35,6 +35,27 @@ param (
     [string[]]
     $UserNames = $null,
 
+    # the style of a message to be sent to a session
+    [Parameter()]
+    [ValidateSet(
+        "Information",
+        "Exclamation",
+        "Critical",
+        "Question"
+    )]
+    [string]
+    $MessageStyle = "Information",
+
+    # the title of a message to be sent to a session
+    [Parameter()]
+    [string]
+    $Title,
+
+    # the body of a message to be sent to a session
+    [Parameter()]
+    [string]
+    $Text,
+
     # switch to request removal / disabling of a permission / mode, e.g. used
     # for SetAccessUsers and SetMaintenanceMode
     [Parameter()]
@@ -53,7 +74,6 @@ param (
 )
 
 <# TODO: commands to be implemented
-- SendSessionMessage (Send-BrokerSessionMessage)
 - MachinePowerAction (New-BrokerHostingPowerAction)
 #>
 
@@ -237,6 +257,50 @@ function Set-MaintenanceMode {
     return $Data
 }
 
+function Send-SessionMessage {
+    param (
+        # the FQDN of the machine to the pop-up message to
+        [Parameter()]
+        [string]
+        $DNSName,
+
+        # the message title
+        [Parameter()]
+        [string]
+        $Title,
+
+        # the message body
+        [Parameter()]
+        [string]
+        $Text,
+
+        # the message style
+        [Parameter()]
+        [ValidateSet(
+            "Information",
+            "Exclamation",
+            "Critical",
+            "Question"
+        )]
+        [string]
+        $MessageStyle = "Information"
+    )
+    $Machine = Get-BrokerMachine `
+        -AdminAddress $AdmAddr `
+        -DNSName $DNSName
+
+    if ($null -eq $Machine) {
+        throw "Error fetching machine object for [$DNSName]!"
+    }
+
+    Send-BrokerSessionMessage `
+        -InputObject $Machine `
+        -AdminAddress $AdmAddr `
+        -MessageStyle $MessageStyle `
+        -Title $Title `
+        -Text $Text
+}
+
 #endregion functions
 
 
@@ -284,7 +348,20 @@ try {
             }
 
             "SendSessionMessage" {
-                throw "Not yet implemented!"
+                if ($DNSName -eq "") {
+                    throw "Parameter [DNSName] is missing!"
+                }
+                if ($Title -eq "") {
+                    throw "Parameter [Title] is missing!"
+                }
+                if ($Text -eq "") {
+                    throw "Parameter [Text] is missing!"
+                }
+                Send-SessionMessage `
+                    -DNSName $DNSName `
+                    -Title $Title `
+                    -Text $Text `
+                    -MessageStyle $MessageStyle
             }
 
             "SetAccessUsers" {
