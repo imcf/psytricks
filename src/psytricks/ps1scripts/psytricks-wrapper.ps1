@@ -230,7 +230,8 @@ function Set-MaintenanceMode {
 
     $Data = Get-BrokerMachine `
         -AdminAddress $AdmAddr `
-        -DNSName $DNSName
+        -DNSName $DNSName | `
+        Select-Object -Property $MachineProperties
 
     return $Data
 }
