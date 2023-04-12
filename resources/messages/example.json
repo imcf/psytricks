@@ -1,0 +1,10 @@
+{
+    "title": "My Nice Message Title",
+    "style": "Exclamation",
+    "body": [
+        "Some",
+        "multi-line",
+        "",
+        "message body text."
+    ]
+}
