@@ -112,6 +112,8 @@ $SessionProperties = @(
 #endregion properties-selectors
 
 
+#region config-setup
+
 try {
     $Config = Get-Content $JsonConfig | ConvertFrom-Json -EA Stop
 } catch {
@@ -124,6 +126,8 @@ if ($NoSnapIn) {
 } else {
     Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
 }
+
+#endregion config-setup
 
 
 #region functions
