@@ -62,12 +62,15 @@ def configure_logging(verbose: int):
         ]
     ),
     required=True,
+    help="The command to perform.",
 )
 @click.option(
     "--machine",
     type=str,
-    help="""A machine ID to perform an action command on. [required for: 'maintenance',
-    'poweraction']""",
+    help=(
+        "A machine identifier (FQDN) to perform an action command on. [required for: "
+        "'maintenance', 'poweraction']"
+    ),
 )
 @click.option(
     "--group",
@@ -85,9 +88,26 @@ def configure_logging(verbose: int):
     required=False,
     help="The power action to perform on a machine. [required for: 'poweraction']",
 )
-@click.option("--message")
-@click.option("--users")
-@click.option("--disable", is_flag=True)
+@click.option(
+    "--message",
+    type=click.Path(exists=True),
+    help="A JSON file containing the message details (style, title, body).",
+)
+@click.option(
+    "--users",
+    help=(
+        "One or more usernames, enclosed in quotes, separated by comma but without "
+        "space, e.g. 'alice,bob'. [required for: 'setaccess']"
+    ),
+)
+@click.option(
+    "--disable",
+    is_flag=True,
+    help=(
+        "Flag to indicate a certain property should be disabled / removed. "
+        "[applies to: 'maintenance', 'setaccess']"
+    ),
+)
 def run_cli(config, verbose, command, machine, group, action, message, users, disable):
     """Create a wrapper object and call the method requested on the command line.
 
