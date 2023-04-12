@@ -250,3 +250,28 @@ class PSyTricksWrapper:
             extra_params.append("-Disable")
 
         return self._run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
+
+    def set_maintenance(self, machine: str, disable: bool, **kwargs) -> list:
+        """Call the wrapper with command "SetMaintenanceMode".
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to disconnect the session on.
+        disable : bool
+            A flag requesting maintenance mode for the given machine(s) to be
+            turned off (if True) instead of being turned on (if False).
+
+        Returns
+        -------
+        list(str)
+            The parsed JSON as returned by the wrapper script.
+        """
+        log.trace(f"extra kwargs: {kwargs}")
+        extra_params = ["-DNSName", machine]
+        if disable:
+            extra_params.append("-Disable")
+
+        return self._run_ps1_script(
+            request="SetMaintenanceMode", extra_params=extra_params
+        )
