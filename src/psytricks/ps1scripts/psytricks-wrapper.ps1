@@ -64,6 +64,7 @@ $MachineProperties = @(
     "AgentVersion",
     "AssociatedUserUPNs",
     "DesktopGroupName",
+    "DNSName",
     "HostedDNSName",
     "InMaintenanceMode",
     "PowerState",
