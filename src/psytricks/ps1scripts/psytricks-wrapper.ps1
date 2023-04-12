@@ -311,6 +311,7 @@ $Status = @{
     "ExecutionStatus" = "0"
     "ErrorMessage"    = ""
 }
+$Data = ""
 
 try {
     if ($Dummy) {
