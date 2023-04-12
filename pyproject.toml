@@ -7,7 +7,7 @@ readme = "README.md"
 version = "0.0.0"
 
 [tool.poetry.urls]
-# "Changelog" = "https://github.com/imcf/psytricks/blob/main/CHANGELOG.md"
+"Changelog" = "https://github.com/imcf/psytricks/blob/main/CHANGELOG.md"
 "Organisation Homepage" = "https://imcf.one/"
 "Twitter" = "https://twitter.com/imcf_basel"
 
