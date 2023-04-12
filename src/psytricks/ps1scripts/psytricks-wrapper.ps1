@@ -46,6 +46,20 @@ param (
     [string]
     $MessageStyle = "Information",
 
+    # the power action to perform on a machine
+    [Parameter()]
+    [ValidateSet(
+        "reset",
+        "restart",
+        "resume",
+        "shutdown",
+        "suspend",
+        "turnoff",
+        "turnon"
+    )]
+    [string]
+    $Action = "",
+
     # the title of a message to be sent to a session
     [Parameter()]
     [string]
@@ -72,10 +86,6 @@ param (
     [switch]
     $Dummy
 )
-
-<# TODO: commands to be implemented
-- MachinePowerAction (New-BrokerHostingPowerAction)
-#>
 
 
 #region properties-selectors
@@ -261,6 +271,35 @@ function Set-MaintenanceMode {
     return $Data
 }
 
+function Invoke-PowerAction {
+    param (
+        # the FQDN of the machine to perform the power action request on
+        [Parameter()]
+        [string]
+        $DNSName,
+
+        # the power action to perform on a machine
+        [Parameter()]
+        [ValidateSet(
+            "reset",
+            "restart",
+            "resume",
+            "shutdown",
+            "suspend",
+            "turnoff",
+            "turnon"
+        )]
+        [string]
+        $Action
+    )
+    $Data = New-BrokerHostingPowerAction `
+        -AdminAddress $AdmAddr `
+        -MachineName $DNSName `
+        -Action $Action
+
+    return $Data
+}
+
 function Send-SessionMessage {
     param (
         # the FQDN of the machine to the pop-up message to
@@ -349,7 +388,15 @@ try {
             }
 
             "MachinePowerAction" {
-                throw "Not yet implemented!"
+                if ($DNSName -eq "") {
+                    throw "Parameter [DNSName] is missing!"
+                }
+                if ($Action -eq "") {
+                    throw "Parameter [Action] is missing!"
+                }
+                Invoke-PowerAction `
+                    -DNSName $DNSName `
+                    -Action $Action
             }
 
             "SendSessionMessage" {
