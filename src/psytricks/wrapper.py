@@ -312,3 +312,20 @@ class PSyTricksWrapper:
         ]
 
         self._run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
+
+    def perform_poweraction(self, machine: str, action: str, **kwargs) -> None:
+        """Call the wrapper with command "MachinePowerAction".
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to disconnect the session on.
+        action : str
+            The power action to perform on a machine. Valid choices are `reset`,
+            `restart`, `resume`, `shutdown`, `suspend`, `turnoff`, `turnon`.
+        """
+        log.trace(f"extra kwargs: {kwargs}")
+        extra_params = ["-DNSName", machine, "-Action", action]
+        return self._run_ps1_script(
+            request="MachinePowerAction", extra_params=extra_params
+        )

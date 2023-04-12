@@ -127,7 +127,7 @@ def run_cli(config, verbose, command, machine, group, action, message, users, di
         "getaccess": wrapper.get_access_users,
         "machines": wrapper.get_machine_status,
         "maintenance": wrapper.set_maintenance,
-        "poweraction": None,
+        "poweraction": wrapper.perform_poweraction,
         "sendmessage": wrapper.send_message,
         "sessions": wrapper.get_sessions,
         "setaccess": wrapper.set_access_users,
