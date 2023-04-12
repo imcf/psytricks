@@ -1,5 +1,19 @@
 # PSyTricks Change Log
 
+## 0.0.4
+
+### Added
+
+* Implementation of commands:
+  * `getaccess`
+  * `setaccess`
+  * `maintenance`
+
+### Changed
+
+* In case of an error while parsing the JSON returned by the PS1 script the raw
+  data is now included in the error message.
+
 ## 0.0.3
 
 ### Added
