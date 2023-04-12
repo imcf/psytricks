@@ -394,7 +394,7 @@ try {
                 if ($Action -eq "") {
                     throw "Parameter [Action] is missing!"
                 }
-                Invoke-PowerAction `
+                $Data = Invoke-PowerAction `
                     -DNSName $DNSName `
                     -Action $Action
             }
