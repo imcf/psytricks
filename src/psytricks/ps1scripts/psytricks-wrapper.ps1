@@ -35,7 +35,7 @@ param (
     [string[]]
     $UserNames = $null,
 
-    # the style of a message to be sent to a session
+    # the style of a message to be sent to a session (optional)
     [Parameter()]
     [ValidateSet(
         "Information",
