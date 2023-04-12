@@ -289,16 +289,16 @@ function Send-SessionMessage {
         [string]
         $MessageStyle = "Information"
     )
-    $Machine = Get-BrokerMachine `
+    $Session = Get-BrokerSession `
         -AdminAddress $AdmAddr `
         -DNSName $DNSName
 
-    if ($null -eq $Machine) {
-        throw "Error fetching machine object for [$DNSName]!"
+    if ($null -eq $Session) {
+        throw "Error fetching session object for [$DNSName]!"
     }
 
     Send-BrokerSessionMessage `
-        -InputObject $Machine `
+        -InputObject $Session `
         -AdminAddress $AdmAddr `
         -MessageStyle $MessageStyle `
         -Title $Title `
