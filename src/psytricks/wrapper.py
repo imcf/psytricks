@@ -275,3 +275,31 @@ class PSyTricksWrapper:
         return self._run_ps1_script(
             request="SetMaintenanceMode", extra_params=extra_params
         )
+
+    def send_message(self, machine: str, message: str, **kwargs) -> None:
+        """Call the wrapper with command "SendSessionMessage".
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to disconnect the session on.
+        message : str
+            The path to a JSON file containing the message details (style,
+            title, body).
+        """
+        log.trace(f"extra kwargs: {kwargs}")
+        with open(message, "r", encoding="utf-8") as fh:
+            msgdata = json.load(fh)
+
+        extra_params = [
+            "-DNSName",
+            machine,
+            "-Title",
+            msgdata["title"],
+            "-Text",
+            "\n".join(msgdata["body"]),  # body is a list of strings, so join it
+            "-MessageStyle",
+            msgdata["style"],
+        ]
+
+        self._run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
