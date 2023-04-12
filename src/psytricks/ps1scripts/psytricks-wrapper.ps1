@@ -299,7 +299,12 @@ try {
             }
 
             "SetMaintenanceMode" {
-                throw "Not yet implemented!"
+                if ($DNSName -eq "") {
+                    throw "Parameter [DNSName] is missing!"
+                }
+                $Data = Set-MaintenanceMode `
+                    -DNSName $DNSName `
+                    -Disable:$Disable
             }
 
             # this should never be reached as $CommandName is backed by ValidateSet
