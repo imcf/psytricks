@@ -1,5 +1,7 @@
 # PSyTricks Change Log
 
+<!-- markdownlint-disable MD024 (no-duplicate-header) -->
+
 ## 0.0.4
 
 ### Added
