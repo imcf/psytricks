@@ -149,6 +149,8 @@ def run_cli(config, verbose, command, machine, group, action, message, users, di
         raise click.UsageError("Command 'setaccess' requires --users!")
     if command == "poweraction" and action is None:
         raise click.UsageError("Command 'poweraction' requires --action!")
+    if command == "sendmessage" and message is None:
+        raise click.UsageError("Command 'sendmessage' requires --message!")
     if command in ["maintenance", "poweraction"] and machine is None:
         raise click.UsageError(
             "Commands 'maintenance'/'poweraction' require --machine!"
