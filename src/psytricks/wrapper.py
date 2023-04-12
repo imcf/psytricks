@@ -15,7 +15,16 @@ from loguru import logger as log
 from .decoder import parse_powershell_json
 
 
-RequestNames = Literal["GetMachineStatus", "GetSessions"]
+RequestNames = Literal[
+    "DisconnectSession",
+    "GetAccessUsers",
+    "GetMachineStatus",
+    "GetSessions",
+    "MachinePowerAction",
+    "SendSessionMessage",
+    "SetAccessUsers",
+    "SetMaintenanceMode",
+]
 
 
 class PSyTricksWrapper:
