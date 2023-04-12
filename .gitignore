@@ -2,7 +2,6 @@
 /*.json
 
 # development related
-/.vscode/
 *.code-workspace
 
 # testing
