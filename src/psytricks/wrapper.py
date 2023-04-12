@@ -257,7 +257,7 @@ class PSyTricksWrapper:
         Parameters
         ----------
         machine : str
-            The FQDN of the machine to disconnect the session on.
+            The FQDN of the machine to modify maintenance mode on.
         disable : bool
             A flag requesting maintenance mode for the given machine(s) to be
             turned off (if True) instead of being turned on (if False).
