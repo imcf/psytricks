@@ -8,6 +8,7 @@ from pprint import pprint
 import click
 from loguru import logger as log
 
+from . import __version__
 from .wrapper import PSyTricksWrapper
 
 
@@ -34,7 +35,8 @@ def configure_logging(verbose: int):
     log.info(f"Set logging level to [{level}] ({verbose}).")
 
 
-@click.command(help="Run the PSyTricks command line interface.")
+@click.command(help="Run the PSyTricks command line interface.", no_args_is_help=True)
+@click.version_option(__version__)
 @click.option(
     "--config",
     type=click.Path(exists=True),
