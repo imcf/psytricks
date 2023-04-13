@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
-## 0.0.4
+## 0.1.0
 
 ### Added
 
