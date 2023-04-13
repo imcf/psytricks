@@ -115,6 +115,7 @@ $SessionProperties = @(
     "SessionState",
     "SessionStateChangeTime",
     "StartTime",
+    "Uid",
     "UserName",
     "UserUPN"
 )

@@ -17,7 +17,8 @@
 
 * In case of an error while parsing the JSON returned by the PS1 script the raw
   data is now included in the error message.
-* Machine properties now contain the `DNSName` item.
+* Machine properties now contain the `DNSName` field.
+* Session properties now contain the `Uid` field.
 
 ## 0.0.3
 
