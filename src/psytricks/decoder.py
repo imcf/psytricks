@@ -5,16 +5,25 @@ from datetime import datetime
 
 from loguru import logger as log
 
+from .mappings import power_state, registration_state, summary_state, session_state
+
 
 def parse_powershell_json(json_dict):
-    """Hook for `json.loads()` to parse PowerShell 5.1 JSON specificities.
+    """Hook for `json.loads()` to process PowerShell 5.1 / Citrix JSON.
 
     Windows PowerShell up to version 5.1 will produce strings in the format
     `/Date(<ms-since-epoch>)/` when converting a timestamp to JSON using the
     built-in `ConvertTo-Json` cmdlet. Python's `json.load()` and `json.loads()`
     methods will simply return those as plain strings, which is not desired.
+
+    On top of that the literal descriptions given by the Citrix cmdlets for the
+    various states (power, registration, ...) are transformed into numbers by
+    PowerShell when converting to JSON.
+
     This function can be supplied via the `object_hook` parameter when calling
-    them to properly parse such strings into datetime objects.
+    `load()` / `loads()` to properly parse the date strings into Python datetime
+    objects. In addition the numerical values for various `*State` fields will
+    be mapped to their descriptive, human-readable names (all lowercase).
 
     Parameters
     ----------
@@ -28,10 +37,23 @@ def parse_powershell_json(json_dict):
     """
     ret = {}
     for key, value in json_dict.items():
+        # log.trace(f"{key} -> {value}")
         if key.endswith("Time") and value is not None and "/Date(" in value:
             log.trace(f"{key} -> {value}")
             epoch_ms = re.split(r"\(|\)", value)[1]
             ret[key] = datetime.fromtimestamp(int(epoch_ms[:10]))
+        elif key in ["SummaryState", "MachineSummaryState"]:
+            log.trace(f"{key} -> {value}")
+            ret[key] = summary_state[value]
+        elif key == "RegistrationState":
+            log.trace(f"{key} -> {value}")
+            ret[key] = registration_state[value]
+        elif key == "PowerState":
+            log.trace(f"{key} -> {value}")
+            ret[key] = power_state[value]
+        elif key == "SessionState":
+            log.trace(f"{key} -> {value}")
+            ret[key] = session_state[value]
         else:
             ret[key] = value
 

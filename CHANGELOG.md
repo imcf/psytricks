@@ -15,6 +15,9 @@
 
 ### Changed
 
+* Various `*State` fields reported by Citrix are now being mapped from numerical
+  values to their descriptive (*human readable*) names, just as PowerShell does
+  it when converting the resulting objects to text (e.g. for console output).
 * In case of an error while parsing the JSON returned by the PS1 script the raw
   data is now included in the error message.
 * Machine properties now contain the `DNSName` field.
