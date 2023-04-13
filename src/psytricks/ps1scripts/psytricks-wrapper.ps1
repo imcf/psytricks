@@ -455,6 +455,6 @@ try {
 @{
     "Status" = $Status
     "Data"   = $Data
-} | ConvertTo-Json
+} | ConvertTo-Json -Depth 4
 
 #endregion main
