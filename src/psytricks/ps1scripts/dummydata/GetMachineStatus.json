@@ -120,6 +120,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "DNSName": "ctricks-vm-d502.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d502",
     "InMaintenanceMode": false,
@@ -135,6 +136,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "DNSName": "ctricks-vm-d503.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d503",
     "InMaintenanceMode": false,
@@ -150,6 +152,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "DNSName": "ctricks-vm-d504.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d504",
     "InMaintenanceMode": false,
@@ -165,6 +168,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "DNSName": "ctricks-vm-d505.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d505",
     "InMaintenanceMode": false,
@@ -180,6 +184,7 @@
   {
     "AgentVersion": "2203.0.2000.2076",
     "AssociatedUserUPNs": [],
+    "DesktopGroupName": "Dinner",
     "DNSName": "ctricks-vm-d506.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d506",
     "InMaintenanceMode": false,
