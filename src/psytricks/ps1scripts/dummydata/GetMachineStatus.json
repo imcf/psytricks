@@ -6,14 +6,14 @@
     "DNSName": "ctricks-vm-d401.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d401",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -22,14 +22,14 @@
     "DNSName": "ctricks-vm-d402.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d402",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -38,14 +38,14 @@
     "DNSName": "ctricks-vm-d403.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d403",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -56,14 +56,14 @@
     "DNSName": "ctricks-vm-d404.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d404",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "21.1.0.14",
     "SessionDeviceId": "Ubuntu-2204",
     "SessionStartTime": "\/Date(1679653979000)\/",
     "SessionStateChangeTime": "\/Date(1679656665997)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\usera",
-    "SummaryState": "inuse"
+    "SummaryState": 4
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -72,14 +72,14 @@
     "DNSName": "ctricks-vm-d405.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d405",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -90,14 +90,14 @@
     "DNSName": "ctricks-vm-d406.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d406",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "23.01.0.16",
     "SessionDeviceId": "xy-rgxx01-plm01",
     "SessionStartTime": "\/Date(1679565112000)\/",
     "SessionStateChangeTime": "\/Date(1679589645917)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userb",
-    "SummaryState": "disconnected"
+    "SummaryState": 3
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -108,14 +108,14 @@
     "DNSName": "ctricks-vm-d501.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d501",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "22.3.2000.2105",
     "SessionDeviceId": "xy-rgxx01-pdw01",
     "SessionStartTime": "\/Date(1678963753000)\/",
     "SessionStateChangeTime": "\/Date(1679646240373)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userc",
-    "SummaryState": "inuse"
+    "SummaryState": 4
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -124,14 +124,14 @@
     "DNSName": "ctricks-vm-d502.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d502",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -140,14 +140,14 @@
     "DNSName": "ctricks-vm-d503.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d503",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -156,14 +156,14 @@
     "DNSName": "ctricks-vm-d504.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d504",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -172,14 +172,14 @@
     "DNSName": "ctricks-vm-d505.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d505",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -188,14 +188,14 @@
     "DNSName": "ctricks-vm-d506.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-d506",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -204,14 +204,14 @@
     "DNSName": "ctricks-vm-h401.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-h401",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -220,14 +220,14 @@
     "DNSName": "ctricks-vm-h402.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-h402",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -236,14 +236,14 @@
     "DNSName": "ctricks-vm-h501.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-h501",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -252,14 +252,14 @@
     "DNSName": "ctricks-vm-h502.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-h502",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -270,14 +270,14 @@
     "DNSName": "ctricks-vm-n401.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n401",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "21.1.0.14",
     "SessionDeviceId": "Ubuntu-21.34",
     "SessionStartTime": "\/Date(1679660327000)\/",
     "SessionStateChangeTime": "\/Date(1679660327637)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\usera",
-    "SummaryState": "inuse"
+    "SummaryState": 4
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -288,14 +288,14 @@
     "DNSName": "ctricks-vm-n402.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n402",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "23.01.0.16",
     "SessionDeviceId": "xy-rgxx01-plm01",
     "SessionStartTime": "\/Date(1678183269000)\/",
     "SessionStateChangeTime": "\/Date(1679564956333)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userb",
-    "SummaryState": "inuse"
+    "SummaryState": 4
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -306,14 +306,14 @@
     "DNSName": "ctricks-vm-n403.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n403",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "22.12.0.12",
     "SessionDeviceId": "PinkThad-T490",
     "SessionStartTime": "\/Date(1679556708000)\/",
     "SessionStateChangeTime": "\/Date(1679641780037)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userc",
-    "SummaryState": "inuse"
+    "SummaryState": 4
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -324,14 +324,14 @@
     "DNSName": "ctricks-vm-n404.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n404",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "22.3.2000.2105",
     "SessionDeviceId": "xy-rgxx01-pdw04",
     "SessionStartTime": "\/Date(1679562969000)\/",
     "SessionStateChangeTime": "\/Date(1679601596373)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userd",
-    "SummaryState": "disconnected"
+    "SummaryState": 3
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -342,14 +342,14 @@
     "DNSName": "ctricks-vm-n501.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n501",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "22.3.2000.2105",
     "SessionDeviceId": "xy-rgxx01-pdw17",
     "SessionStartTime": "\/Date(1679662071000)\/",
     "SessionStateChangeTime": "\/Date(1679662071997)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\usere",
-    "SummaryState": "inuse"
+    "SummaryState": 4
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -360,14 +360,14 @@
     "DNSName": "ctricks-vm-n502.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n502",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "22.2.0.4525",
     "SessionDeviceId": "EVO-OVIS",
     "SessionStartTime": "\/Date(1679402296000)\/",
     "SessionStateChangeTime": "\/Date(1679658862193)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userf",
-    "SummaryState": "disconnected"
+    "SummaryState": 3
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -378,14 +378,14 @@
     "DNSName": "ctricks-vm-n503.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n503",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "23.01.0.16",
     "SessionDeviceId": "xy-rgxx01-pdl12",
     "SessionStartTime": "\/Date(1679596191000)\/",
     "SessionStateChangeTime": "\/Date(1679596288500)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userg",
-    "SummaryState": "disconnected"
+    "SummaryState": 3
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -396,14 +396,14 @@
     "DNSName": "ctricks-vm-n504.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-n504",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": "22.3.2000.2105",
     "SessionDeviceId": "xy-rgxx01-pdw14",
     "SessionStartTime": "\/Date(1679652800000)\/",
     "SessionStateChangeTime": "\/Date(1679652800450)\/",
     "SessionUserName": "EXAMPLEDOMAIN\\userh",
-    "SummaryState": "inuse"
+    "SummaryState": 4
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -412,14 +412,14 @@
     "DNSName": "ctricks-vm-t401.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t401",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -428,14 +428,14 @@
     "DNSName": "ctricks-vm-t402.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t402",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -444,14 +444,14 @@
     "DNSName": "ctricks-vm-t403.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t403",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -460,14 +460,14 @@
     "DNSName": "ctricks-vm-t404.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t404",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -476,14 +476,14 @@
     "DNSName": "ctricks-vm-t405.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t405",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -492,14 +492,14 @@
     "DNSName": "ctricks-vm-t406.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t406",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -508,14 +508,14 @@
     "DNSName": "ctricks-vm-t501.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t501",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -524,14 +524,14 @@
     "DNSName": "ctricks-vm-t502.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t502",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -540,14 +540,14 @@
     "DNSName": "ctricks-vm-t503.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t503",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -556,14 +556,14 @@
     "DNSName": "ctricks-vm-t504.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t504",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -572,14 +572,14 @@
     "DNSName": "ctricks-vm-t505.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t505",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   },
   {
     "AgentVersion": "2203.0.2000.2076",
@@ -588,13 +588,13 @@
     "DNSName": "ctricks-vm-t506.vdi.example.xy",
     "HostedMachineName": "ctricks-vm-t506",
     "InMaintenanceMode": false,
-    "PowerState": "on",
-    "RegistrationState": "registered",
+    "PowerState": 4,
+    "RegistrationState": 2,
     "SessionClientVersion": null,
     "SessionDeviceId": null,
     "SessionStartTime": null,
     "SessionStateChangeTime": null,
     "SessionUserName": null,
-    "SummaryState": "available"
+    "SummaryState": 2
   }
 ]
