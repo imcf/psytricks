@@ -1,9 +1,9 @@
 [CmdletBinding()]
 param (
-    # the JSON config file to use
+    # the delivery controller address to connect to
     [Parameter(Mandatory = $true)]
     [string]
-    $JsonConfig,
+    $AdminAddress,
 
     # the command defining the action to be performed by the wrapper
     [Parameter(Mandatory = $true)]
@@ -129,14 +129,7 @@ $SessionProperties = @(
 #endregion properties-selectors
 
 
-#region config-setup
-
-try {
-    $Config = Get-Content $JsonConfig | ConvertFrom-Json -EA Stop
-} catch {
-    throw "Error reading JSON configuration file: [$JsonConfig]"
-}
-$AdmAddr = $Config.CitrixDC
+#region snapin
 
 if ($NoSnapIn) {
     Write-Debug "NOT loading Citrix Broker Snap-In, can only work on 'dummy' data!"
@@ -144,19 +137,19 @@ if ($NoSnapIn) {
     Add-PSSnapin Citrix.Broker.Admin.V2 -EA Stop
 }
 
-#endregion config-setup
+#endregion snapin
 
 
 #region functions
 
 function Get-MachineStatus {
-    $Data = Get-BrokerMachine -AdminAddress $AdmAddr | `
+    $Data = Get-BrokerMachine -AdminAddress $AdminAddress | `
         Select-Object -Property $MachineProperties
     return $Data
 }
 
 function Get-Sessions {
-    $Data = Get-BrokerSession -AdminAddress $AdmAddr | `
+    $Data = Get-BrokerSession -AdminAddress $AdminAddress | `
         Select-Object -Property $SessionProperties
     return $Data
 }
@@ -168,7 +161,7 @@ function Disconnect-Session {
         [string]
         $DNSName
     )
-    $Session = Get-BrokerSession -AdminAddress $AdmAddr -DNSName $DNSName
+    $Session = Get-BrokerSession -AdminAddress $AdminAddress -DNSName $DNSName
     if ($null -eq $Session) {
         return $null
     }
@@ -176,12 +169,12 @@ function Disconnect-Session {
         Write-Verbose "Session already disconnected, not disconnecting again!"
         return Select-Object -InputObject $Session -Property $SessionProperties
     }
-    Disconnect-BrokerSession -AdminAddress $AdmAddr -InputObject $Session
+    Disconnect-BrokerSession -AdminAddress $AdminAddress -InputObject $Session
 
     # wait a bit until the status update is reflected by Citrix:
     Start-Sleep -Seconds 0.7
 
-    $Data = Get-BrokerSession -AdminAddress $AdmAddr -DNSName $DNSName | `
+    $Data = Get-BrokerSession -AdminAddress $AdminAddress -DNSName $DNSName | `
         Select-Object -Property $SessionProperties
     return $Data
 }
@@ -194,7 +187,7 @@ function Get-AccessUsers {
         $Group
     )
     $Data = Get-BrokerAccessPolicyRule `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -DesktopGroupName $Group | `
         Select-Object -ExpandProperty IncludedUsers
     return $Data
@@ -218,7 +211,7 @@ function Set-AccessUsers {
         $UserNames
     )
     $Policy = Get-BrokerAccessPolicyRule `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -DesktopGroupName $Group
 
     if ($null -eq $Policy) {
@@ -227,14 +220,14 @@ function Set-AccessUsers {
 
     if ($RemoveAccess) {
         $Data = Set-BrokerAccessPolicyRule `
-            -AdminAddress $AdmAddr `
+            -AdminAddress $AdminAddress `
             -InputObject $Policy `
             -RemoveIncludedUsers $UserNames `
             -PassThru | `
             Select-Object -ExpandProperty IncludedUsers
     } else {
         $Data = Set-BrokerAccessPolicyRule `
-            -AdminAddress $AdmAddr `
+            -AdminAddress $AdminAddress `
             -InputObject $Policy `
             -AddIncludedUsers $UserNames `
             -PassThru | `
@@ -258,7 +251,7 @@ function Set-MaintenanceMode {
     $DesiredMode = (-not $Disable)
 
     $Machine = Get-BrokerMachine `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -DNSName $DNSName
 
     if ($null -eq $Machine) {
@@ -266,12 +259,12 @@ function Set-MaintenanceMode {
     }
 
     Set-BrokerMachineMaintenanceMode `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -InputObject $Machine `
         -MaintenanceMode $DesiredMode
 
     $Data = Get-BrokerMachine `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -DNSName $DNSName | `
         Select-Object -Property $MachineProperties
 
@@ -300,7 +293,7 @@ function Invoke-PowerAction {
         $Action
     )
     $Data = New-BrokerHostingPowerAction `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -MachineName $DNSName `
         -Action $Action
 
@@ -336,7 +329,7 @@ function Send-SessionMessage {
         $MessageStyle = "Information"
     )
     $Session = Get-BrokerSession `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -DNSName $DNSName
 
     if ($null -eq $Session) {
@@ -345,7 +338,7 @@ function Send-SessionMessage {
 
     Send-BrokerSessionMessage `
         -InputObject $Session `
-        -AdminAddress $AdmAddr `
+        -AdminAddress $AdminAddress `
         -MessageStyle $MessageStyle `
         -Title $Title `
         -Text $Text

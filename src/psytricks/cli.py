@@ -38,9 +38,9 @@ def configure_logging(verbose: int):
 @click.command(help="Run the PSyTricks command line interface.", no_args_is_help=True)
 @click.version_option(__version__)
 @click.option(
-    "--config",
-    type=click.Path(exists=True),
-    help="A JSON configuration file.",
+    "--cdc",
+    type=str,
+    help="The address of the Citrix Delivery Controller (CDC) to connect to.",
     required=True,
 )
 @click.option(
@@ -116,21 +116,21 @@ def configure_logging(verbose: int):
     help="The path to a file to write the output into (default=stdout).",
 )
 def run_cli(
-    config, verbose, command, machine, group, action, message, users, disable, outfile
+    cdc, verbose, command, machine, group, action, message, users, disable, outfile
 ):
     """Create a wrapper object and call the method requested on the command line.
 
     Parameters
     ----------
-    config : str
-        Path to the JSON config file required by the PowerShell script.
+    cdc : str
+        The address of the Citrix Delivery Controller (CDC) to connect to.
     verbose : int
         The logging verbosity.
     command : str
         The command indicating which wrapper method to call.
     """
     configure_logging(verbose)
-    wrapper = PSyTricksWrapper(conffile=config)
+    wrapper = PSyTricksWrapper(deliverycontroller=cdc)
     call_method = {
         "disconnect": wrapper.disconnect_session,
         "getaccess": wrapper.get_access_users,

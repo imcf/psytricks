@@ -47,14 +47,14 @@ class PSyTricksWrapper:
         Path(abspath(dirname(__file__))) / "ps1scripts" / "psytricks-wrapper.ps1"
     )
 
-    def __init__(self, conffile: str):
+    def __init__(self, deliverycontroller: str):
         """Constructor for the `PSyTricksWrapper` class.
 
         Parameters
         ----------
-        conffile : str
-            The path to a JSON-formatted configuration file required by the
-            PowerShell script that will be called by the wrapper.
+        deliverycontroller : str
+            The address (IP or FQDN) of the Citrix Delivery Controller to
+            connect to.
         """
         # FIXME: this is a hack while implementing the package, remove for production!
         self.add_flags = []
@@ -70,9 +70,9 @@ class PSyTricksWrapper:
                 / "powershell.exe"
             )
 
-        self.conffile = Path(conffile)
+        self.deliverycontroller = deliverycontroller
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
-        log.debug(f"Using configuration file [{self.conffile}].")
+        log.debug(f"Using Delivery Controller [{self.deliverycontroller}].")
 
     def _run_ps1_script(self, request: RequestNames, extra_params: list = None) -> list:
         """Call the PowerShell wrapper to retrieve information from Citrix.
@@ -112,8 +112,8 @@ class PSyTricksWrapper:
                 "-NoProfile",
                 "-File",
                 self.pswrapper,
-                "-JsonConfig",
-                self.conffile,
+                "-AdminAddress",
+                self.deliverycontroller,
                 "-CommandName",
                 request,
             ]
