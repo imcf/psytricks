@@ -3,7 +3,7 @@
 # pylint: disable-msg=too-many-arguments
 
 import sys
-from pprint import pprint
+from pprint import pprint, pformat
 
 import click
 from loguru import logger as log
@@ -110,7 +110,14 @@ def configure_logging(verbose: int):
         "[applies to: 'maintenance', 'setaccess']"
     ),
 )
-def run_cli(config, verbose, command, machine, group, action, message, users, disable):
+@click.option(
+    "--outfile",
+    type=click.Path(dir_okay=False, writable=True),
+    help="The path to a file to write the output into (default=stdout).",
+)
+def run_cli(
+    config, verbose, command, machine, group, action, message, users, disable, outfile
+):
     """Create a wrapper object and call the method requested on the command line.
 
     Parameters
@@ -160,4 +167,9 @@ def run_cli(config, verbose, command, machine, group, action, message, users, di
 
     details = call_method[command](**call_kwargs)
 
-    pprint(details)
+    if outfile:
+        with open(outfile, "a", encoding="utf-8") as fh:
+            fh.writelines(pformat(details))
+        log.success(f"Done writing output into [{outfile}].")
+    else:
+        pprint(details)
