@@ -108,6 +108,12 @@ $MachineProperties = @(
 )
 
 $SessionProperties = @(
+    "ClientAddress",
+    "ClientName",
+    "ClientPlatform",
+    "ClientProductId",
+    "ClientVersion",
+    "ConnectedViaHostName",
     "DesktopGroupName",
     "DNSName",
     "MachineSummaryState",

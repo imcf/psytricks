@@ -1,5 +1,11 @@
 [
     {
+        "ClientAddress": "10.11.12.10",
+        "ClientName": "Ubuntu-2204",
+        "ClientPlatform": "Unix / Linux",
+        "ClientProductId": 81,
+        "ClientVersion": "21.1.0.14",
+        "ConnectedViaHostName": "dyn-12-010.mobile.example.xy",
         "DesktopGroupName": "Night",
         "DNSName": "ctricks-vm-n403.vdi.example.xy",
         "MachineSummaryState": 4,
@@ -12,6 +18,12 @@
         "UserUPN": "user.a@example.xy"
     },
     {
+        "ClientAddress": "10.11.12.15",
+        "ClientName": "EVO-OVIS",
+        "ClientPlatform": "Macintosh",
+        "ClientProductId": 82,
+        "ClientVersion": "22.2.0.4525",
+        "ConnectedViaHostName": "dyn-12-015.mobile.example.xy",
         "DesktopGroupName": "Tree",
         "DNSName": "ctricks-vm-t402.vdi.example.xy",
         "MachineSummaryState": 3,
@@ -24,6 +36,12 @@
         "UserUPN": "user.f@example.xy"
     },
     {
+        "ClientAddress": "10.42.1.17",
+        "ClientName": "xy-rgxx01-pdw14",
+        "ClientPlatform": "Windows",
+        "ClientProductId": 1,
+        "ClientVersion": "22.3.2000.2105",
+        "ConnectedViaHostName": "xy-rgxx01-pdw14.dep01.example.xy",
         "DesktopGroupName": "Dinner",
         "DNSName": "ctricks-vm-d501.vdi.example.xy",
         "MachineSummaryState": 3,
@@ -36,6 +54,12 @@
         "UserUPN": "user.h@example.xy"
     },
     {
+        "ClientAddress": "10.42.1.14",
+        "ClientName": "xy-rgxx01-pdw17",
+        "ClientPlatform": "Windows",
+        "ClientProductId": 1,
+        "ClientVersion": "22.3.2000.2105",
+        "ConnectedViaHostName": "xy-rgxx01-pdw17.dep01.example.xy",
         "DesktopGroupName": "Night",
         "DNSName": "ctricks-vm-n401.vdi.example.xy",
         "MachineSummaryState": 4,
@@ -48,6 +72,12 @@
         "UserUPN": "user.e@example.xy"
     },
     {
+        "ClientAddress": "10.42.1.12",
+        "ClientName": "xy-rgxx01-pdw01",
+        "ClientPlatform": "Windows",
+        "ClientProductId": 1,
+        "ClientVersion": "22.3.2000.2105",
+        "ConnectedViaHostName": "xy-rgxx01-pdw01.dep01.example.xy",
         "DesktopGroupName": "Night",
         "DNSName": "ctricks-vm-n504.vdi.example.xy",
         "MachineSummaryState": 3,
@@ -60,6 +90,12 @@
         "UserUPN": "user.c@example.xy"
     },
     {
+        "ClientAddress": "10.11.12.11",
+        "ClientName": "xy-rgxx01-plm01",
+        "ClientPlatform": "Macintosh",
+        "ClientProductId": 82,
+        "ClientVersion": "23.01.0.16",
+        "ConnectedViaHostName": "dyn-12-011.mobile.example.xy",
         "DesktopGroupName": "Tree",
         "DNSName": "ctricks-vm-t501.vdi.example.xy",
         "MachineSummaryState": 4,
@@ -72,6 +108,12 @@
         "UserUPN": "user.b@example.xy"
     },
     {
+        "ClientAddress": "10.42.1.13",
+        "ClientName": "xy-rgxx01-pdw04",
+        "ClientPlatform": "Windows",
+        "ClientProductId": 1,
+        "ClientVersion": "22.3.2000.2105",
+        "ConnectedViaHostName": "xy-rgxx01-pdw04.dep01.example.xy",
         "DesktopGroupName": "Dinner",
         "DNSName": "ctricks-vm-d505.vdi.example.xy",
         "MachineSummaryState": 4,
