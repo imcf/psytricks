@@ -2,6 +2,35 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 1.0.0
+
+### Changed
+
+* 🧨 **BREAKING** 🧨
+  * The *PowerShell* wrapper script parameter `JsonConfig` has been dropped in
+    favor of the new `AdminAddress` that gives the address of the Delivery
+    Controller to use directly. This is done for two reasons: to be more
+    consistent with the original Citrix commands and to get rid of the overhead
+    of needing an extra file when it contains only one single setting.
+  * To accommodate for this, the `PSyTricksWrapper` constructor changed its
+    only parameter from `conffile` to `deliverycontroller`.
+  * Along those lines also the CLI tool switched from using the parameter
+    `--config` to `--cdc` (short for *Citrix Delivery Controller*).
+* When requesting session details (`PSyTricksWrapper.get_sessions`) the
+  following properties will now also be reported:
+  * `ClientAddress`
+  * `ClientName`
+  * `ClientPlatform`
+  * `ClientProductId`
+  * `ClientVersion`
+  * `ConnectedViaHostName`
+
+### Added
+
+* Two new arguments for the command line tool:
+  * `--version`
+  * `--outfile` - to write the results into a file
+
 ## 0.1.0
 
 ### Added
