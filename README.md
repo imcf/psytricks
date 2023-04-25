@@ -4,4 +4,4 @@
 
 Pun intended.
 
-![logo](./resources/images/logo.png)
+![logo](https://raw.githubusercontent.com/imcf/psytricks/main/resources/images/logo.png)
