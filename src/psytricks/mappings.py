@@ -67,3 +67,13 @@ session_state = {
     2: "active",
     3: "disconnected",
 }
+
+
+by_keyword = {
+    "SummaryState": summary_state,
+    "MachineSummaryState": summary_state,
+    "RegistrationState": registration_state,
+    "PowerState": power_state,
+    "SessionState": session_state,
+    "Action": power_action,
+}
