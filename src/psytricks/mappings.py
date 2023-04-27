@@ -26,6 +26,17 @@ power_state = {
     9: "resuming",
 }
 
+# Citrix.Broker.Admin.Sdk.Hostingpoweraction (e.g. by `New-BrokerHostingPowerAction`)
+power_action = {
+    0: "turnon",
+    1: "turnoff",
+    2: "shutdown",
+    3: "reset",
+    4: "restart",
+    5: "suspend",
+    6: "resume",
+}
+
 
 # Citrix.Broker.Admin.SDK.RegistrationState (e.g. used by `Get-BrokerMachine`)
 registration_state = {
