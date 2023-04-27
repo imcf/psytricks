@@ -2,6 +2,12 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 1.1.0
+
+### Added
+
+* Mapping for the `Action` item when requesting a `poweraction`.
+
 ## 1.0.0
 
 ### Changed
