@@ -1,6 +1,3 @@
-# any JSON file in the top-level directory:
-/*.json
-
 # development related
 *.code-workspace
 
