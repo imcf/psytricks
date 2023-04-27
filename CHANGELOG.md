@@ -6,7 +6,8 @@
 
 ### Added
 
-* Mapping for the `Action` item when requesting a `poweraction`.
+* Mapping for the `Action` item when requesting a `poweraction` (see
+  `psytricks.mappings` for details).
 
 ## 1.0.0
 

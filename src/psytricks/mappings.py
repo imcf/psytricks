@@ -12,7 +12,8 @@ the official Citrix CVAD 2203 developer docs (all transformed to lowercase):
 https://developer-docs.citrix.com/projects/citrix-virtual-apps-desktops-sdk/en/2203/
 """
 
-# Citrix.Broker.Admin.SDK.PowerState (e.g. used by `Get-BrokerMachine`)
+#######################################################################################
+
 power_state = {
     0: "unmanaged",
     1: "unknown",
@@ -25,8 +26,15 @@ power_state = {
     8: "suspending",
     9: "resuming",
 }
+"""A machine's *power status* (`Citrix.Broker.Admin.SDK.PowerState`).
 
-# Citrix.Broker.Admin.Sdk.Hostingpoweraction (e.g. by `New-BrokerHostingPowerAction`)
+As returned by `Get-BrokerMachine` (used in
+`psytricks.wrapper.PSyTricksWrapper.get_machine_status()`).
+"""
+
+
+#######################################################################################
+
 power_action = {
     0: "turnon",
     1: "turnoff",
@@ -36,19 +44,30 @@ power_action = {
     5: "suspend",
     6: "resume",
 }
+"""A *power action* (`Citrix.Broker.Admin.SDK.Hostingpoweraction`).
+
+As returned by `New-BrokerHostingPowerAction` (used in
+`psytricks.wrapper.PSyTricksWrapper.perform_poweraction()`).
+"""
 
 
-# Citrix.Broker.Admin.SDK.RegistrationState (e.g. used by `Get-BrokerMachine`)
+#######################################################################################
+
 registration_state = {
     0: "unregistered",
     1: "initializing",
     2: "registered",
     3: "agenterror",
 }
+"""A machine's *registration status* (`Citrix.Broker.Admin.SDK.RegistrationState`).
+
+As returned by `Get-BrokerMachine` (used in
+`psytricks.wrapper.PSyTricksWrapper.get_machine_status()`).
+"""
 
 
-# Citrix.Broker.Admin.SDK.DesktopSummaryState (e.g. used by `Get-BrokerMachine`
-# as "SummaryState" and by `Get-BrokerSession` as "MachineSummaryState")
+#######################################################################################
+
 summary_state = {
     0: "off",
     1: "unregistered",
@@ -57,16 +76,36 @@ summary_state = {
     4: "inuse",
     5: "preparing",
 }
+"""A machine's *status summary* (`Citrix.Broker.Admin.SDK.DesktopSummaryState`).
 
-# Citrix.Broker.Admin.SDK.SessionState (e.g. used by `Get-BrokerSession`)
-# NOTE: this seems to depend on the "functional level" of the machine, in case
-# it is below "L7" the mapping apparently different (but even Xen 8.0 VMs are
-# reporting "L7_9", so this is fairly reasonable)!
+As returned by:
+* `Get-BrokerMachine` as field `SummaryState` (via
+  `psytricks.wrapper.PSyTricksWrapper.get_machine_status()`)
+* `Get-BrokerSession` as field `MachineSummaryState`(via
+  `psytricks.wrapper.PSyTricksWrapper.get_sessions()`)
+"""
+
+
+#######################################################################################
+
+
 session_state = {
     1: "connected",
     2: "active",
     3: "disconnected",
 }
+"""A *session status* (`Citrix.Broker.Admin.SDK.SessionState`).
+
+As returned by `Get-BrokerSession` (used in
+`psytricks.wrapper.PSyTricksWrapper.get_sessions()`).
+
+**NOTE**: the exact mapping seems to depend on the "*functional level*" of the
+machine, in case it is below `L7` the mapping is apparently different (but even
+Xen 8.0 VMs are reporting `L7_9`, so this is fairly reasonable). In doubt,
+consult the Citrix documentation!
+"""
+
+#######################################################################################
 
 
 by_keyword = {
@@ -77,3 +116,4 @@ by_keyword = {
     "SessionState": session_state,
     "Action": power_action,
 }
+"""Combined mapping dict using the *Citrix labels* as keys."""
