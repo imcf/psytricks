@@ -5,7 +5,7 @@ from datetime import datetime
 
 from loguru import logger as log
 
-from .mappings import power_state, registration_state, summary_state, session_state
+from .mappings import by_keyword
 
 
 def parse_powershell_json(json_dict):
@@ -42,18 +42,11 @@ def parse_powershell_json(json_dict):
             log.trace(f"{key} -> {value}")
             epoch_ms = re.split(r"\(|\)", value)[1]
             ret[key] = datetime.fromtimestamp(int(epoch_ms[:10]))
-        elif key in ["SummaryState", "MachineSummaryState"]:
-            log.trace(f"{key} -> {value}")
-            ret[key] = summary_state[value]
-        elif key == "RegistrationState":
-            log.trace(f"{key} -> {value}")
-            ret[key] = registration_state[value]
-        elif key == "PowerState":
-            log.trace(f"{key} -> {value}")
-            ret[key] = power_state[value]
-        elif key == "SessionState":
-            log.trace(f"{key} -> {value}")
-            ret[key] = session_state[value]
+        elif key in by_keyword:
+            mapping = by_keyword[key]
+            mapped_value = mapping[value]
+            log.trace(f"{key}: {value} -> {mapped_value}")
+            ret[key] = mapped_value
         else:
             ret[key] = value
 
