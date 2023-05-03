@@ -43,7 +43,7 @@ $Green = @{ForegroundColor = "Green" }
 $Red = @{ForegroundColor = "Red" }
 $Yellow = @{ForegroundColor = "Yellow" }
 
-function Respond {
+function Send-Response {
     param (
         [Parameter(
             Mandatory = $true,
@@ -55,10 +55,14 @@ function Respond {
         [string]
         $Body = "",
 
-        [Parameter(HelpMessage = "The content type, by default 'application/json'.")]
-        [string]
-        $Type = "application/json"
+        [Parameter(HelpMessage = "Use 'text/html' instead of 'application/json'.")]
+        [Switch]
+        $Html
     )
+    $Type = "application/json"
+    if ($Html) {
+        $Type = "text/html"
+    }
     $Buffer = [System.Text.Encoding]::UTF8.GetBytes($Body)  # convert to bytes
     $Response.ContentLength64 = $Buffer.Length
     $Response.ContentType = $Type
@@ -77,17 +81,17 @@ function Switch-GetRequest {
     $RawUrl = $Request.RawUrl
 
     if ($RawUrl -eq '/end') {
-        Respond -Response $Response -Body "Terminating." -Type "text/html"
+        Send-Response -Response $Response -Body "Terminating." -Html
         Write-Host "Received a termination request, stopping." @Red
         break
 
     } elseif ($RawUrl -eq '/') {
         $html = "<h1>$ScriptName</h1><p>Running from: $ScriptPath</p>"
-        Respond -Response $Response -Body $html -Type "text/html"
+        Send-Response -Response $Response -Body $html -Html
 
     } elseif ($GetRoutes -contains $RawUrl ) {
         Write-Host "Identified known request: $RawUrl" @Yellow
-        Respond -Response $Response -Body "Nothing here yet." -Type "text/html"
+        Send-Response -Response $Response -Body "Nothing here yet." -Html
 
     } elseif ($RawUrl -eq '/sessions') {
         Write-Host "Fetching Citrix sessions..." @Cyan
@@ -95,10 +99,10 @@ function Switch-GetRequest {
         Write-Host "Got $($CtrxSessions.Length) sessions from Citrix." @Cyan
 
         $json = $CtrxSessions | ConvertTo-Json -Depth 4
-        Respond -Response $Response -Body $json
+        Send-Response -Response $Response -Body $json
 
     } else {
-        Respond -Response $Response -Body "Nothing here." -Type "text/html"
+        Send-Response -Response $Response -Body "Nothing here." -Html
     }
 }
 
@@ -111,7 +115,7 @@ function Switch-PostRequest {
     $RawUrl = $Request.RawUrl
 
     if (-not ($Request.HasEntityBody)) {
-        Respond -Response $Response -Body "No POST data." -Type "text/html"
+        Send-Response -Response $Response -Body "No POST data." -Html
         return
 
     } elseif ($PostRoutes -contains $RawUrl ) {
@@ -121,7 +125,7 @@ function Switch-PostRequest {
         try {
             $Decoded = ConvertFrom-Json $Content
         } catch {
-            Respond -Response $Response -Body "Error decoding JSON." -Type "text/html"
+            Send-Response -Response $Response -Body "Error decoding JSON." -Html
             return
         }
 
@@ -132,7 +136,7 @@ function Switch-PostRequest {
         # }
 
         $html = "<h1>$ScriptName</h1><p>POST successful!</p>"
-        Respond -Response $Response -Body $html -Type "text/html"
+        Send-Response -Response $Response -Body $html -Html
     }
 }
 
@@ -162,7 +166,8 @@ try {
                 Switch-PostRequest -Request $Request
             }
         } catch {
-            Respond -Response $Response -Body "ERROR: $_" -Type "text/html"
+            $Message = "ERROR processing request"
+                Send-Response -Response $Response -Body "$($Message)!" -Html
         }
 
     }
