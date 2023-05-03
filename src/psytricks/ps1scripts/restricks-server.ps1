@@ -98,7 +98,7 @@ function Send-BadRequestResponse {
 }
 
 
-function Get-CommandFromUrl {
+function Split-RawUrl {
     param (
         [Parameter()]
         [string]
@@ -108,10 +108,7 @@ function Get-CommandFromUrl {
     if (-not($RawUrl[0] -eq "/")) {
         throw "Invalid 'RawUrl' property: $RawUrl"
     }
-    $Command = $RawUrl.Substring(1)
-    if ($Command.Length -gt 1) {
-        $Command = $Command.Split("/")[0]
-    }
+    $Command = $RawUrl.Split("/")
     Write-Host "Command extracted from URL: $Command" @Cyan
     return $Command
 }
@@ -119,10 +116,11 @@ function Get-CommandFromUrl {
 
 function Get-BrokerData {
     param (
-        $Url
+        $ParsedUrl
     )
-    Write-Host "Get-BrokerData($Url)" @Cyan
-    switch ($Url) {
+    $Command = $ParsedUrl[1]
+    Write-Host "Get-BrokerData($Command)" @Cyan
+    switch ($Command) {
         "GetSessions" {
             $Desc = "sessions"
             $BrokerData = Get-Sessions
@@ -140,7 +138,7 @@ function Get-BrokerData {
 
         # "DisconnectAll" { throw "Not yet implemented!" }
 
-        Default { throw "Invalid: $Url" }
+        Default { throw "Invalid: $Command" }
     }
     Write-Host "Got $($BrokerData.Length) $Desc from Citrix." @Cyan
 
@@ -155,19 +153,24 @@ function Switch-GetRequest {
         $Request
     )
     Write-Host "GET> $($Request.Url)" @Blue
-    $Url = Get-CommandFromUrl $Request.RawUrl
+    $ParsedUrl = Split-RawUrl -RawUrl $Request.RawUrl
+    $Command = $ParsedUrl[1]
 
-    if ($Url -eq 'end') {
+    if ($Command -eq 'end') {
         Send-Response -Response $Response -Body "Terminating." -Html
         Write-Host "Received a termination request, stopping." @Red
         break
 
-    } elseif ($Url -eq '') {
+    } elseif ($Command -eq '') {
         $html = "<h1>$ScriptName</h1><p>Running from: $ScriptPath</p>"
         Send-Response -Response $Response -Body $html -Html
 
-    } elseif ($GetRoutes -contains $Url ) {
-        $Body = Get-BrokerData $Url
+    } elseif ($GetRoutes -contains $Command) {
+        try {
+            $Body = Get-BrokerData -ParsedUrl $ParsedUrl
+        } catch {
+            Send-BadRequestResponse -Response $Response
+        }
         Send-Response -Response $Response -Body $Body
 
     } else {
@@ -182,13 +185,14 @@ function Switch-PostRequest {
         $Request
     )
     Write-Host "POST> $($Request.Url)" @Blue
-    $Url = Get-CommandFromUrl $Request.RawUrl
+    $ParsedUrl = Split-RawUrl -RawUrl $Request.RawUrl
+    $Command = $ParsedUrl[1]
 
     if (-not ($Request.HasEntityBody)) {
         Send-Response -Response $Response -Body "No POST data." -Html
         return
 
-    } elseif ($PostRoutes -contains $Url ) {
+    } elseif ($PostRoutes -contains $Command) {
         $StreamReader = [System.IO.StreamReader]::new($Request.InputStream)
         $Content = $StreamReader.ReadToEnd()
 
