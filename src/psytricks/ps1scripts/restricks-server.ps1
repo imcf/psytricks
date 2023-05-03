@@ -29,18 +29,18 @@ Add-PSSnapIn Citrix.Broker.Admin.V2 -ErrorAction Stop
 
 
 $GetRoutes = @(
-    "/DisconnectAll",
-    "/GetMachineStatus",
-    "/GetSessions"
+    "DisconnectAll",
+    "GetMachineStatus",
+    "GetSessions"
 )
 
 $PostRoutes = @(
-    "/DisconnectSession",
-    "/GetAccessUsers",
-    "/MachinePowerAction",
-    "/SendSessionMessage",
-    "/SetAccessUsers",
-    "/SetMaintenanceMode"
+    "DisconnectSession",
+    "GetAccessUsers",
+    "MachinePowerAction",
+    "SendSessionMessage",
+    "SetAccessUsers",
+    "SetMaintenanceMode"
 )
 
 $Blue = @{ForegroundColor = "Blue" }
@@ -79,28 +79,44 @@ function Send-Response {
 
 }
 
+
+function Confirm-RawUrl {
+    param (
+        [Parameter()]
+        [string]
+        $RawUrl
+    )
+    # check if RawUrl starts with a slash, then strip it:
+    if (-not($RawUrl[0] -eq "/")) {
+        throw "Invalid 'RawUrl' property: $RawUrl"
+    }
+    $Url = $RawUrl.Substring(1)
+    # Write-Host "Validated URL: $Url" @Cyan
+    return $Url
+}
+
 function Switch-GetRequest {
     param (
         [Parameter()]
         $Request
     )
     Write-Host "GET> $($Request.Url)" @Blue
-    $RawUrl = $Request.RawUrl
+    $Url = Confirm-RawUrl $Request.RawUrl
 
-    if ($RawUrl -eq '/end') {
+    if ($Url -eq 'end') {
         Send-Response -Response $Response -Body "Terminating." -Html
         Write-Host "Received a termination request, stopping." @Red
         break
 
-    } elseif ($RawUrl -eq '/') {
+    } elseif ($Url -eq '') {
         $html = "<h1>$ScriptName</h1><p>Running from: $ScriptPath</p>"
         Send-Response -Response $Response -Body $html -Html
 
-    } elseif ($GetRoutes -contains $RawUrl ) {
-        Write-Host "Identified known request: $RawUrl" @Yellow
+    } elseif ($GetRoutes -contains $Url ) {
+        Write-Host "Identified known request: $Url" @Yellow
         Send-Response -Response $Response -Body "Nothing here yet." -Html
 
-    } elseif ($RawUrl -eq '/sessions') {
+    } elseif ($Url -eq 'sessions') {
         Write-Host "Fetching Citrix sessions..." @Cyan
         $CtrxSessions = Get-BrokerSession -AdminAddress $AdminAddress
         Write-Host "Got $($CtrxSessions.Length) sessions from Citrix." @Cyan
@@ -120,13 +136,13 @@ function Switch-PostRequest {
         $Request
     )
     Write-Host "POST> $($Request.Url)" @Blue
-    $RawUrl = $Request.RawUrl
+    $Url = Confirm-RawUrl $Request.RawUrl
 
     if (-not ($Request.HasEntityBody)) {
         Send-Response -Response $Response -Body "No POST data." -Html
         return
 
-    } elseif ($PostRoutes -contains $RawUrl ) {
+    } elseif ($PostRoutes -contains $Url ) {
         $StreamReader = [System.IO.StreamReader]::new($Request.InputStream)
         $Content = $StreamReader.ReadToEnd()
 
