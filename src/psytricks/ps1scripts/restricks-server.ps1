@@ -36,13 +36,13 @@ if (!(Test-Path $LibPath)) {
 
 $GetRoutes = @(
     "DisconnectAll",
+    "GetAccessUsers",
     "GetMachineStatus",
     "GetSessions"
 )
 
 $PostRoutes = @(
     "DisconnectSession",
-    "GetAccessUsers",
     "MachinePowerAction",
     "SendSessionMessage",
     "SetAccessUsers",
@@ -119,6 +119,11 @@ function Get-BrokerData {
         "GetMachineStatus" {
             $Desc = "machines"
             $BrokerData = Get-MachineStatus
+        }
+
+        "GetAccessUsers" {
+            $Desc = "users"
+            $BrokerData = Get-AccessUsers
         }
 
         # "DisconnectAll" { throw "Not yet implemented!" }
