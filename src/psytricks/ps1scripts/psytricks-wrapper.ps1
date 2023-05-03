@@ -120,6 +120,8 @@ if ($NoSnapIn) {
 $Status = @{
     "ExecutionStatus" = "0"
     "ErrorMessage"    = ""
+    "ScriptName"      = "$ScriptName"
+    "ScriptPath"      = "$ScriptPath"
 }
 $Data = ""
 
@@ -214,6 +216,8 @@ try {
     $Status = @{
         "ExecutionStatus" = "1"
         "ErrorMessage"    = "$_"
+        "ScriptName"      = "$ScriptName"
+        "ScriptPath"      = "$ScriptPath"
     }
     $Data = ""
 }
