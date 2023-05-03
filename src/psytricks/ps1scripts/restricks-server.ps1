@@ -197,6 +197,7 @@ try {
     $Listener.Start()
 
     if ($Listener.IsListening) {
+        Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++" @Blue
         Write-Host "$ScriptName listening: $($Listener.Prefixes)" @Yellow
         Write-Host "Location: $ScriptPath" @Blue
     }
@@ -235,4 +236,5 @@ try {
     Write-Host "Stopping HTTP listener..." @Yellow
     $Listener.Stop()
     Write-Host "$ScriptName terminated." @Yellow
+    Write-Host "----------------------------------------------------" @Blue
 }
