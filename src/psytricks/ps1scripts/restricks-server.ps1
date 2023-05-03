@@ -16,10 +16,16 @@ param (
 $ErrorActionPreference = "Stop"
 
 
-Add-PSSnapIn Citrix.Broker.Admin.V2 -ErrorAction Stop
+#region boilerplate
 
 $ScriptPath = Split-Path $script:MyInvocation.MyCommand.Path
 $ScriptName = Split-Path -Leaf $script:MyInvocation.MyCommand.Path
+
+Add-PSSnapIn Citrix.Broker.Admin.V2 -ErrorAction Stop
+
+
+#endregion boilerplate
+
 
 
 $GetRoutes = @(
