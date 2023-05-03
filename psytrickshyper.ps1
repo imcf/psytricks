@@ -1,5 +1,18 @@
 #Requires -PSEdition Desktop
 
+[CmdletBinding()]
+param (
+    # the delivery controller address to connect to
+    [Parameter(Mandatory = $true)]
+    [string]
+    $AdminAddress,
+
+    # the port to listen on
+    [Parameter()]
+    [int]
+    $ListenPort = 8080
+)
+
 $ErrorActionPreference = "Stop"
 
 
@@ -8,7 +21,6 @@ Add-PSSnapIn Citrix.Broker.Admin.V2 -ErrorAction Stop
 $ScriptPath = Split-Path $script:MyInvocation.MyCommand.Path
 $ScriptName = Split-Path -Leaf $script:MyInvocation.MyCommand.Path
 
-$CDC = "cdc01.vdi.example.xy"
 
 $GetRoutes = @(
     "/DisconnectAll",
@@ -79,7 +91,7 @@ function Switch-GetRequest {
 
     } elseif ($RawUrl -eq '/sessions') {
         Write-Host "Fetching Citrix sessions..." @Cyan
-        $CtrxSessions = Get-BrokerSession -AdminAddress $CDC
+        $CtrxSessions = Get-BrokerSession -AdminAddress $AdminAddress
         Write-Host "Got $($CtrxSessions.Length) sessions from Citrix." @Cyan
 
         $json = $CtrxSessions | ConvertTo-Json -Depth 4
@@ -127,7 +139,7 @@ function Switch-PostRequest {
 
 try {
     $Listener = [System.Net.HttpListener]::new()
-    $Listener.Prefixes.Add("http://localhost:8080/")
+    $Listener.Prefixes.Add("http://localhost:$ListenPort/")
     $Listener.Start()
 
     if ($Listener.IsListening) {
