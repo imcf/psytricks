@@ -133,7 +133,9 @@ function Get-BrokerData {
 
         "GetAccessUsers" {
             $Desc = "users"
-            $BrokerData = Get-AccessUsers
+            $Group = $ParsedUrl[2]
+            Write-Host "> Group=[$Group]" @Cyan
+            $BrokerData = Get-AccessUsers -Group $Group
         }
 
         # "DisconnectAll" { throw "Not yet implemented!" }
