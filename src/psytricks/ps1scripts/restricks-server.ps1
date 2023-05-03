@@ -147,7 +147,7 @@ try {
     $Listener.Start()
 
     if ($Listener.IsListening) {
-        Write-Host "HTTP server listening via: $($Listener.Prefixes)" @Yellow
+        Write-Host "$ScriptPath\$ScriptName listening: $($Listener.Prefixes)" @Yellow
     }
 
     while ($Listener.IsListening) {
