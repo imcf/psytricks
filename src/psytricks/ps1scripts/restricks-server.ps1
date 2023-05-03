@@ -149,6 +149,52 @@ function Get-BrokerData {
 }
 
 
+function Send-BrokerData {
+    param (
+        $ParsedUrl,
+        $Payload
+    )
+    $Command = $ParsedUrl[1]
+    Write-Host "Send-BrokerData($Command)" @Cyan
+
+    switch ($Command) {
+        "DisconnectSession" {
+            $DNSName = $Payload.DNSName
+            Write-Host "> DNSName=[$DNSName]" @Cyan
+            $BrokerData = Disconnect-Session -DNSName $DNSName
+        }
+
+        "MachinePowerAction" {
+            $BrokerData = Get-MachineStatus
+        }
+
+        "SendSessionMessage" {
+            $Group = $ParsedUrl[2]
+            Write-Host "> Group=[$Group]" @Cyan
+            $BrokerData = Get-AccessUsers -Group $Group
+        }
+
+        "SetAccessUsers" {
+            $Group = $ParsedUrl[2]
+            Write-Host "> Group=[$Group]" @Cyan
+            $BrokerData = Get-AccessUsers -Group $Group
+        }
+
+        "SetMaintenanceMode" {
+            $Group = $ParsedUrl[2]
+            Write-Host "> Group=[$Group]" @Cyan
+            $BrokerData = Get-AccessUsers -Group $Group
+        }
+
+        Default { throw "Invalid: $Command" }
+    }
+    Write-Host "Sent FIXME to Citrix." @Cyan
+
+    $Json = $BrokerData | ConvertTo-Json -Depth 4
+    return $Json
+}
+
+
 function Switch-GetRequest {
     param (
         [Parameter()]
@@ -204,6 +250,8 @@ function Switch-PostRequest {
             Send-Response -Response $Response -Body "Error decoding JSON." -Html
             return
         }
+
+        Send-BrokerData -ParsedUrl $ParsedUrl -Payload $Decoded
 
         Write-Host $Decoded.foo @Yellow
         # $Decoded.PSObject.Properties | ForEach-Object {
