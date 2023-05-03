@@ -43,6 +43,7 @@ $Green = @{ForegroundColor = "Green" }
 $Red = @{ForegroundColor = "Red" }
 $Yellow = @{ForegroundColor = "Yellow" }
 
+
 function Send-Response {
     param (
         [Parameter(
@@ -105,6 +106,7 @@ function Switch-GetRequest {
         Send-Response -Response $Response -Body "Nothing here." -Html
     }
 }
+
 
 function Switch-PostRequest {
     param (
