@@ -86,6 +86,18 @@ function Send-Response {
 }
 
 
+function Send-BadRequestResponse {
+    param (
+        # the response object
+        [Parameter(Mandatory = $true)]
+        $Response
+    )
+    $Response.StatusCode = 400
+    $Response.OutputStream.Write("", 0, 0)
+    $Response.OutputStream.Close()
+}
+
+
 function Get-CommandFromUrl {
     param (
         [Parameter()]
@@ -159,7 +171,7 @@ function Switch-GetRequest {
         Send-Response -Response $Response -Body $Body
 
     } else {
-        Send-Response -Response $Response -Body "Nothing here." -Html
+        Send-BadRequestResponse -Response $Response
     }
 }
 
