@@ -23,6 +23,12 @@ $ScriptName = Split-Path -Leaf $script:MyInvocation.MyCommand.Path
 
 Add-PSSnapIn Citrix.Broker.Admin.V2 -ErrorAction Stop
 
+# locate and dot-source the libs file:
+$LibPath = Join-Path $ScriptPath "psytricks-lib.ps1"
+if (!(Test-Path $LibPath)) {
+    throw "Error loading functions etc. (can't find $LibPath)!"
+}
+. $LibPath
 
 #endregion boilerplate
 
@@ -95,6 +101,34 @@ function Confirm-RawUrl {
     return $Url
 }
 
+
+function Get-BrokerData {
+    param (
+        $Url
+    )
+    Write-Host "Get-BrokerData($Url)" @Cyan
+    switch ($Url) {
+        "GetSessions" {
+            $Desc = "sessions"
+            $BrokerData = Get-Sessions
+        }
+
+        "GetMachineStatus" {
+            $Desc = "machines"
+            $BrokerData = Get-MachineStatus
+        }
+
+        # "DisconnectAll" { throw "Not yet implemented!" }
+
+        Default { throw "Invalid: $Url" }
+    }
+    Write-Host "Got $($BrokerData.Length) $Desc from Citrix." @Cyan
+
+    $Json = $BrokerData | ConvertTo-Json -Depth 4
+    return $Json
+}
+
+
 function Switch-GetRequest {
     param (
         [Parameter()]
@@ -113,16 +147,8 @@ function Switch-GetRequest {
         Send-Response -Response $Response -Body $html -Html
 
     } elseif ($GetRoutes -contains $Url ) {
-        Write-Host "Identified known request: $Url" @Yellow
-        Send-Response -Response $Response -Body "Nothing here yet." -Html
-
-    } elseif ($Url -eq 'sessions') {
-        Write-Host "Fetching Citrix sessions..." @Cyan
-        $CtrxSessions = Get-BrokerSession -AdminAddress $AdminAddress
-        Write-Host "Got $($CtrxSessions.Length) sessions from Citrix." @Cyan
-
-        $json = $CtrxSessions | ConvertTo-Json -Depth 4
-        Send-Response -Response $Response -Body $json
+        $Body = Get-BrokerData $Url
+        Send-Response -Response $Response -Body $Body
 
     } else {
         Send-Response -Response $Response -Body "Nothing here." -Html
