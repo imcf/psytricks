@@ -171,7 +171,8 @@ try {
     $Listener.Start()
 
     if ($Listener.IsListening) {
-        Write-Host "$ScriptPath\$ScriptName listening: $($Listener.Prefixes)" @Yellow
+        Write-Host "$ScriptName listening: $($Listener.Prefixes)" @Yellow
+        Write-Host "Location: $ScriptPath" @Blue
     }
 
     while ($Listener.IsListening) {
