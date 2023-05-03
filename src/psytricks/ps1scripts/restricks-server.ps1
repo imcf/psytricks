@@ -151,13 +151,13 @@ try {
     }
 
     while ($Listener.IsListening) {
-        # when a request is made GetContext() will return it as an object:
-        $Context = $Listener.GetContext()
-
-        $Request = $Context.Request
-        $Response = $Context.Response
-
         try {
+            # when a request is made GetContext() will return it as an object:
+            $Context = $Listener.GetContext()
+
+            $Request = $Context.Request
+            $Response = $Context.Response
+
             if ($Request.HttpMethod -eq 'GET') {
                 Switch-GetRequest -Request $Request
             }
@@ -167,22 +167,21 @@ try {
             }
         } catch {
             $Message = "ERROR processing request"
+            Write-Host "$($Message): $_" @Red
+            try {
+                # do NOT include details in the response, only log it to stdout!
                 Send-Response -Response $Response -Body "$($Message)!" -Html
+            } catch {
+                Write-Host "Unable to send the response: $_" @Red
+            }
         }
-
     }
 
 } catch {
-    Write-Host "ERROR, terminating: $_" @Red
-    # if anything above was raising an exception we should still try to send out
-    # a response to gracefully complete the request - otherwise clients (like
-    # `Invoke-WebRequest` for example) will sit and wait indefinitely:
-    try {
-        Respond -Response $Response -Body "$ScriptName terminating..." -Type "text/html"
-    } catch {
-        Write-Host "Unable to send the response."
-    }
+    Write-Host "Unexpected error, terminating: $_" @Red
 
 } finally {
+    Write-Host "Stopping HTTP listener..." @Yellow
     $Listener.Stop()
+    Write-Host "$ScriptName terminated." @Yellow
 }
