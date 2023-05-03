@@ -1,0 +1,3 @@
+PS1SCRIPTS=C:\ProgramData\venvs\psytricks\Lib\site-packages\psytricks\ps1scripts
+ADMINADDRESS=cdc01.vdi.example.xy
+LOGFILE=C:\Temp\restricks.log
