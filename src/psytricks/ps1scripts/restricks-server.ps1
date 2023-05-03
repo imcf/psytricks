@@ -86,7 +86,7 @@ function Send-Response {
 }
 
 
-function Confirm-RawUrl {
+function Get-CommandFromUrl {
     param (
         [Parameter()]
         [string]
@@ -96,9 +96,12 @@ function Confirm-RawUrl {
     if (-not($RawUrl[0] -eq "/")) {
         throw "Invalid 'RawUrl' property: $RawUrl"
     }
-    $Url = $RawUrl.Substring(1)
-    # Write-Host "Validated URL: $Url" @Cyan
-    return $Url
+    $Command = $RawUrl.Substring(1)
+    if ($Command.Length -gt 1) {
+        $Command = $Command.Split("/")[0]
+    }
+    Write-Host "Command extracted from URL: $Command" @Cyan
+    return $Command
 }
 
 
@@ -135,7 +138,7 @@ function Switch-GetRequest {
         $Request
     )
     Write-Host "GET> $($Request.Url)" @Blue
-    $Url = Confirm-RawUrl $Request.RawUrl
+    $Url = Get-CommandFromUrl $Request.RawUrl
 
     if ($Url -eq 'end') {
         Send-Response -Response $Response -Body "Terminating." -Html
@@ -162,7 +165,7 @@ function Switch-PostRequest {
         $Request
     )
     Write-Host "POST> $($Request.Url)" @Blue
-    $Url = Confirm-RawUrl $Request.RawUrl
+    $Url = Get-CommandFromUrl $Request.RawUrl
 
     if (-not ($Request.HasEntityBody)) {
         Send-Response -Response $Response -Body "No POST data." -Html
