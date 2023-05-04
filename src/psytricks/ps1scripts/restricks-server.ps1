@@ -30,9 +30,17 @@ if (!(Test-Path $LibPath)) {
 }
 . $LibPath
 
+# define color shorthands to be used with "Write-Host" commands:
+$Blue = @{ForegroundColor = "Blue" }
+$Cyan = @{ForegroundColor = "Cyan" }
+$Green = @{ForegroundColor = "Green" }
+$Red = @{ForegroundColor = "Red" }
+$Yellow = @{ForegroundColor = "Yellow" }
+
 #endregion boilerplate
 
 
+#region route-keywords
 
 $GetRoutes = @(
     "DisconnectAll",
@@ -49,12 +57,10 @@ $PostRoutes = @(
     "SetMaintenanceMode"
 )
 
-$Blue = @{ForegroundColor = "Blue" }
-$Cyan = @{ForegroundColor = "Cyan" }
-$Green = @{ForegroundColor = "Green" }
-$Red = @{ForegroundColor = "Red" }
-$Yellow = @{ForegroundColor = "Yellow" }
+#endregion route-keywords
 
+
+#region functions
 
 function Send-Response {
     param (
@@ -293,6 +299,10 @@ function Switch-PostRequest {
     }
 }
 
+#endregion functions
+
+
+#region main
 
 try {
     $Listener = [System.Net.HttpListener]::new()
@@ -341,3 +351,5 @@ try {
     Write-Host "$ScriptName terminated." @Yellow
     Write-Host "----------------------------------------------------" @Blue
 }
+
+#endregion main
