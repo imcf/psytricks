@@ -186,11 +186,7 @@ function Send-BrokerRequest {
         "SetMaintenanceMode" {
             $Desc = "maintenance mode"
             $DNSName = $Payload.DNSName
-            try {
-                $Disable = [bool]$Payload.Disable
-            } catch {
-                $Disable = $False
-            }
+            $Disable = [bool]$Payload.Disable
             Write-Host "> DNSName=[$DNSName]" @Cyan
             Write-Host "> Disable=[$Disable]" @Cyan
             $BrokerData = Set-MaintenanceMode -DNSName $DNSName -Disable:$Disable
