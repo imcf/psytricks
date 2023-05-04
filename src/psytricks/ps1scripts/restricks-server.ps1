@@ -145,7 +145,13 @@ function Get-BrokerData {
 
 function Send-BrokerData {
     param (
+        # the parsed URL as returned by Split-RawUrl
+        [Parameter(Mandatory = $True)]
+        [string[]]
         $ParsedUrl,
+
+        # the JSON payload of the POST request
+        [Parameter(Mandatory = $True)]
         $Payload
     )
     $Command = $ParsedUrl[1]
