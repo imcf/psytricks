@@ -166,7 +166,11 @@ function Send-BrokerRequest {
 
         "MachinePowerAction" {
             $Desc = "power action"
-            $BrokerData = Get-MachineStatus
+            $DNSName = $Payload.DNSName
+            $Action = $Payload.Action
+            Write-Host "> DNSName=[$DNSName]" @Cyan
+            Write-Host "> Action=[$Action]" @Cyan
+            $BrokerData = Invoke-PowerAction -DNSName $DNSName -Action $Action
         }
 
         "SendSessionMessage" {
