@@ -369,6 +369,40 @@ class ResTricksWrapper:
 
         return data
 
+    def _send_post_request(
+        self, raw_url: str, payload: dict, no_json: bool = False
+    ) -> list:
+        """Common method for performing a POST request and process the response.
+
+        Parameters
+        ----------
+        raw_url : str
+            The part of the URL that will be appended to `self.base_url`.
+        payload : dict
+            The parameters to pass as `JSON` payload to the POST request.
+        no_json : bool
+            If set to `True` the response is expected to contain no `JSON` and
+            an empty list will be returned.
+
+        Returns
+        -------
+        list(str)
+            The parsed `JSON` of the response. Will be an empty list in case
+            something went wrong performing the POST request or processing the
+            response.
+        """
+        try:
+            response = requests.post(self.base_url + raw_url, json=payload, timeout=5)
+        except Exception as ex:  # pylint: disable-msg=broad-except
+            log.error(f"POST request [{raw_url}] failed: {ex}")
+            return []
+
+        if no_json:
+            log.debug(f"No-payload response status code: {response.status_code}")
+            return []
+
+        return response.json()
+
     def get_machine_status(self) -> list:
         """Send a GET request with "GetMachineStatus".
 
@@ -388,3 +422,26 @@ class ResTricksWrapper:
             The `JSON` returned by the REST service.
         """
         return self._send_get_request("GetSessions")
+
+    def send_message(self, machine: str, message: str, title: str, style: str):
+        """Send a POST request with "SendSessionMessage".
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to disconnect the session on.
+        message : str
+            The message body.
+        title : str
+            The message title.
+        style : str
+            The message style defining the icon shown in the pop-up message.
+            One of ["Information", "Exclamation", "Critical", "Question"].
+        """
+        payload = {
+            "DNSName": machine,
+            "Text": message,
+            "Title": title,
+            "MessageStyle": style,
+        }
+        self._send_post_request("SendSessionMessage", payload, no_json=True)
