@@ -195,9 +195,16 @@ function Send-BrokerRequest {
 
         "SetAccessUsers" {
             $Desc = "group access permission"
-            $Group = $ParsedUrl[2]
+            $Group = $Payload.Group
+            $UserNames = $Payload.UserNames
+            $RemoveAccess = [bool]$Payload.RemoveAccess
             Write-Host "> Group=[$Group]" @Cyan
-            $BrokerData = Get-AccessUsers -Group $Group
+            Write-Host "> UserNames=[$UserNames]" @Cyan
+            Write-Host "> RemoveAccess=[$RemoveAccess]" @Cyan
+            $BrokerData = Set-AccessUsers `
+                -Group $Group `
+                -UserNames $UserNames `
+                -RemoveAccess:$RemoveAccess
         }
 
         "SetMaintenanceMode" {
