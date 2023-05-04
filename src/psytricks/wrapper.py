@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Literal
 from sys import platform
 
+import requests
 from loguru import logger as log
 
 from .decoder import parse_powershell_json
@@ -329,3 +330,29 @@ class PSyTricksWrapper:
         return self._run_ps1_script(
             request="MachinePowerAction", extra_params=extra_params
         )
+
+
+class ResTricksWrapper:
+    def __init__(self, base_url: str = "http://localhost:8080/"):
+        self.base_url = base_url
+        log.debug(f"Initialized {self.__class__.__name__}({base_url})")
+
+    def get_machine_status(self) -> list:
+        """Send a GET request with "GetMachineStatus".
+
+        Returns
+        -------
+        list(str)
+            The JSON returned by the REST service.
+        """
+        return requests.get(self.base_url + "GetMachineStatus").json()
+
+    def get_sessions(self) -> list:
+        """Send a GET request with "GetSessions".
+
+        Returns
+        -------
+        list(str)
+            The JSON returned by the REST service.
+        """
+        return requests.get(self.base_url + "GetSessions").json()
