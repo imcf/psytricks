@@ -264,6 +264,11 @@ function Switch-PostRequest {
 
         $html = "<h1>$ScriptName</h1><p>POST successful!</p>"
         Send-Response -Response $Response -Body $html -Html
+    } else {
+        Send-Response `
+            -Response $Response `
+            -StatusCode 400 `
+            -Body "Invalid or unknown command: [$Command]"
     }
 }
 
