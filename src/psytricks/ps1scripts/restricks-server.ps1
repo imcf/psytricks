@@ -64,6 +64,11 @@ function Send-Response {
         )]
         $Response,
 
+        # the HTTP status code
+        [Parameter()]
+        [int]
+        $StatusCode = 200,
+
         [Parameter(HelpMessage = "The content body to return in the response.")]
         [string]
         $Body = "",
@@ -79,22 +84,11 @@ function Send-Response {
     $Buffer = [System.Text.Encoding]::UTF8.GetBytes($Body)  # convert to bytes
     $Response.ContentLength64 = $Buffer.Length
     $Response.ContentType = $Type
+    $Response.StatusCode = $StatusCode
     $Response.OutputStream.Write($Buffer, 0, $Buffer.Length)
     $Response.OutputStream.Close()
     Write-Host "Response sent successfully." @Green
 
-}
-
-
-function Send-BadRequestResponse {
-    param (
-        # the response object
-        [Parameter(Mandatory = $true)]
-        $Response
-    )
-    $Response.StatusCode = 400
-    $Response.OutputStream.Write("", 0, 0)
-    $Response.OutputStream.Close()
 }
 
 
@@ -217,12 +211,15 @@ function Switch-GetRequest {
         try {
             $Body = Get-BrokerData -ParsedUrl $ParsedUrl
         } catch {
-            Send-BadRequestResponse -Response $Response
+            Send-Response -Response $Response -StatusCode 400 -Body $_
         }
         Send-Response -Response $Response -Body $Body
 
     } else {
-        Send-BadRequestResponse -Response $Response
+        Send-Response `
+            -Response $Response `
+            -StatusCode 400 `
+            -Body "Invalid or unknown command: [$Command]"
     }
 }
 
