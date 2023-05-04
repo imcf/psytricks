@@ -103,7 +103,7 @@ function Split-RawUrl {
         throw "Invalid 'RawUrl' property: $RawUrl"
     }
     $Command = $RawUrl.Split("/")
-    Write-Host "Command extracted from URL: $Command" @Cyan
+    Write-Host "Parsed URL ($($Command.Length) segments): $Command" @Cyan
     return $Command
 }
 
