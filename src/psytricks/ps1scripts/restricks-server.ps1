@@ -102,9 +102,9 @@ function Split-RawUrl {
     if (-not($RawUrl[0] -eq "/")) {
         throw "Invalid 'RawUrl' property: $RawUrl"
     }
-    $Command = $RawUrl.Split("/")
-    Write-Host "Parsed URL ($($Command.Length) segments): $Command" @Cyan
-    return $Command
+    $Parsed = $RawUrl.Split("/")
+    Write-Host "Parsed URL ($($Parsed.Length) segments): $Parsed" @Cyan
+    return $Parsed
 }
 
 
