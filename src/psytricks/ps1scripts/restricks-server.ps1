@@ -184,10 +184,16 @@ function Send-BrokerRequest {
         }
 
         "SetMaintenanceMode" {
-            $Group = $ParsedUrl[2]
-            Write-Host "> Group=[$Group]" @Cyan
-            $BrokerData = Get-AccessUsers -Group $Group
             $Desc = "maintenance mode"
+            $DNSName = $Payload.DNSName
+            try {
+                $Disable = [bool]$Payload.Disable
+            } catch {
+                $Disable = $False
+            }
+            Write-Host "> DNSName=[$DNSName]" @Cyan
+            Write-Host "> Disable=[$Disable]" @Cyan
+            $BrokerData = Set-MaintenanceMode -DNSName $DNSName -Disable:$Disable
         }
 
         Default { throw "Invalid: $Command" }
