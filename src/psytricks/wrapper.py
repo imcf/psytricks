@@ -340,15 +340,44 @@ class ResTricksWrapper:
         self.base_url = base_url
         log.debug(f"Initialized {self.__class__.__name__}({base_url})")
 
+    def _send_get_request(self, raw_url: str) -> list:
+        """Common method for performing a GET request and process the response.
+
+        Parameters
+        ----------
+        raw_url : str
+            The part of the URL that will be appended to `self.base_url`.
+
+        Returns
+        -------
+        list(str)
+            The parsed `JSON` of the response. Will be an empty list in case
+            something went wrong performing the GET request or processing the
+            response.
+        """
+        try:
+            response = requests.get(self.base_url + raw_url, timeout=5)
+        except Exception as ex:  # pylint: disable-msg=broad-except
+            log.error(f"GET request [{raw_url}] failed: {ex}")
+            return []
+
+        try:
+            data = response.json()
+        except Exception as ex:  # pylint: disable-msg=broad-except
+            log.error(f"GET request [{raw_url}] didn't return any JSON: {ex}")
+            return []
+
+        return data
+
     def get_machine_status(self) -> list:
         """Send a GET request with "GetMachineStatus".
 
         Returns
         -------
         list(str)
-            The JSON returned by the REST service.
+            The `JSON` returned by the REST service.
         """
-        return requests.get(self.base_url + "GetMachineStatus").json()
+        return self._send_get_request("GetMachineStatus")
 
     def get_sessions(self) -> list:
         """Send a GET request with "GetSessions".
@@ -356,6 +385,6 @@ class ResTricksWrapper:
         Returns
         -------
         list(str)
-            The JSON returned by the REST service.
+            The `JSON` returned by the REST service.
         """
-        return requests.get(self.base_url + "GetSessions").json()
+        return self._send_get_request("GetSessions")
