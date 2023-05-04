@@ -240,7 +240,7 @@ function Switch-PostRequest {
     $Command = $ParsedUrl[1]
 
     if (-not ($Request.HasEntityBody)) {
-        Send-Response -Response $Response -Body "No POST data." -Html
+        Send-Response -Response $Response -Body "No POST data." -StatusCode 400
 
     } elseif ($PostRoutes -contains $Command) {
         $StreamReader = [System.IO.StreamReader]::new($Request.InputStream)
@@ -249,7 +249,7 @@ function Switch-PostRequest {
         try {
             $Decoded = ConvertFrom-Json $Content
         } catch {
-            Send-Response -Response $Response -Body "Error decoding JSON." -Html
+            Send-Response $Response -Body "Error decoding JSON: $_" -StatusCode 422
             return
         }
 
