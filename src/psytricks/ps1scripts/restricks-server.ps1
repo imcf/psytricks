@@ -243,10 +243,9 @@ function Switch-PostRequest {
         Send-Response -Response $Response -Body "No POST data." -StatusCode 400
 
     } elseif ($PostRoutes -contains $Command) {
-        $StreamReader = [System.IO.StreamReader]::new($Request.InputStream)
-        $Content = $StreamReader.ReadToEnd()
-
         try {
+            $StreamReader = [System.IO.StreamReader]::new($Request.InputStream)
+            $Content = $StreamReader.ReadToEnd()
             $Decoded = ConvertFrom-Json $Content
         } catch {
             Send-Response $Response -Body "Error decoding JSON: $_" -StatusCode 422
