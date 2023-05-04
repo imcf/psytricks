@@ -241,7 +241,6 @@ function Switch-PostRequest {
 
     if (-not ($Request.HasEntityBody)) {
         Send-Response -Response $Response -Body "No POST data." -Html
-        return
 
     } elseif ($PostRoutes -contains $Command) {
         $StreamReader = [System.IO.StreamReader]::new($Request.InputStream)
