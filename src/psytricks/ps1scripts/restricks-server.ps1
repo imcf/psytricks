@@ -143,7 +143,7 @@ function Get-BrokerData {
 }
 
 
-function Send-BrokerData {
+function Send-BrokerRequest {
     param (
         # the parsed URL as returned by Split-RawUrl
         [Parameter(Mandatory = $True)]
@@ -154,7 +154,7 @@ function Send-BrokerData {
         $Payload
     )
     $Command = $ParsedUrl[1]
-    Write-Host "Send-BrokerData($Command)" @Cyan
+    Write-Host "Send-BrokerRequest($Command)" @Cyan
 
     switch ($Command) {
         "DisconnectSession" {
@@ -251,7 +251,7 @@ function Switch-PostRequest {
             return
         }
 
-        Send-BrokerData -ParsedUrl $ParsedUrl -Payload $Decoded
+        $BrokerData = Send-BrokerRequest -ParsedUrl $ParsedUrl -Payload $Decoded
 
         Write-Host $Decoded.foo @Yellow
         # $Decoded.PSObject.Properties | ForEach-Object {
