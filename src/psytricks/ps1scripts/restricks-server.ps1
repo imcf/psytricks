@@ -171,9 +171,22 @@ function Send-BrokerRequest {
 
         "SendSessionMessage" {
             $Desc = "message popup"
-            $Group = $ParsedUrl[2]
-            Write-Host "> Group=[$Group]" @Cyan
-            $BrokerData = Get-AccessUsers -Group $Group
+            $DNSName = $Payload.DNSName
+            $Title = $Payload.Title
+            $Text = $Payload.Text
+            $MessageStyle = [string]$Payload.MessageStyle
+            if ($MessageStyle -eq "") {
+                $MessageStyle = "Information"
+            }
+            Write-Host "> DNSName=[$DNSName]" @Cyan
+            Write-Host "> Title=[$Title]" @Cyan
+            Write-Host "> Text=[$Text]" @Cyan
+            Write-Host "> MessageStyle=[$MessageStyle]" @Cyan
+            $BrokerData = Send-SessionMessage `
+                -DNSName $DNSName `
+                -Title $Title `
+                -Text $Text `
+                -MessageStyle $MessageStyle
         }
 
         "SetAccessUsers" {
