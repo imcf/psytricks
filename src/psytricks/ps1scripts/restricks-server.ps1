@@ -158,22 +158,26 @@ function Send-BrokerRequest {
 
     switch ($Command) {
         "DisconnectSession" {
+            $Desc = "session disconnect"
             $DNSName = $Payload.DNSName
             Write-Host "> DNSName=[$DNSName]" @Cyan
             $BrokerData = Disconnect-Session -DNSName $DNSName
         }
 
         "MachinePowerAction" {
+            $Desc = "power action"
             $BrokerData = Get-MachineStatus
         }
 
         "SendSessionMessage" {
+            $Desc = "message popup"
             $Group = $ParsedUrl[2]
             Write-Host "> Group=[$Group]" @Cyan
             $BrokerData = Get-AccessUsers -Group $Group
         }
 
         "SetAccessUsers" {
+            $Desc = "group access permission"
             $Group = $ParsedUrl[2]
             Write-Host "> Group=[$Group]" @Cyan
             $BrokerData = Get-AccessUsers -Group $Group
@@ -183,11 +187,12 @@ function Send-BrokerRequest {
             $Group = $ParsedUrl[2]
             Write-Host "> Group=[$Group]" @Cyan
             $BrokerData = Get-AccessUsers -Group $Group
+            $Desc = "maintenance mode"
         }
 
         Default { throw "Invalid: $Command" }
     }
-    Write-Host "Sent FIXME to Citrix." @Cyan
+    Write-Host "Sent $Desc request to Citrix." @Cyan
 
     $Json = $BrokerData | ConvertTo-Json -Depth 4
     return $Json
