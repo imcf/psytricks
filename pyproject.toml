@@ -19,6 +19,7 @@ requests = "^2.30.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"
+ipython = "^8.13.2"
 pylint = "^2.16.2"
 
 [tool.poetry.scripts]
