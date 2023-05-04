@@ -257,15 +257,8 @@ function Switch-PostRequest {
         }
 
         $BrokerData = Send-BrokerRequest -ParsedUrl $ParsedUrl -Payload $Decoded
+        Send-Response -Response $Response -Body $BrokerData
 
-        Write-Host $Decoded.foo @Yellow
-        # $Decoded.PSObject.Properties | ForEach-Object {
-        #     Write-Host $_.Name @Blue
-        #     Write-Host $_.Value @Blue
-        # }
-
-        $html = "<h1>$ScriptName</h1><p>POST successful!</p>"
-        Send-Response -Response $Response -Body $html -Html
     } else {
         Send-Response `
             -Response $Response `
