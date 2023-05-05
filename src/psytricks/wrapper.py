@@ -434,6 +434,56 @@ class ResTricksWrapper:
         """
         return self.send_get_request("GetSessions")
 
+    def disconnect_session(self, machine: str) -> list:
+        """Send a `POST` request with `DisconnectSession`.
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to disconnect the session on.
+
+        Returns
+        -------
+        list(str)
+            The `JSON` returned by the REST service.
+        """
+        raise NotImplementedError
+
+    def get_access_users(self, group: str) -> list:
+        """Send a `POST` request with `GetAccessUsers`.
+
+        Parameters
+        ----------
+        group : str
+            The name of the Delivery Group to request users having access.
+
+        Returns
+        -------
+        list(str)
+            The `JSON` returned by the REST service.
+        """
+        raise NotImplementedError
+
+    def set_access_users(self, group: str, users: str, disable: bool) -> list:
+        """Send a `POST` request with `SetAccessUsers`.
+
+        Parameters
+        ----------
+        group : str
+            The name of the Delivery Group to request users having access.
+        users : str
+            A string with one or more (comma-separated) usernames whose access
+            permissions to the given group should be adapted.
+        disable : bool
+            A flag requesting the permissions for the given username(s) to be
+            removed (if True) instead of being added (if False).
+
+        Returns
+        -------
+        list(str)
+            The `JSON` returned by the REST service.
+        """
+        raise NotImplementedError
 
     def set_maintenance(self, machine: str, disable: bool) -> list:
         """Send a `POST` request with `SetMaintenanceMode`.
@@ -479,3 +529,16 @@ class ResTricksWrapper:
             "MessageStyle": style,
         }
         self.send_post_request("SendSessionMessage", payload, no_json=True)
+
+    def perform_poweraction(self, machine: str, action: str) -> None:
+        """Send a `POST` request with `MachinePowerAction`.
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to disconnect the session on.
+        action : str
+            The power action to perform on a machine. Valid choices are `reset`,
+            `restart`, `resume`, `shutdown`, `suspend`, `turnoff`, `turnon`.
+        """
+        raise NotImplementedError
