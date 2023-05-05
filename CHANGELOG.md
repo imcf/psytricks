@@ -2,6 +2,39 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.0.0
+
+### Common
+
+A `REST` server ([`restricks-server.ps1`][restricks]) written in PowerShell was
+added to facilitate and speed up interaction with the CVAD / Citrix toolstack.
+See the installation instructions for details on how to use it and please be
+aware that this is very much in an infant state 🍼.
+
+NOTE: this is an *alternative* to the original way of calling PowerShell as a
+Python `subprocess` (requiring the Python code to be executed in a user context
+that has access to the `Citrix Broker` Snap-In and that has appropriate
+permissions configured on the *Delivery Controller*). Wrapping this into a REST
+service that is reachable via HTTP allows to run the Python code in a completely
+independent context.
+
+### Changed
+
+* 🧨 **BREAKING** 🧨
+  * `psytricks.wrapper.PSyTricksWrapper.send_message` is now requiring the
+    details (style, title and text) of the message to send directly, unlike
+    before where a file was being read. If the file use-case is required again
+    it can be simply wrapped around the method call. This change is done to
+    keep consistency with the newly introduced `REST` wrapper class (see below).
+
+### Added
+
+* An additional wrapper class `psytricks.wrapper.ResTricksWrapper` 🎪 has been
+  added to interface with the newly introduced REST service. Apart from feeling
+  much less awkward than the `subprocess` way, this also happens to be orders of
+  magnitude faster 🎢🎡.
+* Add `psytricks.literals` to improve type checking and documentation.
+
 ## 1.1.0
 
 ### Added
@@ -80,3 +113,5 @@
   into Python datetime objects.
 * Sample JSON data is now shipped with the module, facilitating debugging and
   testing.
+
+[restricks]: https://github.com/imcf/psytricks/tree/main/src/psytricks/ps1scripts
