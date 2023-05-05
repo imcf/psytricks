@@ -337,6 +337,14 @@ class ResTricksWrapper:
     """Wrapper performing REST requests and processing the responses."""
 
     def __init__(self, base_url: str = "http://localhost:8080/"):
+        """Constructor for the `ResTricksWrapper` class.
+
+        Parameters
+        ----------
+        base_url : str, optional
+            The base URL where to find the ResTricks service, by default
+            `http://localhost:8080/`.
+        """
         self.base_url = base_url
         log.debug(f"Initialized {self.__class__.__name__}({base_url})")
 
