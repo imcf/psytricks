@@ -26,6 +26,8 @@ independent context.
     before where a file was being read. If the file use-case is required again
     it can be simply wrapped around the method call. This change is done to
     keep consistency with the newly introduced `REST` wrapper class (see below).
+  * All *action* methods (requesting data or state changes from Citrix) in
+    `psytricks.wrapper.PSyTricksWrapper` have dropped the `kwargs` parameter.
 
 ### Added
 

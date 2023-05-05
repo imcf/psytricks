@@ -32,6 +32,8 @@ class PSyTricksWrapper:
         symbol "€") or in case parsing it via `json.loads()` failed.
     """
 
+    # FIXME: drop "kwargs"
+
     pswrapper = (
         Path(abspath(dirname(__file__))) / "ps1scripts" / "psytricks-wrapper.ps1"
     )
@@ -274,7 +276,7 @@ class PSyTricksWrapper:
             request="SetMaintenanceMode", extra_params=extra_params
         )
 
-    def send_message(self, machine: str, message: str, **kwargs) -> None:
+    def send_message(self, machine: str, message: str, title: str, style: MsgStyle):
         """Call the wrapper with command `SendSessionMessage`.
 
         Parameters
