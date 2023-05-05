@@ -321,7 +321,16 @@ class PSyTricksWrapper:
 
 class ResTricksWrapper:
 
-    """Wrapper performing REST requests and processing the responses."""
+    """Wrapper performing REST requests and processing the responses.
+
+    Attributes
+    ----------
+    base_url : str
+        See the constructor for details.
+    timeout : int
+        The timeout in seconds to use for `requests.get` and `requests.post`
+        calls, defaulting to 5.
+    """
 
     def __init__(self, base_url: str = "http://localhost:8080/"):
         """Constructor for the `ResTricksWrapper` class.
