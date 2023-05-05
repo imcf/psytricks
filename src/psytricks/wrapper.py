@@ -422,6 +422,7 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
+        log.debug("Requesting current status of machines...")
         return self.send_get_request("GetMachineStatus")
 
     def get_sessions(self) -> list:
@@ -432,6 +433,7 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
+        log.debug("Requesting current sessions...")
         return self.send_get_request("GetSessions")
 
     def get_access_users(self, group: str) -> list:
@@ -447,6 +449,7 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
+        log.debug(f"Requesting users having access to group [{group}]...")
         return self.send_get_request(f"GetAccessUsers/{group}")
 
     def disconnect_session(self, machine: str) -> list:
@@ -465,6 +468,7 @@ class ResTricksWrapper:
             (for example no session exists on the given machine) an empty list
             will be returned.
         """
+        log.debug(f"Requesting session on [{machine}] to be disconnected...")
         payload = {"DNSName": machine}
         try:
             session = self.send_post_request("DisconnectSession", payload)
@@ -518,6 +522,8 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
+        verb = "Disabling" if disable else "Enabling"
+        log.debug(f"{verb} maintenance mode on [{machine}]...")
         payload = {
             "DNSName": machine,
             "Disable": disable,
@@ -539,6 +545,7 @@ class ResTricksWrapper:
             The message style defining the icon shown in the pop-up message.
             One of ["Information", "Exclamation", "Critical", "Question"].
         """
+        log.debug(f'Sending a pop-up message ("{title}") to [{machine}]...')
         payload = {
             "DNSName": machine,
             "Text": message,
@@ -558,6 +565,7 @@ class ResTricksWrapper:
             The power action to perform on a machine. Valid choices are `reset`,
             `restart`, `resume`, `shutdown`, `suspend`, `turnoff`, `turnon`.
         """
+        log.debug(f"Requesting action [{action}] for machine [{machine}]...")
         payload = {
             "DNSName": machine,
             "Action": action,
