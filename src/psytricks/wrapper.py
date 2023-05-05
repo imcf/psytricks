@@ -558,4 +558,8 @@ class ResTricksWrapper:
             The power action to perform on a machine. Valid choices are `reset`,
             `restart`, `resume`, `shutdown`, `suspend`, `turnoff`, `turnon`.
         """
-        raise NotImplementedError
+        payload = {
+            "DNSName": machine,
+            "Action": action,
+        }
+        self.send_post_request("MachinePowerAction", payload)
