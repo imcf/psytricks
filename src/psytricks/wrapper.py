@@ -398,7 +398,7 @@ class ResTricksWrapper:
         list(str)
             The parsed `JSON` of the response. Will be an empty list in case
             something went wrong performing the POST request or processing the
-            response.
+            response (or in case the `no_json` parameter was set to `True`).
         """
         try:
             response = requests.post(
