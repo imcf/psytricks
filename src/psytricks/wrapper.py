@@ -7,25 +7,13 @@ import time
 
 from os.path import dirname, abspath
 from pathlib import Path
-from typing import Literal
 from sys import platform
 
 import requests
 from loguru import logger as log
 
 from .decoder import parse_powershell_json
-
-
-RequestNames = Literal[
-    "DisconnectSession",
-    "GetAccessUsers",
-    "GetMachineStatus",
-    "GetSessions",
-    "MachinePowerAction",
-    "SendSessionMessage",
-    "SetAccessUsers",
-    "SetMaintenanceMode",
-]
+from .literals import Action, RequestName, MsgStyle
 
 
 class PSyTricksWrapper:
@@ -75,13 +63,13 @@ class PSyTricksWrapper:
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using Delivery Controller [{self.deliverycontroller}].")
 
-    def run_ps1_script(self, request: RequestNames, extra_params: list = None) -> list:
+    def run_ps1_script(self, request: RequestName, extra_params: list = None) -> list:
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
         ----------
-        request : RequestNames
-            The name of the request.
+        request : str
+            The request name, one of `psytricks.literals.RequestName`.
 
         Returns
         -------
@@ -314,7 +302,7 @@ class PSyTricksWrapper:
 
         self.run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
 
-    def perform_poweraction(self, machine: str, action: str, **kwargs) -> None:
+    def perform_poweraction(self, machine: str, action: Action, **kwargs) -> None:
         """Call the wrapper with command `MachinePowerAction`.
 
         Parameters
@@ -322,8 +310,7 @@ class PSyTricksWrapper:
         machine : str
             The FQDN of the machine to disconnect the session on.
         action : str
-            The power action to perform on a machine. Valid choices are `reset`,
-            `restart`, `resume`, `shutdown`, `suspend`, `turnoff`, `turnon`.
+            The power action to perform, one of `psytricks.literals.Action`.
         """
         log.trace(f"extra kwargs: {kwargs}")
         extra_params = ["-DNSName", machine, "-Action", action]
@@ -530,7 +517,7 @@ class ResTricksWrapper:
         }
         return self.send_post_request("SetMaintenanceMode", payload)
 
-    def send_message(self, machine: str, message: str, title: str, style: str):
+    def send_message(self, machine: str, message: str, title: str, style: MsgStyle):
         """Send a `POST` request with `SendSessionMessage`.
 
         Parameters
@@ -542,8 +529,8 @@ class ResTricksWrapper:
         title : str
             The message title.
         style : str
-            The message style defining the icon shown in the pop-up message.
-            One of ["Information", "Exclamation", "Critical", "Question"].
+            The message style defining the icon shown in the pop-up message as
+            defined in `psytricks.literals.MsgStyle`.
         """
         log.debug(f'Sending a pop-up message ("{title}") to [{machine}]...')
         payload = {
@@ -554,7 +541,7 @@ class ResTricksWrapper:
         }
         self.send_post_request("SendSessionMessage", payload, no_json=True)
 
-    def perform_poweraction(self, machine: str, action: str) -> None:
+    def perform_poweraction(self, machine: str, action: Action) -> None:
         """Send a `POST` request with `MachinePowerAction`.
 
         Parameters
@@ -562,8 +549,7 @@ class ResTricksWrapper:
         machine : str
             The FQDN of the machine to disconnect the session on.
         action : str
-            The power action to perform on a machine. Valid choices are `reset`,
-            `restart`, `resume`, `shutdown`, `suspend`, `turnoff`, `turnon`.
+            The power action to perform, one of `psytricks.literals.Action`.
         """
         log.debug(f"Requesting action [{action}] for machine [{machine}]...")
         payload = {
