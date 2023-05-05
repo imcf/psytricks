@@ -434,6 +434,21 @@ class ResTricksWrapper:
         """
         return self.send_get_request("GetSessions")
 
+    def get_access_users(self, group: str) -> list:
+        """Send a `GET` request with `GetAccessUsers`.
+
+        Parameters
+        ----------
+        group : str
+            The name of the Delivery Group to request users having access.
+
+        Returns
+        -------
+        list(str)
+            The `JSON` returned by the REST service.
+        """
+        return self.send_get_request(f"GetAccessUsers/{group}")
+
     def disconnect_session(self, machine: str) -> list:
         """Send a `POST` request with `DisconnectSession`.
 
@@ -456,21 +471,6 @@ class ResTricksWrapper:
             return []
 
         return session
-
-    def get_access_users(self, group: str) -> list:
-        """Send a `GET` request with `GetAccessUsers`.
-
-        Parameters
-        ----------
-        group : str
-            The name of the Delivery Group to request users having access.
-
-        Returns
-        -------
-        list(str)
-            The `JSON` returned by the REST service.
-        """
-        return self.send_get_request(f"GetAccessUsers/{group}")
 
     def set_access_users(self, group: str, users: str, disable: bool) -> list:
         """Send a `POST` request with `SetAccessUsers`.
