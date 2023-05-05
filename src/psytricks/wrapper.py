@@ -349,7 +349,7 @@ class ResTricksWrapper:
         self.timeout = 5
         log.debug(f"Initialized {self.__class__.__name__}({base_url})")
 
-    def _send_get_request(self, raw_url: str) -> list:
+    def send_get_request(self, raw_url: str) -> list:
         """Common method for performing a GET request and process the response.
 
         Parameters
@@ -378,7 +378,7 @@ class ResTricksWrapper:
 
         return data
 
-    def _send_post_request(
+    def send_post_request(
         self, raw_url: str, payload: dict, no_json: bool = False
     ) -> list:
         """Common method for performing a POST request and process the response.
@@ -422,7 +422,7 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
-        return self._send_get_request("GetMachineStatus")
+        return self.send_get_request("GetMachineStatus")
 
     def get_sessions(self) -> list:
         """Send a GET request with "GetSessions".
@@ -432,7 +432,7 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
-        return self._send_get_request("GetSessions")
+        return self.send_get_request("GetSessions")
 
     def send_message(self, machine: str, message: str, title: str, style: str):
         """Send a POST request with "SendSessionMessage".
@@ -455,4 +455,4 @@ class ResTricksWrapper:
             "Title": title,
             "MessageStyle": style,
         }
-        self._send_post_request("SendSessionMessage", payload, no_json=True)
+        self.send_post_request("SendSessionMessage", payload, no_json=True)
