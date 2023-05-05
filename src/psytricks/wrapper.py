@@ -445,9 +445,17 @@ class ResTricksWrapper:
         Returns
         -------
         list(str)
-            The `JSON` returned by the REST service.
+            The `JSON` containing details on the affected session, as returned
+            by the REST service.
         """
-        raise NotImplementedError
+        payload = {"DNSName": machine}
+        try:
+            session = self.send_post_request("DisconnectSession", payload)
+        except json.JSONDecodeError:
+            log.debug(f"No JSON received, probably [{machine}] has no session.")
+            return []
+
+        return session
 
     def get_access_users(self, group: str) -> list:
         """Send a `POST` request with `GetAccessUsers`.
