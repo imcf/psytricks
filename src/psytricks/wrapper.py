@@ -434,6 +434,29 @@ class ResTricksWrapper:
         """
         return self.send_get_request("GetSessions")
 
+
+    def set_maintenance(self, machine: str, disable: bool) -> list:
+        """Send a `POST` request with `SetMaintenanceMode`.
+
+        Parameters
+        ----------
+        machine : str
+            The FQDN of the machine to modify maintenance mode on.
+        disable : bool
+            A flag requesting maintenance mode for the given machine(s) to be
+            turned off (if True) instead of being turned on (if False).
+
+        Returns
+        -------
+        list(str)
+            The `JSON` returned by the REST service.
+        """
+        payload = {
+            "DNSName": machine,
+            "Disable": disable,
+        }
+        return self.send_post_request("SetMaintenanceMode", payload)
+
     def send_message(self, machine: str, message: str, title: str, style: str):
         """Send a `POST` request with `SendSessionMessage`.
 
