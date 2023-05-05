@@ -346,6 +346,7 @@ class ResTricksWrapper:
             `http://localhost:8080/`.
         """
         self.base_url = base_url
+        self.timeout = 5
         log.debug(f"Initialized {self.__class__.__name__}({base_url})")
 
     def _send_get_request(self, raw_url: str) -> list:
@@ -364,7 +365,7 @@ class ResTricksWrapper:
             response.
         """
         try:
-            response = requests.get(self.base_url + raw_url, timeout=5)
+            response = requests.get(self.base_url + raw_url, timeout=self.timeout)
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"GET request [{raw_url}] failed: {ex}")
             return []
@@ -400,7 +401,9 @@ class ResTricksWrapper:
             response.
         """
         try:
-            response = requests.post(self.base_url + raw_url, json=payload, timeout=5)
+            response = requests.post(
+                self.base_url + raw_url, json=payload, timeout=self.timeout
+            )
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"POST request [{raw_url}] failed: {ex}")
             return []
