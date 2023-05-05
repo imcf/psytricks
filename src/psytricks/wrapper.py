@@ -458,7 +458,7 @@ class ResTricksWrapper:
         return session
 
     def get_access_users(self, group: str) -> list:
-        """Send a `POST` request with `GetAccessUsers`.
+        """Send a `GET` request with `GetAccessUsers`.
 
         Parameters
         ----------
@@ -470,7 +470,7 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
-        raise NotImplementedError
+        return self.send_get_request(f"GetAccessUsers/{group}")
 
     def set_access_users(self, group: str, users: str, disable: bool) -> list:
         """Send a `POST` request with `SetAccessUsers`.
