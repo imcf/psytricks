@@ -75,7 +75,7 @@ class PSyTricksWrapper:
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using Delivery Controller [{self.deliverycontroller}].")
 
-    def _run_ps1_script(self, request: RequestNames, extra_params: list = None) -> list:
+    def run_ps1_script(self, request: RequestNames, extra_params: list = None) -> list:
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
@@ -179,7 +179,7 @@ class PSyTricksWrapper:
             The parsed JSON.
         """
         log.trace(f"extra kwargs: {kwargs}")
-        return self._run_ps1_script(request="GetMachineStatus")
+        return self.run_ps1_script(request="GetMachineStatus")
 
     def get_sessions(self, **kwargs) -> list:
         """Call the wrapper with command "GetSessions".
@@ -190,7 +190,7 @@ class PSyTricksWrapper:
             The parsed JSON.
         """
         log.trace(f"extra kwargs: {kwargs}")
-        return self._run_ps1_script(request="GetSessions")
+        return self.run_ps1_script(request="GetSessions")
 
     def disconnect_session(self, machine: str, **kwargs) -> list:
         """Call the wrapper with command "DisconnectSession".
@@ -206,7 +206,7 @@ class PSyTricksWrapper:
             The parsed JSON as returned by the wrapper script.
         """
         log.trace(f"extra kwargs: {kwargs}")
-        return self._run_ps1_script(
+        return self.run_ps1_script(
             request="DisconnectSession",
             extra_params=["-DNSName", machine],
         )
@@ -225,7 +225,7 @@ class PSyTricksWrapper:
             The parsed JSON as returned by the wrapper script.
         """
         log.trace(f"extra kwargs: {kwargs}")
-        return self._run_ps1_script(
+        return self.run_ps1_script(
             request="GetAccessUsers",
             extra_params=["-Group", group],
         )
@@ -259,7 +259,7 @@ class PSyTricksWrapper:
         if disable:
             extra_params.append("-Disable")
 
-        return self._run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
+        return self.run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
 
     def set_maintenance(self, machine: str, disable: bool, **kwargs) -> list:
         """Call the wrapper with command "SetMaintenanceMode".
@@ -282,7 +282,7 @@ class PSyTricksWrapper:
         if disable:
             extra_params.append("-Disable")
 
-        return self._run_ps1_script(
+        return self.run_ps1_script(
             request="SetMaintenanceMode", extra_params=extra_params
         )
 
@@ -312,7 +312,7 @@ class PSyTricksWrapper:
             msgdata["style"],
         ]
 
-        self._run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
+        self.run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
 
     def perform_poweraction(self, machine: str, action: str, **kwargs) -> None:
         """Call the wrapper with command "MachinePowerAction".
@@ -327,7 +327,7 @@ class PSyTricksWrapper:
         """
         log.trace(f"extra kwargs: {kwargs}")
         extra_params = ["-DNSName", machine, "-Action", action]
-        return self._run_ps1_script(
+        return self.run_ps1_script(
             request="MachinePowerAction", extra_params=extra_params
         )
 
