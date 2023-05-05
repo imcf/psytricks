@@ -493,7 +493,14 @@ class ResTricksWrapper:
         list(str)
             The `JSON` returned by the REST service.
         """
-        raise NotImplementedError
+        verb = "Removing" if disable else "Adding"
+        log.debug(f"{verb} access to group [{group}] for user(s) [{users}]...")
+        payload = {
+            "Group": group,
+            "UserNames": users,
+            "RemoveAccess": disable,
+        }
+        return self.send_post_request("SetAccessUsers", payload)
 
     def set_maintenance(self, machine: str, disable: bool) -> list:
         """Send a `POST` request with `SetMaintenanceMode`.
