@@ -34,6 +34,7 @@ if (!(Test-Path $LibPath)) {
 $Blue = @{ForegroundColor = "Blue" }
 $Cyan = @{ForegroundColor = "Cyan" }
 $Green = @{ForegroundColor = "Green" }
+$Magenta = @{ForegroundColor = "Magenta" }
 $Red = @{ForegroundColor = "Red" }
 $Yellow = @{ForegroundColor = "Yellow" }
 
@@ -120,6 +121,8 @@ function Get-BrokerData {
     )
     $Command = $ParsedUrl[1]
     Write-Host "Get-BrokerData($Command)" @Cyan
+
+    $TStart = Get-Date
     switch ($Command) {
         "GetSessions" {
             $Desc = "sessions"
@@ -143,6 +146,7 @@ function Get-BrokerData {
         Default { throw "Invalid: $Command" }
     }
     Write-Host "Got $($BrokerData.Length) $Desc from Citrix." @Cyan
+    Write-Host "Took $(($(Get-Date) - $TStart).TotalMilliseconds) ms" @Magenta
 
     $Json = $BrokerData | ConvertTo-Json -Depth 4
     return $Json
@@ -162,6 +166,7 @@ function Send-BrokerRequest {
     $Command = $ParsedUrl[1]
     Write-Host "Send-BrokerRequest($Command)" @Cyan
 
+    $TStart = Get-Date
     switch ($Command) {
         "DisconnectSession" {
             $Desc = "session disconnect"
@@ -225,6 +230,7 @@ function Send-BrokerRequest {
         Default { throw "Invalid: $Command" }
     }
     Write-Host "Sent $Desc request to Citrix." @Cyan
+    Write-Host "Took $(($(Get-Date) - $TStart).TotalMilliseconds) ms" @Magenta
 
     $Json = $BrokerData | ConvertTo-Json -Depth 4
     return $Json
