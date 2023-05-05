@@ -461,7 +461,9 @@ class ResTricksWrapper:
         -------
         list(str)
             The `JSON` containing details on the affected session, as returned
-            by the REST service.
+            by the REST service. In case the server doesn't return (valid) JSON
+            (for example no session exists on the given machine) an empty list
+            will be returned.
         """
         payload = {"DNSName": machine}
         try:
