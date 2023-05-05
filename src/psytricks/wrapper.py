@@ -171,7 +171,7 @@ class PSyTricksWrapper:
         return data
 
     def get_machine_status(self, **kwargs) -> list:
-        """Call the wrapper with command "GetMachineStatus".
+        """Call the wrapper with command `GetMachineStatus`.
 
         Returns
         -------
@@ -182,7 +182,7 @@ class PSyTricksWrapper:
         return self.run_ps1_script(request="GetMachineStatus")
 
     def get_sessions(self, **kwargs) -> list:
-        """Call the wrapper with command "GetSessions".
+        """Call the wrapper with command `GetSessions`.
 
         Returns
         -------
@@ -193,7 +193,7 @@ class PSyTricksWrapper:
         return self.run_ps1_script(request="GetSessions")
 
     def disconnect_session(self, machine: str, **kwargs) -> list:
-        """Call the wrapper with command "DisconnectSession".
+        """Call the wrapper with command `DisconnectSession`.
 
         Parameters
         ----------
@@ -212,7 +212,7 @@ class PSyTricksWrapper:
         )
 
     def get_access_users(self, group: str, **kwargs) -> list:
-        """Call the wrapper with command "GetAccessUsers".
+        """Call the wrapper with command `GetAccessUsers`.
 
         Parameters
         ----------
@@ -231,7 +231,7 @@ class PSyTricksWrapper:
         )
 
     def set_access_users(self, group: str, users: str, disable: bool, **kwargs) -> list:
-        """Call the wrapper with command "SetAccessUsers".
+        """Call the wrapper with command `SetAccessUsers`.
 
         Parameters
         ----------
@@ -262,7 +262,7 @@ class PSyTricksWrapper:
         return self.run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
 
     def set_maintenance(self, machine: str, disable: bool, **kwargs) -> list:
-        """Call the wrapper with command "SetMaintenanceMode".
+        """Call the wrapper with command `SetMaintenanceMode`.
 
         Parameters
         ----------
@@ -287,7 +287,7 @@ class PSyTricksWrapper:
         )
 
     def send_message(self, machine: str, message: str, **kwargs) -> None:
-        """Call the wrapper with command "SendSessionMessage".
+        """Call the wrapper with command `SendSessionMessage`.
 
         Parameters
         ----------
@@ -315,7 +315,7 @@ class PSyTricksWrapper:
         self.run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
 
     def perform_poweraction(self, machine: str, action: str, **kwargs) -> None:
-        """Call the wrapper with command "MachinePowerAction".
+        """Call the wrapper with command `MachinePowerAction`.
 
         Parameters
         ----------
@@ -350,7 +350,7 @@ class ResTricksWrapper:
         log.debug(f"Initialized {self.__class__.__name__}({base_url})")
 
     def send_get_request(self, raw_url: str) -> list:
-        """Common method for performing a GET request and process the response.
+        """Common method to perform a `GET` request and process the response.
 
         Parameters
         ----------
@@ -381,7 +381,7 @@ class ResTricksWrapper:
     def send_post_request(
         self, raw_url: str, payload: dict, no_json: bool = False
     ) -> list:
-        """Common method for performing a POST request and process the response.
+        """Common method to perform a `POST` request and process the response.
 
         Parameters
         ----------
@@ -415,7 +415,7 @@ class ResTricksWrapper:
         return response.json()
 
     def get_machine_status(self) -> list:
-        """Send a GET request with "GetMachineStatus".
+        """Send a `GET` request with `GetMachineStatus`.
 
         Returns
         -------
@@ -425,7 +425,7 @@ class ResTricksWrapper:
         return self.send_get_request("GetMachineStatus")
 
     def get_sessions(self) -> list:
-        """Send a GET request with "GetSessions".
+        """Send a `GET` request with `GetSessions`.
 
         Returns
         -------
@@ -435,7 +435,7 @@ class ResTricksWrapper:
         return self.send_get_request("GetSessions")
 
     def send_message(self, machine: str, message: str, title: str, style: str):
-        """Send a POST request with "SendSessionMessage".
+        """Send a `POST` request with `SendSessionMessage`.
 
         Parameters
         ----------
