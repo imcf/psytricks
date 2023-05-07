@@ -28,6 +28,8 @@ independent context.
     keep consistency with the newly introduced `REST` wrapper class (see below).
   * All *action* methods (requesting data or state changes from Citrix) in
     `psytricks.wrapper.PSyTricksWrapper` have dropped the `kwargs` parameter.
+    They were initially implemented to simplify the call from within
+    `psytricks.cli.run_cli` but are basically just adding confusion.
 
 ### Added
 

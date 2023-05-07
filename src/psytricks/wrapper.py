@@ -160,7 +160,7 @@ class PSyTricksWrapper:
         log.debug(f"Parsed 'Data' section contains {len(data)} items.")
         return data
 
-    def get_machine_status(self, **kwargs) -> list:
+    def get_machine_status(self) -> list:
         """Call the wrapper with command `GetMachineStatus`.
 
         Returns
@@ -168,10 +168,9 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON.
         """
-        log.trace(f"extra kwargs: {kwargs}")
         return self.run_ps1_script(request="GetMachineStatus")
 
-    def get_sessions(self, **kwargs) -> list:
+    def get_sessions(self) -> list:
         """Call the wrapper with command `GetSessions`.
 
         Returns
@@ -179,10 +178,9 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON.
         """
-        log.trace(f"extra kwargs: {kwargs}")
         return self.run_ps1_script(request="GetSessions")
 
-    def disconnect_session(self, machine: str, **kwargs) -> list:
+    def disconnect_session(self, machine: str) -> list:
         """Call the wrapper with command `DisconnectSession`.
 
         Parameters
@@ -195,13 +193,12 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON as returned by the wrapper script.
         """
-        log.trace(f"extra kwargs: {kwargs}")
         return self.run_ps1_script(
             request="DisconnectSession",
             extra_params=["-DNSName", machine],
         )
 
-    def get_access_users(self, group: str, **kwargs) -> list:
+    def get_access_users(self, group: str) -> list:
         """Call the wrapper with command `GetAccessUsers`.
 
         Parameters
@@ -214,13 +211,12 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON as returned by the wrapper script.
         """
-        log.trace(f"extra kwargs: {kwargs}")
         return self.run_ps1_script(
             request="GetAccessUsers",
             extra_params=["-Group", group],
         )
 
-    def set_access_users(self, group: str, users: str, disable: bool, **kwargs) -> list:
+    def set_access_users(self, group: str, users: str, disable: bool) -> list:
         """Call the wrapper with command `SetAccessUsers`.
 
         Parameters
@@ -239,7 +235,6 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON as returned by the wrapper script.
         """
-        log.trace(f"extra kwargs: {kwargs}")
         extra_params = [
             "-Group",
             group,
@@ -251,7 +246,7 @@ class PSyTricksWrapper:
 
         return self.run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
 
-    def set_maintenance(self, machine: str, disable: bool, **kwargs) -> list:
+    def set_maintenance(self, machine: str, disable: bool) -> list:
         """Call the wrapper with command `SetMaintenanceMode`.
 
         Parameters
@@ -267,7 +262,6 @@ class PSyTricksWrapper:
         list(str)
             The parsed JSON as returned by the wrapper script.
         """
-        log.trace(f"extra kwargs: {kwargs}")
         extra_params = ["-DNSName", machine]
         if disable:
             extra_params.append("-Disable")
@@ -284,27 +278,27 @@ class PSyTricksWrapper:
         machine : str
             The FQDN of the machine to disconnect the session on.
         message : str
-            The path to a JSON file containing the message details (style,
-            title, body).
+            The message body.
+        title : str
+            The message title.
+        style : str
+            The message style defining the icon shown in the pop-up message as
+            defined in `psytricks.literals.MsgStyle`.
         """
-        log.trace(f"extra kwargs: {kwargs}")
-        with open(message, "r", encoding="utf-8") as fh:
-            msgdata = json.load(fh)
-
         extra_params = [
             "-DNSName",
             machine,
             "-Title",
-            msgdata["title"],
+            title,
             "-Text",
-            "\n".join(msgdata["body"]),  # body is a list of strings, so join it
+            message,
             "-MessageStyle",
-            msgdata["style"],
+            style,
         ]
 
         self.run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
 
-    def perform_poweraction(self, machine: str, action: Action, **kwargs) -> None:
+    def perform_poweraction(self, machine: str, action: Action) -> None:
         """Call the wrapper with command `MachinePowerAction`.
 
         Parameters
@@ -314,7 +308,6 @@ class PSyTricksWrapper:
         action : str
             The power action to perform, one of `psytricks.literals.Action`.
         """
-        log.trace(f"extra kwargs: {kwargs}")
         extra_params = ["-DNSName", machine, "-Action", action]
         return self.run_ps1_script(
             request="MachinePowerAction", extra_params=extra_params
