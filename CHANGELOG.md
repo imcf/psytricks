@@ -30,6 +30,11 @@ independent context.
     `psytricks.wrapper.PSyTricksWrapper` have dropped the `kwargs` parameter.
     They were initially implemented to simplify the call from within
     `psytricks.cli.run_cli` but are basically just adding confusion.
+  * To accommodate for the above changes the **CLI** command `sendmessage` now
+    has two additional command-line options: `--title` (mandatory) to set the
+    message title and `--style` (optional) to set the message icon. The
+    previously existing `--message` option now expects the body as a string (may
+    contain `\n` for linebreaks), not the path to a message file any more.
 
 ### Added
 
