@@ -10,7 +10,12 @@ param (
     # the port to listen on
     [Parameter()]
     [int]
-    $ListenPort = 8080
+    $ListenPort = 8080,
+
+    # a logfile to use for the output
+    [Parameter()]
+    [string]
+    $LogFile
 )
 
 $ErrorActionPreference = "Stop"
@@ -62,6 +67,10 @@ $PostRoutes = @(
 
 
 #region functions
+
+function Format-Date {
+    Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+}
 
 function Send-Response {
     param (
@@ -310,52 +319,76 @@ function Switch-PostRequest {
 
 #region main
 
-try {
-    $Listener = [System.Net.HttpListener]::new()
-    $Listener.Prefixes.Add("http://localhost:$ListenPort/")
-    $Listener.Start()
+function Start-RestServer {
+    try {
+        $Prefix = "http://localhost:$ListenPort/"
+        $Listener = [System.Net.HttpListener]::new()
+        $Listener.Prefixes.Add($Prefix)
+        $Listener.Start()
 
-    if ($Listener.IsListening) {
-        Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++" @Blue
-        Write-Host "$ScriptName listening: $($Listener.Prefixes)" @Yellow
-        Write-Host "Location: $ScriptPath" @Blue
-    }
+        if ($Listener.IsListening) {
+            Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++" @Blue
+            Write-Host "[$(Format-Date)] $ScriptName listening: $Prefix" @Yellow
+            Write-Host "Location: $ScriptPath" @Blue
+        }
 
-    while ($Listener.IsListening) {
-        try {
-            # when a request is made GetContext() will return it as an object:
-            $Context = $Listener.GetContext()
-
-            $Request = $Context.Request
-            $Response = $Context.Response
-
-            if ($Request.HttpMethod -eq 'GET') {
-                Switch-GetRequest -Request $Request
+        while ($Listener.IsListening) {
+            if ([Console]::KeyAvailable) {
+                Write-Host "Hey!"
             }
-
-            if ($Request.HttpMethod -eq 'POST') {
-                Switch-PostRequest -Request $Request
-            }
-        } catch {
-            $Message = "ERROR processing request"
-            Write-Host "$($Message): $_" @Red
             try {
-                # do NOT include details in the response, only log it to stdout!
-                Send-Response -Response $Response -Body "$($Message)!" -Html
+                # when a request is made GetContext() will return it as an object:
+                $Context = $Listener.GetContext()
+
+                $Request = $Context.Request
+                $Response = $Context.Response
+
+                if ($Request.HttpMethod -eq 'GET') {
+                    Switch-GetRequest -Request $Request
+                }
+
+                if ($Request.HttpMethod -eq 'POST') {
+                    Switch-PostRequest -Request $Request
+                }
             } catch {
-                Write-Host "Unable to send the response: $_" @Red
+                $Message = "ERROR processing request"
+                Write-Host "$($Message): $_" @Red
+                try {
+                    # do NOT include details in the response, only log it to stdout!
+                    Send-Response -Response $Response -Body "$($Message)!" -Html
+                } catch {
+                    Write-Host "Unable to send the response: $_" @Red
+                }
             }
         }
+
+    } catch {
+        Write-Host "Unexpected error, terminating: $_" @Red
+
+    } finally {
+        if ($Listener.IsListening) {
+            Write-Host "Stopping HTTP listener..." @Yellow
+            $Listener.Stop()
+        }
+        Write-Host "[$(Format-Date)] $ScriptName terminated." @Yellow
+        Write-Host "----------------------------------------------------" @Blue
     }
+}
 
-} catch {
-    Write-Host "Unexpected error, terminating: $_" @Red
 
-} finally {
-    Write-Host "Stopping HTTP listener..." @Yellow
-    $Listener.Stop()
-    Write-Host "$ScriptName terminated." @Yellow
-    Write-Host "----------------------------------------------------" @Blue
+if ($LogFile -eq "") {
+    # output will not be redirected
+    Start-RestServer
+} else {
+    try {
+        [io.file]::OpenWrite($LogFile).close()
+    } catch {
+        throw "Unable to open log file for writing: [$LogFile]"
+    }
+    Write-Host "[$ScriptName] logs will go to [$LogFile]."
+    # 'Write-Host' is writing to the 'Information' stream (which is #6), so we
+    # need to redirect that one to the log file:
+    Start-RestServer 6>&1 | Out-File $LogFile -Encoding "utf8"
 }
 
 #endregion main
