@@ -32,7 +32,6 @@ class PSyTricksWrapper:
         symbol "€") or in case parsing it via `json.loads()` failed.
     """
 
-    # FIXME: drop "kwargs"
     pswrapper = Path(dirname(__file__)) / "__ps1__" / "psytricks-wrapper.ps1"
 
     def __init__(self, deliverycontroller: str):
