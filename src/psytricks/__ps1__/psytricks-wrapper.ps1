@@ -118,10 +118,11 @@ if ($NoSnapIn) {
 
 # define the default status, will be overridden in case of unexpected results
 $Status = @{
-    "ExecutionStatus" = "0"
-    "ErrorMessage"    = ""
-    "ScriptName"      = "$ScriptName"
-    "ScriptPath"      = "$ScriptPath"
+    "ExecutionStatus"  = "0"
+    "ErrorMessage"     = ""
+    "ScriptName"       = "$ScriptName"
+    "ScriptPath"       = "$ScriptPath"
+    "PSyTricksVersion" = "$Version"
 }
 $Data = ""
 
@@ -214,10 +215,11 @@ try {
     }
 } catch {
     $Status = @{
-        "ExecutionStatus" = "1"
-        "ErrorMessage"    = "$_"
-        "ScriptName"      = "$ScriptName"
-        "ScriptPath"      = "$ScriptPath"
+        "ExecutionStatus"  = "1"
+        "ErrorMessage"     = "$_"
+        "ScriptName"       = "$ScriptName"
+        "ScriptPath"       = "$ScriptPath"
+        "PSyTricksVersion" = "$Version"
     }
     $Data = ""
 }

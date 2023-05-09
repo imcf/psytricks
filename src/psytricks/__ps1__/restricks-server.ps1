@@ -437,6 +437,7 @@ function Start-ListenerBlocking {
 function Start-ListenerLoop {
     Write-Host "====================================================" @Blue
     Write-Host "Starting: $ScriptPath" @Blue
+    Write-Host "PSyTricksVersion: $Version" @Blue
     Write-Host "Citrix 'AdminAddress': $AdminAddress" @Blue
     Write-Host "====================================================" @Blue
 

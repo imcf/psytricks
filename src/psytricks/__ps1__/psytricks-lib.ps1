@@ -4,6 +4,9 @@ Collection of functions and other definitions to be sourced by other scripts.
 
 #>
 
+# the version variable will be filled by poetry at build time:
+$Version = "UNDEFINED"
+
 
 #region properties-selectors
 

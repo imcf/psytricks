@@ -33,6 +33,7 @@ vcs = "git"
 [tool.poetry-dynamic-versioning.substitution]
 folders = [
   {path = "src"},
+  {path = "src/psytricks/__ps1__", files = ["*.ps1"], patterns = ['(^\$Version = ["])[^"]*(["])']},
 ]
 
 [build-system]
