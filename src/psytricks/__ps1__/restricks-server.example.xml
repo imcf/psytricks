@@ -42,12 +42,11 @@
     -AdminAddress cdc-01.vdi.example.xy
   </startarguments>
 
-  <stopexecutable>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</stopexecutable>
 
-  <stoparguments>-File %BASE%\stop-restricks.ps1</stoparguments>
-  <!--
-  <stoparguments>-Command Invoke-WebRequest "http://localhost:8080/end"</stoparguments>
-  -->
+  <stoparguments>
+    -File %BASE%\restricks-server.ps1
+    -Shutdown
+  </stoparguments>
 
     <startmode>Automatic</startmode>
     <delayedAutoStart/>
