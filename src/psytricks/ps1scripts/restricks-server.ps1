@@ -378,6 +378,7 @@ function Start-ListenerLoop {
 
     while ($true) {
         Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++" @Blue
+        Write-Host "PID: [$PID]" @Blue
         Start-ListenerBlocking
 
         Write-Host "HTTP listener was stopped, checking for shutdown file..." @Yellow
