@@ -328,6 +328,10 @@ function Switch-GetRequest {
         $html = "<h1>$ScriptName</h1><p>Running from: $ScriptPath</p>"
         Send-Response -Response $Response -Body $html -Html
 
+    } elseif ($Command -eq 'version') {
+        $Body = @{ PSyTricksVersion = $Version } | ConvertTo-Json
+        Send-Response -Response $Response -Body $Body
+
     } elseif ($GetRoutes -contains $Command) {
         try {
             $Body = Get-BrokerData -ParsedUrl $ParsedUrl
