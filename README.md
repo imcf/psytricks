@@ -8,11 +8,20 @@ Pun intended.
 
 This package provides an abstraction layer allowing Python code to interact with
 a [Citrix Virtual Apps and Desktops (CVAD)][www_cvad] stack, i.e. to fetch
-status information and trigger actions on machines and sessions. It does this by
-calling a wrapper script written in `Windows PowerShell` (note: **not**
-`PowerShell Core`, see below) that is using the *Citrix Broker PowerShell
-Snap-In* which is provided along with the `Delivery Controller` installation
-media.
+status information and trigger actions on machines and sessions. Since CVAD only
+provides a *PowerShell Snap-In* to do so, a core component written in `Windows
+PowerShell` (note: **not** `PowerShell Core` as snap-ins are not supported
+there) is required.
+
+PSyTricks ships with two options for the PowerShell layer:
+
+* A wrapper script that is launched as a suprocess from the Python code. It
+  doesn't require and further setup beyond the package installation but
+  performance is rather poor.
+* A (zero-authentication) `REST` service providing several `GET` and `POST`
+  endpoints to request status information or perform actions. Performance is
+  *much* better compared to the wrapper script, but obviously this requires the
+  code to be running as a service in an appropriate permission context.
 
 ## 🤯 Are you serious?
 
@@ -21,20 +30,23 @@ Calling PowerShell as a subprocess from within Python? 😳
 To convert results to JSON and pass them back, just to parse it again in Python.
 Really? 🧐
 
+Or, not sure if that's any better, implementing an HTTP REST API in plain
+PowerShell?!? 🫣
+
 ### ✅ Yes. We. Are
 
 *And the package name was chosen to reflect this.*
 
-To be very clear: performance is abysmal, but this is *not at all* an issue for
-us. Abysmal, as in: for every wrapped call a full (new) PowerShell process needs
-to be instantiated, usually taking something like 1-2 seconds. ⏱
+To be very clear: performance of the wrapper script is abysmal, but this is *not
+at all* an issue for us. Abysmal, as in: for every wrapped call a full (new)
+PowerShell process needs to be instantiated, usually taking something like 1-2
+seconds. ⏳
 
-However, the frequency of calls is also *very* low in our use case - not more
-than a handful per minute, and that's already the peak. Therefore, having a
-robust way of interacting with the Citrix platform outnumbers all other
-arguments. 🍹
+The REST interface provides a much better performance, at the cost of some
+additional setup. If you're happy to take on this approach, the package offers a
+very smooth experience. 🎢🎡
 
-## Installation
+## 🛠🚧 Installation
 
 ### Prerequisites
 
@@ -64,16 +76,43 @@ This will also register the CLI tool `psytricks.exe` although that one is mostly
 meant for testing and demonstration purposes, otherwise the `*-Broker*` commands
 provided by the PowerShell snap-in could be used directly.
 
-## What does it provide?
+### Setting up the REST service
 
-To interact with CVAD, a `psytricks.wrapper.PSyTricksWrapper` object needs to be
-instantiated and passed the address of the *Delivery Controller* to connect to,
-for example:
+TODO, outline:
+
+* download WinSW executable or a bundled version of the *RESTricks Service*
+* adapt the provided service configuration file
+* install the service
+* run it
+
+## 🎪 What does it provide?
+
+To interact with CVAD, a wrapper object needs to be
+instantiated and instructed how to communicate with the stack.
+
+### Using the subprocess wrapper
+
+To create a wrapper object using the subprocess variant, a
+`psytricks.wrapper.PSyTricksWrapper` with the address of the *Delivery
+Controller* to connect to has to be instantiated, for example:
 
 ```Python
 from psytricks.wrapper import PSyTricksWrapper
 
 wrapper = PSyTricksWrapper(deliverycontroller="cdc01.vdi.example.xy")
+```
+
+### Using the REST service - *recommended*
+
+After setting up the REST service as described above and making sure to be able
+to connect to it (firewall rules, ssh tunnel, ...), a
+`psytricks.wrapper.ResTricksWrapper` object can be used while passing the URL
+under which the REST service is reachable, e.g.
+
+```Python
+from psytricks.wrapper import ResTricksWrapper
+
+wrapper = ResTricksWrapper(raw_url="http://localhost:8080/")
 ```
 
 ### Fetching status information
