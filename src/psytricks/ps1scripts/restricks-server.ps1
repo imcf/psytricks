@@ -379,6 +379,18 @@ function Start-ListenerLoop {
     while ($true) {
         Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++" @Blue
         Start-ListenerBlocking
+
+        Write-Host "HTTP listener was stopped, checking for shutdown file..." @Yellow
+        $StopMarker = Join-Path $env:TEMP "_shutdown_restricks_server_"
+        if (Test-Path $StopMarker) {
+            Write-Host "Found [$StopMarker], terminating..." @Yellow
+            Remove-Item $StopMarker
+            Write-Host "====================================================" @Blue
+            Write-Host "[$(Format-Date)] cleaned up, shutdown complete!" @Blue
+            Write-Host "====================================================" @Blue
+            return
+        }
+        Write-Host "No shutdown file [$StopMarker] present." @Blue
         Write-Host "Re-starting in 5s, press Ctrl+C to abort..." @Blue
         Start-Sleep -Seconds 5
         Write-Host "Wait-time elapsed, re-starting the listener..."
