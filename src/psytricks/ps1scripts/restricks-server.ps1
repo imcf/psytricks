@@ -314,12 +314,8 @@ function Switch-PostRequest {
     }
 }
 
-#endregion functions
 
-
-#region main
-
-function Start-RestServer {
+function Start-ListenerBlocking {
     try {
         $Prefix = "http://localhost:$ListenPort/"
         $Listener = [System.Net.HttpListener]::new()
@@ -327,9 +323,7 @@ function Start-RestServer {
         $Listener.Start()
 
         if ($Listener.IsListening) {
-            Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++" @Blue
             Write-Host "[$(Format-Date)] $ScriptName listening: $Prefix" @Yellow
-            Write-Host "Location: $ScriptPath" @Blue
         }
 
         while ($Listener.IsListening) {
@@ -376,9 +370,29 @@ function Start-RestServer {
 }
 
 
+function Start-ListenerLoop {
+    Write-Host "====================================================" @Blue
+    Write-Host "Starting: $ScriptPath" @Blue
+    Write-Host "====================================================" @Blue
+
+
+    while ($true) {
+        Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++" @Blue
+        Start-ListenerBlocking
+        Write-Host "Re-starting in 5s, press Ctrl+C to abort..." @Blue
+        Start-Sleep -Seconds 5
+        Write-Host "Wait-time elapsed, re-starting the listener..."
+    }
+}
+
+#endregion functions
+
+
+#region main
+
 if ($LogFile -eq "") {
     # output will not be redirected
-    Start-RestServer
+    Start-ListenerLoop
 } else {
     try {
         [io.file]::OpenWrite($LogFile).close()
@@ -388,7 +402,7 @@ if ($LogFile -eq "") {
     Write-Host "[$ScriptName] logs will go to [$LogFile]."
     # 'Write-Host' is writing to the 'Information' stream (which is #6), so we
     # need to redirect that one to the log file:
-    Start-RestServer 6>&1 | Out-File $LogFile -Encoding "utf8"
+    Start-ListenerLoop 6>&1 | Out-File $LogFile -Encoding "utf8"
 }
 
 #endregion main
