@@ -42,7 +42,7 @@ independent context.
   added to interface with the newly introduced REST service. Apart from feeling
   much less awkward than the `subprocess` way, this also happens to be orders of
   magnitude faster 🎢🎡.
-* Add `psytricks.literals` to improve type checking and documentation.
+* Added `psytricks.literals` to improve type checking and documentation.
 
 ## 1.1.0
 
@@ -123,4 +123,4 @@ independent context.
 * Sample JSON data is now shipped with the module, facilitating debugging and
   testing.
 
-[restricks]: https://github.com/imcf/psytricks/tree/main/src/psytricks/ps1scripts
+[restricks]: https://github.com/imcf/psytricks/tree/main/src/psytricks/__ps1__
