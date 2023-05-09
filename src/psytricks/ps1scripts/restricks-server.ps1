@@ -385,7 +385,7 @@ function Start-ListenerLoop {
         Write-Host "HTTP listener was stopped, checking for shutdown file..." @Yellow
         $StopMarker = Join-Path $env:TEMP "_shutdown_restricks_server_"
         if (Test-Path $StopMarker) {
-            Write-Host "Found [$StopMarker], terminating..." @Yellow
+            Write-Host "Found shutdown file, terminating..." @Yellow
             Remove-Item $StopMarker
             Write-Host "====================================================" @Blue
             Write-Host "[$(Format-Date)] cleaned up, shutdown complete!" @Blue
