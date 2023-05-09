@@ -1,8 +1,0 @@
-# WinSW creates several log files, no ned to track them:
-*.log
-
-# the *real* WinSW config file is confidential:
-restricks-server.xml
-
-# the WinSW executable:
-restricks-server.exe

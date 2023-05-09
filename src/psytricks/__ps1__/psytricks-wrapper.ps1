@@ -129,11 +129,11 @@ try {
     if ($Dummy) {
         # When running in "dummy" mode, no actual calls to the Citrix stack will
         # be done, instead simply the contents of a file in a subdir called
-        # "dummydata" having the name of the requested command followed by a
+        # "sampledata" having the name of the requested command followed by a
         # ".json" suffix will be loaded and returned as payload data.
         # This is intended for very basic testing in an environment where a
         # Citrix stack is not (always) available.
-        $LoadFrom = "$PSScriptRoot/dummydata/$CommandName.json"
+        $LoadFrom = "$PSScriptRoot/sampledata/$CommandName.json"
         Write-Verbose "Loading dummy data from [$LoadFrom]..."
         $Data = Get-Content $LoadFrom | ConvertFrom-Json
     } else {

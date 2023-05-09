@@ -33,10 +33,7 @@ class PSyTricksWrapper:
     """
 
     # FIXME: drop "kwargs"
-
-    pswrapper = (
-        Path(abspath(dirname(__file__))) / "ps1scripts" / "psytricks-wrapper.ps1"
-    )
+    pswrapper = Path(dirname(__file__)) / "__ps1__" / "psytricks-wrapper.ps1"
 
     def __init__(self, deliverycontroller: str):
         """Constructor for the `PSyTricksWrapper` class.
