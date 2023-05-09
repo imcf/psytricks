@@ -27,7 +27,6 @@ psytricks = "psytricks.cli:run_cli"
 
 [tool.poetry-dynamic-versioning]
 enable = true
-# pattern = "^psytricks-((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)"
 style = "semver"
 vcs = "git"
 
