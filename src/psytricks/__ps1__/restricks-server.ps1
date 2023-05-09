@@ -325,7 +325,7 @@ function Switch-GetRequest {
         break
 
     } elseif ($Command -eq '') {
-        $html = "<h1>$ScriptName</h1><p>Running from: $ScriptPath</p>"
+        $html = "<h1>$ScriptName ($Version)</h1><p>Running from: $ScriptPath</p>"
         Send-Response -Response $Response -Body $html -Html
 
     } elseif ($Command -eq 'version') {
