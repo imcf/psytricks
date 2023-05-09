@@ -1,3 +1,6 @@
+# Communication with the CVAD / Citrix toolstack requires the corresponding
+# snap-in to be loaded, which is only supported on *Windows PowerShell*, not
+# on *PowerShell Core* et al, so we strictly need the "Desktop" edition:
 #Requires -PSEdition Desktop
 
 [CmdletBinding()]
