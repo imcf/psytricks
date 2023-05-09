@@ -40,6 +40,7 @@
   <startarguments>
     -File %BASE%\restricks-server.ps1
     -AdminAddress cdc-01.vdi.example.xy
+    -LogFile %BASE%\restricks-server.log
   </startarguments>
 
 
