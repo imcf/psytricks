@@ -20,11 +20,23 @@ param (
 
 $ErrorActionPreference = "Stop"
 
-
-#region boilerplate
+#region globals
 
 $ScriptPath = Split-Path $script:MyInvocation.MyCommand.Path
 $ScriptName = Split-Path -Leaf $script:MyInvocation.MyCommand.Path
+
+# define color shorthands to be used with "Write-Host" commands:
+$Blue = @{ForegroundColor = "Blue" }
+$Cyan = @{ForegroundColor = "Cyan" }
+$Green = @{ForegroundColor = "Green" }
+$Magenta = @{ForegroundColor = "Magenta" }
+$Red = @{ForegroundColor = "Red" }
+$Yellow = @{ForegroundColor = "Yellow" }
+
+#endregion globals
+
+
+#region boilerplate
 
 Add-PSSnapIn Citrix.Broker.Admin.V2 -ErrorAction Stop
 
@@ -34,14 +46,6 @@ if (!(Test-Path $LibPath)) {
     throw "Error loading functions etc. (can't find $LibPath)!"
 }
 . $LibPath
-
-# define color shorthands to be used with "Write-Host" commands:
-$Blue = @{ForegroundColor = "Blue" }
-$Cyan = @{ForegroundColor = "Cyan" }
-$Green = @{ForegroundColor = "Green" }
-$Magenta = @{ForegroundColor = "Magenta" }
-$Red = @{ForegroundColor = "Red" }
-$Yellow = @{ForegroundColor = "Yellow" }
 
 #endregion boilerplate
 
