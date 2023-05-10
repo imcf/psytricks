@@ -11,3 +11,10 @@
 ## PS1 Parameters
 
 - <https://gist.github.com/kapb14/bb6eac4a3130eed9bac69c4ddde3ab78>
+
+## HTTP / REST service in PowerShell
+
+- <https://github.com/MScholtes/TechNet-Gallery/>
+- <https://github.com/MScholtes/WebServer/blob/master/Module/Start-Webserver.ps1>
+- <https://gist.github.com/jakobii/429dcef1bacacfa1da254a5353bbeac7>
+- <https://www.msxfaq.de/code/powershell/pshttpserver.htm>
