@@ -92,8 +92,26 @@ def configure_logging(verbose: int):
 )
 @click.option(
     "--message",
-    type=click.Path(exists=True),
-    help="A JSON file containing the message details (style, title, body).",
+    type=str,
+    help="The body of a pop-up message to be sent. [required for: 'sendmessage']",
+)
+@click.option(
+    "--title",
+    type=str,
+    help="The title of a pop-up message to be sent. [required for: 'sendmessage']",
+)
+@click.option(
+    "--style",
+    type=click.Choice(
+        [
+            "information",
+            "exclamation",
+            "critical",
+            "question",
+        ]
+    ),
+    default="information",
+    help="The icon-style of a pop-up message to be sent. [required for: 'sendmessage']",
 )
 @click.option(
     "--users",
@@ -116,7 +134,18 @@ def configure_logging(verbose: int):
     help="The path to a file to write the output into (default=stdout).",
 )
 def run_cli(
-    cdc, verbose, command, machine, group, action, message, users, disable, outfile
+    cdc,
+    verbose,
+    command,
+    machine,
+    group,
+    action,
+    message,
+    title,
+    style,
+    users,
+    disable,
+    outfile,
 ):
     """Create a wrapper object and call the method requested on the command line.
 
@@ -129,43 +158,55 @@ def run_cli(
     command : str
         The command indicating which wrapper method to call.
     """
+    # FIXME: adapt for "kwargs" being dropped in PSyTricksWrapper
     configure_logging(verbose)
     wrapper = PSyTricksWrapper(deliverycontroller=cdc)
-    call_method = {
-        "disconnect": wrapper.disconnect_session,
-        "getaccess": wrapper.get_access_users,
-        "machines": wrapper.get_machine_status,
-        "maintenance": wrapper.set_maintenance,
-        "poweraction": wrapper.perform_poweraction,
-        "sendmessage": wrapper.send_message,
-        "sessions": wrapper.get_sessions,
-        "setaccess": wrapper.set_access_users,
-    }
-    call_kwargs = {
-        "machine": machine,
-        "group": group,
-        "action": action,
-        "message": message,
-        "users": users,
-        "disable": disable,
-    }
+    details = ""
 
-    if command == "disconnect" and machine is None:
-        raise click.UsageError("Command 'disconnect' requires --machine!")
-    if command in ["getaccess", "setaccess"] and group is None:
-        raise click.UsageError("Commands 'getaccess'/'setaccess' require --group!")
-    if command == "setaccess" and users is None:
-        raise click.UsageError("Command 'setaccess' requires --users!")
-    if command == "poweraction" and action is None:
-        raise click.UsageError("Command 'poweraction' requires --action!")
-    if command == "sendmessage" and message is None:
-        raise click.UsageError("Command 'sendmessage' requires --message!")
-    if command in ["maintenance", "poweraction"] and machine is None:
-        raise click.UsageError(
-            "Commands 'maintenance'/'poweraction' require --machine!"
-        )
+    if command == "machines":
+        details = wrapper.get_machine_status()
 
-    details = call_method[command](**call_kwargs)
+    if command == "sessions":
+        details = wrapper.get_sessions()
+
+    elif command == "disconnect":
+        if machine is None:
+            raise click.UsageError("Command 'disconnect' requires --machine!")
+        details = wrapper.disconnect_session(machine)
+
+    elif command == "getaccess":
+        if group is None:
+            raise click.UsageError("Command 'getaccess' requires --group!")
+        details = wrapper.get_access_users(group)
+
+    elif command == "setaccess":
+        if users is None:
+            raise click.UsageError("Command 'setaccess' requires --users!")
+        if group is None:
+            raise click.UsageError("Command 'setaccess' requires --group!")
+        details = wrapper.set_access_users(group, users, disable)
+
+    elif command == "poweraction":
+        if machine is None:
+            raise click.UsageError("Command 'poweraction' requires --machine!")
+        if action is None:
+            raise click.UsageError("Command 'poweraction' requires --action!")
+        details = wrapper.perform_poweraction(machine, action)
+
+    elif command == "sendmessage":
+        style = style[0].upper() + style[1:]
+        if machine is None:
+            raise click.UsageError("Command 'sendmessage' requires --machine!")
+        if message is None:
+            raise click.UsageError("Command 'sendmessage' requires --message!")
+        if title is None:
+            raise click.UsageError("Command 'sendmessage' requires --title!")
+        wrapper.send_message(machine, message, title, style)
+
+    elif command == "maintenance":
+        if machine is None:
+            raise click.UsageError("Command 'maintenance' requires --machine!")
+        details = wrapper.set_maintenance(machine, disable)
 
     if outfile:
         with open(outfile, "a", encoding="utf-8") as fh:
