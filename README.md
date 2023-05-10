@@ -1,8 +1,11 @@
 # PSytricks
 
-`P`ower`S`hell P`y`thon Ci`tri`x Tri`cks`.
+![PyPI](https://img.shields.io/pypi/v/psytricks)
+![PyPI - License](https://img.shields.io/pypi/l/psytricks)
+![pdoc](https://img.shields.io/badge/docs-pdoc-brightgreen.svg)
+![black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-Pun intended.
+`P`ower`S`hell P`y`thon Ci`tri`x Tri`cks` - pun intended.
 
 ![logo](https://raw.githubusercontent.com/imcf/psytricks/main/resources/images/logo.png)
 
