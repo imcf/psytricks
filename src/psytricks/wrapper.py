@@ -5,7 +5,7 @@ import json
 import os
 import time
 
-from os.path import dirname, abspath
+from os.path import dirname
 from pathlib import Path
 from sys import platform
 
