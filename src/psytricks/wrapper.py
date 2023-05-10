@@ -341,7 +341,7 @@ class ResTricksWrapper:
         self.timeout = 5
         self.server_version = [0, 0, 0, 0]
         if verify:
-            server_version = self.send_get_request("version")["PSyTricksVersion"]
+            server_version = self.send_get_request("version")
             log.success("Successfully tested connection 🔌 to ResTricks server 🆗")
             self.validate_version(server_version)
 
@@ -368,7 +368,7 @@ class ResTricksWrapper:
             return version
 
         try:
-            self.server_version = parse_version(server_ver)
+            self.server_version = parse_version(server_ver["PSyTricksVersion"])
             log.info(f"Server version: {self.server_version} 🪪")
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.warning(f"Unable to parse server version [{server_ver}]: {ex}")
