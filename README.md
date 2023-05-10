@@ -78,12 +78,43 @@ provided by the PowerShell snap-in could be used directly.
 
 ### Setting up the REST service
 
-TODO, outline:
+The easiest way for installing the REST service is to use [WinSW (Windows
+Service Wrapper)][www_winsw] but you may choose anything you like to launch the
+server process like NSSM, Scheduled Tasks 📅, homegrown dark magic 🪄🔮 or
+others.
 
-* download WinSW executable or a bundled version of the *RESTricks Service*
-* adapt the provided service configuration file
-* install the service
-* run it
+To go with **WinSW** simply download the bundled version provided with each
+[PSyTricks release][www_releases]. Just look for the `.zip` asset having `REST`
+and `WinSW` in its name.
+
+Unzip the downloaded file to the desired target location, e.g.
+`%PROGRAMDATA%\PSyTricks`, then copy / rename `restricks-server.example.xml` to
+`restricks-server.xml` and open it in an editor.
+
+Adapt the entries in the `<serviceaccount>` section to match your requirements
+and make sure to update the hostname passed via the `-AdminAddress` parameter in
+the `<startarguments>` section. It needs to point to your Citrix Delivery
+Controller, just in case that's not obvious.
+
+Next step is to install and start the service:
+
+```PowerShell
+cd C:\ProgramData\PSyTricks
+restricks-server.exe isntall
+Start-Service RESTricksServer
+```
+
+In case the service doesn't start up, check the Windows Event Log and the `.log`
+files created by WinSW in the service directory.
+
+Once the service has started, you can monitor its actions by live-watching the
+log file:
+
+```PowerShell
+Get-Content -Wait C:\ProgramData\PSyTricks\restricks-server.log
+```
+
+Tada! That's it, the service is now ready to take HTTP requests! 🎉
 
 ## 🎪 What does it provide?
 
@@ -143,3 +174,5 @@ wrapper.set_maintenance(machine="vm42.vdi.example.xy", disable=False)
 ```
 
 [www_cvad]: https://docs.citrix.com/en-us/citrix-virtual-apps-desktops
+[www_winsw]: https://github.com/winsw/winsw
+[www_releases]: https://github.com/imcf/psytricks/releases
