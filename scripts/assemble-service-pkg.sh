@@ -70,7 +70,7 @@ echo "[✔]"
 
 ####
 echo -n "Creating service package artifact..."
-tar czf "$SERVICEDIR.tar.gz" "$SERVICEDIR"
+zip -r -q "$SERVICEDIR.zip" "$SERVICEDIR"
 echo "[✔]"
 
 ####
