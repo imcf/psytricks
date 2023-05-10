@@ -49,8 +49,8 @@
     -Shutdown
   </stoparguments>
 
-    <startmode>Automatic</startmode>
-    <delayedAutoStart/>
+  <startmode>Automatic</startmode>
+  <delayedAutoStart/>
 
   <log mode="append">
   </log>
