@@ -356,6 +356,12 @@ class ResTricksWrapper:
 
         Currently only log messages are generated, with an error-level message
         in case the versions don't match. No other action is taken.
+
+        Parameters
+        ----------
+        server_ver : dict
+            The dict parsed from the JSON response when sending a `version` GET
+            request to the server.
         """
 
         def parse_version(ver):
