@@ -12,6 +12,7 @@ from sys import platform
 import requests
 from loguru import logger as log
 
+from . import __version__
 from .decoder import parse_powershell_json
 from .literals import Action, RequestName, MsgStyle
 
@@ -323,7 +324,7 @@ class ResTricksWrapper:
         calls, defaulting to 5.
     """
 
-    def __init__(self, base_url: str = "http://localhost:8080/"):
+    def __init__(self, base_url: str = "http://localhost:8080/", verify: bool = True):
         """Constructor for the `ResTricksWrapper` class.
 
         Parameters
@@ -331,10 +332,55 @@ class ResTricksWrapper:
         base_url : str, optional
             The base URL where to find the ResTricks service, by default
             `http://localhost:8080/`.
+        verify : bool, optional
+            By default the constructor will try to establish a connection to the
+            ResTricks service and validate the version. Set to `False` to
+            disable the initial connection and version check.
         """
         self.base_url = base_url
         self.timeout = 5
-        log.debug(f"Initialized {self.__class__.__name__}({base_url})")
+        self.server_version = [0, 0, 0, 0]
+        if verify:
+            server_version = self.send_get_request("version")["PSyTricksVersion"]
+            log.success("Successfully tested connection 🔌 to ResTricks server 🆗")
+            self.validate_version(server_version)
+
+        log.debug(f"Initialized {self.__class__.__name__}({base_url}) ✨")
+
+    def validate_version(self, server_ver):
+        """Validate the server version against the local module.
+
+        Parse the version strings of the local module and the server response
+        and compare them for equality (ignoring the 4th component, which may
+        denote a pre- or development-release).
+
+        Currently only log messages are generated, with an error-level message
+        in case the versions don't match. No other action is taken.
+        """
+
+        def parse_version(ver):
+            _split = ver.split(".")
+            version = [int(x) for x in _split[:3]]
+            version.append(0)
+            if len(_split) > 3:
+                # the 4th component is usually a string, so do not cast it if present:
+                version[3] = _split[3]
+            return version
+
+        try:
+            self.server_version = parse_version(server_ver)
+            log.info(f"Server version: {self.server_version} 🪪")
+        except Exception as ex:  # pylint: disable-msg=broad-except
+            log.warning(f"Unable to parse server version [{server_ver}]: {ex}")
+
+        client_version = parse_version(__version__)
+        log.info(f"Client version: {client_version} 🪪")
+
+        # compare versions, ignoring the 4th component (dev/pre/alpha/...)
+        if client_version[:3] == self.server_version[:3]:
+            log.success("Versions are matching! 🏅")
+        else:
+            log.error("Version mismatch! 🧨")
 
     def send_get_request(self, raw_url: str) -> list:
         """Common method to perform a `GET` request and process the response.
