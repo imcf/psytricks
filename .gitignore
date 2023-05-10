@@ -19,3 +19,6 @@ src/*.egg-info/
 src/psytricks/__ps1__/*.log
 src/psytricks/__ps1__/restricks-server.xml
 src/psytricks/__ps1__/restricks-server.exe
+
+# WinSW executable cache for building the REST service package:
+/.winsw/
