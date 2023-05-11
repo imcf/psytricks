@@ -7,28 +7,28 @@
 param (
     [Parameter(
         Mandatory = $true,
-        ParameterSetName = "Start",
+        ParameterSetName = "Startup",
         HelpMessage = "The address of the Citrix Delivery Controller."
     )]
     [string]
     $AdminAddress,
 
     [Parameter(
-        ParameterSetName = "Start",
+        ParameterSetName = "Startup",
         HelpMessage = "The port to listen on (default: 8080)."
     )]
     [int]
     $ListenPort = 8080,
 
     [Parameter(
-        ParameterSetName = "Start",
+        ParameterSetName = "Startup",
         HelpMessage = "A logfile to use for the output (default: stdtout)."
     )]
     [string]
     $LogFile,
 
     [Parameter(
-        ParameterSetName = "Stop",
+        ParameterSetName = "Shutdown",
         HelpMessage = "Shut down the listener and terminate the script."
     )]
     [switch]
