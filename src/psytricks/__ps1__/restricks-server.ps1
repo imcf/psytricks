@@ -83,7 +83,9 @@ if ($Shutdown) {
         } catch {
             # in case the request timed out this means the listener has been
             # shut down or crashed before, usually resulting in an orphaned
-            # "restricks-server.exe" process that needs to be killed explicitly:
+            # "restricks-server.exe" process that needs to be killed explicitly
+            # (use 'SilentlyContinue' in case the server was started differently
+            # or the WinSW executable has a different name):
             Stop-Process -Name "restricks-server" -ErrorAction SilentlyContinue
         }
     } catch {
