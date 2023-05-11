@@ -17,6 +17,10 @@ param (
         ParameterSetName = "Startup",
         HelpMessage = "The port to listen on (default: 8080)."
     )]
+    [Parameter(
+        ParameterSetName = "Shutdown",
+        HelpMessage = "The port to send the shutdown request to (default: 8080)."
+    )]
     [int]
     $ListenPort = 8080,
 
@@ -79,7 +83,7 @@ if ($Shutdown) {
 
         # now send a shutdown request to the listener with a very short timeout:
         try {
-            $null = Invoke-WebRequest "http://localhost:8080/end" -TimeoutSec 1
+            $null = Invoke-WebRequest "http://localhost:$ListenPort/end" -TimeoutSec 1
         } catch {
             # in case the request timed out this means the listener has been
             # shut down or crashed before, usually resulting in an orphaned
