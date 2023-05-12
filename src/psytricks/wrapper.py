@@ -658,10 +658,16 @@ class ResTricksWrapper:
             The FQDN of the machine to disconnect the session on.
         action : str
             The power action to perform, one of `psytricks.literals.Action`.
+
+        Returns
+        -------
+        dict
+            The `Data` dict parsed from the JSON returned by the REST service
+            containing details on the power action status of the machine.
         """
         log.debug(f"Requesting action [{action}] for machine [{machine}]...")
         payload = {
             "DNSName": machine,
             "Action": action,
         }
-        self.send_post_request("MachinePowerAction", payload)
+        return self.send_post_request("MachinePowerAction", payload)["Data"]
