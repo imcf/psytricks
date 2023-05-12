@@ -443,6 +443,22 @@ class ResTricksWrapper:
             log.error(f"GET request [{raw_url}] didn't return any JSON: {ex}")
             return []
 
+        if response.status_code != 200:
+            log.warning(f"Response code {response.status_code} indicates a problem!")
+            try:
+                payload = data["Status"]
+                log.warning(
+                    "Status details:\n"
+                    f"['Timestamp']: {payload['Timestamp']}\n"
+                    f"['PSyTricksVersion']: {payload['PSyTricksVersion']}\n"
+                    f"['ExecutionStatus']: {payload['ExecutionStatus']}\n"
+                    f"['ErrorMessage']: {payload['ErrorMessage']}\n"
+                )
+            except Exception as ex:  # pylint: disable-msg=broad-except
+                log.error(f"Error fetching response payload status: {ex}")
+                log.warning(response.text)
+                raise ValueError(f"Malformed response: {response.text}") from ex
+
         return data
 
     def send_post_request(
@@ -474,6 +490,22 @@ class ResTricksWrapper:
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"POST request [{raw_url}] failed: {ex}")
             return []
+
+        if response.status_code != 200:
+            log.warning(f"Response code {response.status_code} indicates a problem!")
+            try:
+                payload = response.json()["Status"]
+                log.warning(
+                    "Status details:\n"
+                    f"['Timestamp']: {payload['Timestamp']}\n"
+                    f"['PSyTricksVersion']: {payload['PSyTricksVersion']}\n"
+                    f"['ExecutionStatus']: {payload['ExecutionStatus']}\n"
+                    f"['ErrorMessage']: {payload['ErrorMessage']}\n"
+                )
+            except Exception as ex:  # pylint: disable-msg=broad-except
+                log.error(f"Error fetching response payload status: {ex}")
+                log.warning(response.text)
+                raise ValueError(f"Malformed response: {response.text}") from ex
 
         if no_json:
             log.debug(f"No-payload response status code: {response.status_code}")
