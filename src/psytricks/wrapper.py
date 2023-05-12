@@ -517,7 +517,7 @@ class ResTricksWrapper:
             The `JSON` returned by the REST service.
         """
         log.debug("Requesting current status of machines...")
-        return self.send_get_request("GetMachineStatus")
+        return self.send_get_request("GetMachineStatus")["Data"]
 
     def get_sessions(self) -> list:
         """Send a `GET` request with `GetSessions`.
@@ -528,7 +528,7 @@ class ResTricksWrapper:
             The `JSON` returned by the REST service.
         """
         log.debug("Requesting current sessions...")
-        return self.send_get_request("GetSessions")
+        return self.send_get_request("GetSessions")["Data"]
 
     def get_access_users(self, group: str) -> list:
         """Send a `GET` request with `GetAccessUsers`.
@@ -544,7 +544,7 @@ class ResTricksWrapper:
             The `JSON` returned by the REST service.
         """
         log.debug(f"Requesting users having access to group [{group}]...")
-        return self.send_get_request(f"GetAccessUsers/{group}")
+        return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
 
     def disconnect_session(self, machine: str) -> list:
         """Send a `POST` request with `DisconnectSession`.
@@ -564,11 +564,10 @@ class ResTricksWrapper:
         """
         log.debug(f"Requesting session on [{machine}] to be disconnected...")
         payload = {"DNSName": machine}
-        try:
-            session = self.send_post_request("DisconnectSession", payload)
-        except json.JSONDecodeError:
-            log.debug(f"No JSON received, probably [{machine}] has no session.")
-            return []
+        session = self.send_post_request("DisconnectSession", payload)["Data"]
+        if session is None:
+            log.debug(f"No data received, probably [{machine}] has no session.")
+            return {}
 
         return session
 
@@ -598,7 +597,7 @@ class ResTricksWrapper:
             "UserNames": users,
             "RemoveAccess": disable,
         }
-        return self.send_post_request("SetAccessUsers", payload)
+        return self.send_post_request("SetAccessUsers", payload)["Data"]
 
     def set_maintenance(self, machine: str, disable: bool) -> list:
         """Send a `POST` request with `SetMaintenanceMode`.
@@ -622,7 +621,7 @@ class ResTricksWrapper:
             "DNSName": machine,
             "Disable": disable,
         }
-        return self.send_post_request("SetMaintenanceMode", payload)
+        return self.send_post_request("SetMaintenanceMode", payload)["Data"]
 
     def send_message(self, machine: str, message: str, title: str, style: MsgStyle):
         """Send a `POST` request with `SendSessionMessage`.
