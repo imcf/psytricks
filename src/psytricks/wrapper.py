@@ -441,7 +441,7 @@ class ResTricksWrapper:
             data = response.json()
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"GET request [{raw_url}] didn't return any JSON: {ex}")
-            return []
+            raise ex
 
         if response.status_code != 200:
             log.warning(f"Response code {response.status_code} indicates a problem!")
