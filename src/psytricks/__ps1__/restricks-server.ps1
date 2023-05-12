@@ -159,6 +159,14 @@ function Send-Response {
         [string]
         $Body = "",
 
+        [Parameter(HelpMessage = "The internal execution status (0 = success).")]
+        [string]
+        $ExecutionStatus = 0,
+
+        [Parameter(HelpMessage = "An error message for the 'Status' JSON section.")]
+        [string]
+        $ErrorMesage = "",
+
         [Parameter(HelpMessage = "Use 'text/html' instead of 'application/json'.")]
         [Switch]
         $Html
@@ -166,8 +174,24 @@ function Send-Response {
     $Type = "application/json"
     if ($Html) {
         $Type = "text/html"
+        $Payload = $Body
+    } else {
+        $Status = @{
+            ExecutionStatus  = $ExecutionStatus
+            ErrorMessage     = $ErrorMesage
+            ScriptName       = $ScriptName
+            ScriptPath       = $ScriptPath
+            PSyTricksVersion = $Version
+            Timestamp        = [int64](Get-Date -UFormat %s)
+        }
+
+        $Payload = @{
+            "Status" = $Status
+            "Data"   = $Body
+        } | ConvertTo-Json -Depth 4
     }
-    $Buffer = [System.Text.Encoding]::UTF8.GetBytes($Body)  # convert to bytes
+
+    $Buffer = [System.Text.Encoding]::UTF8.GetBytes($Payload)  # convert to bytes
     $Response.ContentLength64 = $Buffer.Length
     $Response.ContentType = $Type
     $Response.StatusCode = $StatusCode
@@ -227,8 +251,7 @@ function Get-BrokerData {
     Write-Host "Got $($BrokerData.Length) $Desc from Citrix." @Cyan
     Write-Host "Took $(($(Get-Date) - $TStart).TotalMilliseconds) ms" @Magenta
 
-    $Json = $BrokerData | ConvertTo-Json -Depth 4
-    return $Json
+    return $BrokerData
 }
 
 
@@ -311,8 +334,7 @@ function Send-BrokerRequest {
     Write-Host "Sent $Desc request to Citrix." @Cyan
     Write-Host "Took $(($(Get-Date) - $TStart).TotalMilliseconds) ms" @Magenta
 
-    $Json = $BrokerData | ConvertTo-Json -Depth 4
-    return $Json
+    return $BrokerData
 }
 
 
@@ -335,8 +357,7 @@ function Switch-GetRequest {
         Send-Response -Response $Response -Body $html -Html
 
     } elseif ($Command -eq 'version') {
-        $Body = @{ PSyTricksVersion = $Version } | ConvertTo-Json
-        Send-Response -Response $Response -Body $Body
+        Send-Response -Response $Response -Body ""
 
     } elseif ($GetRoutes -contains $Command) {
         try {
