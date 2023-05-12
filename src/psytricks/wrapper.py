@@ -416,6 +416,29 @@ class ResTricksWrapper:
         log.error("Version mismatch! 🧨")
         return False
 
+    @staticmethod
+    def _check_response(response):
+        """Helper checking the HTTP response code and JSON status attributes."""
+        if response.status_code == 200:
+            return
+
+        log.warning(f"Response code {response.status_code} indicates a problem!")
+
+        payload = response.json()
+        try:
+            status = payload["Status"]
+            log.warning(
+                "Status details:\n"
+                f"['Timestamp']: {status['Timestamp']}\n"
+                f"['PSyTricksVersion']: {status['PSyTricksVersion']}\n"
+                f"['ExecutionStatus']: {status['ExecutionStatus']}\n"
+                f"['ErrorMessage']: {status['ErrorMessage']}\n"
+            )
+        except Exception as ex:  # pylint: disable-msg=broad-except
+            log.error(f"Error fetching response payload status: {ex}")
+            log.warning(response.text)
+            raise ValueError(f"Malformed response: {response.text}") from ex
+
     def send_get_request(self, raw_url: str) -> list:
         """Common method to perform a `GET` request and process the response.
 
@@ -443,21 +466,7 @@ class ResTricksWrapper:
             log.error(f"GET request [{raw_url}] didn't return any JSON: {ex}")
             raise ex
 
-        if response.status_code != 200:
-            log.warning(f"Response code {response.status_code} indicates a problem!")
-            try:
-                payload = data["Status"]
-                log.warning(
-                    "Status details:\n"
-                    f"['Timestamp']: {payload['Timestamp']}\n"
-                    f"['PSyTricksVersion']: {payload['PSyTricksVersion']}\n"
-                    f"['ExecutionStatus']: {payload['ExecutionStatus']}\n"
-                    f"['ErrorMessage']: {payload['ErrorMessage']}\n"
-                )
-            except Exception as ex:  # pylint: disable-msg=broad-except
-                log.error(f"Error fetching response payload status: {ex}")
-                log.warning(response.text)
-                raise ValueError(f"Malformed response: {response.text}") from ex
+        ResTricksWrapper._check_response(response)
 
         return data
 
@@ -491,21 +500,7 @@ class ResTricksWrapper:
             log.error(f"POST request [{raw_url}] failed: {ex}")
             raise ex
 
-        if response.status_code != 200:
-            log.warning(f"Response code {response.status_code} indicates a problem!")
-            try:
-                payload = response.json()["Status"]
-                log.warning(
-                    "Status details:\n"
-                    f"['Timestamp']: {payload['Timestamp']}\n"
-                    f"['PSyTricksVersion']: {payload['PSyTricksVersion']}\n"
-                    f"['ExecutionStatus']: {payload['ExecutionStatus']}\n"
-                    f"['ErrorMessage']: {payload['ErrorMessage']}\n"
-                )
-            except Exception as ex:  # pylint: disable-msg=broad-except
-                log.error(f"Error fetching response payload status: {ex}")
-                log.warning(response.text)
-                raise ValueError(f"Malformed response: {response.text}") from ex
+        ResTricksWrapper._check_response(response)
 
         if no_json:
             log.debug(f"No-payload response status code: {response.status_code}")
