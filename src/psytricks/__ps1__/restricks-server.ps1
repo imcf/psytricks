@@ -401,9 +401,6 @@ function Start-ListenerBlocking {
         }
 
         while ($Listener.IsListening) {
-            if ([Console]::KeyAvailable) {
-                Write-Host "Hey!"
-            }
             try {
                 # when a request is made GetContext() will return it as an object:
                 $Context = $Listener.GetContext()
