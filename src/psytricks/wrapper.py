@@ -389,6 +389,7 @@ class ResTricksWrapper:
         """
 
         def parse_ver(ver):
+            log.trace(f"Parsing version string: [{ver}]")
             _split = ver.split(".")
             version = [int(x) for x in _split[:3]]
             version.append(0)
