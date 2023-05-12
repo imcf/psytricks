@@ -158,7 +158,6 @@ def run_cli(
     command : str
         The command indicating which wrapper method to call.
     """
-    # FIXME: adapt for "kwargs" being dropped in PSyTricksWrapper
     configure_logging(verbose)
     wrapper = PSyTricksWrapper(deliverycontroller=cdc)
     details = ""
