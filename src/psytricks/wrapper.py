@@ -461,7 +461,7 @@ class ResTricksWrapper:
             raise ex
 
         try:
-            data = response.json()
+            data = response.json(object_hook=parse_powershell_json)
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"GET request [{raw_url}] didn't return any JSON: {ex}")
             raise ex
@@ -506,7 +506,7 @@ class ResTricksWrapper:
             log.debug(f"No-payload response status code: {response.status_code}")
             return []
 
-        return response.json()
+        return response.json(object_hook=parse_powershell_json)
 
     def get_machine_status(self) -> list:
         """Send a `GET` request with `GetMachineStatus`.
