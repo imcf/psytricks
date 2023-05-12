@@ -322,6 +322,10 @@ class ResTricksWrapper:
     timeout : int
         The timeout in seconds to use for `requests.get` and `requests.post`
         calls, defaulting to 5.
+    server_version : list
+        The server version as a list of version components, where the first
+        three components are of type `int` (representing `major.minor.patch`),
+        whereas the last component may be a `str` as well.
     """
 
     def __init__(self, base_url: str = "http://localhost:8080/", verify: bool = True):
