@@ -446,8 +446,12 @@ function Start-ListenerBlocking {
                 $Message = "ERROR processing request"
                 Write-Host "$($Message): $_" @Red
                 try {
-                    # do NOT include details in the response, only log it to stdout!
-                    Send-Response $Response -Body "$($Message)!" -StatusCode 400 -Html
+                    Send-Response `
+                        -Response $Response `
+                        -StatusCode 400 `
+                        -ExecutionStatus 1 `
+                        -ErrorMesage $_ `
+                        -Body $Message
                 } catch {
                     Write-Host "Unable to send the response: $_" @Red
                 }
