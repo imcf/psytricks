@@ -2,6 +2,15 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.1.0
+
+### PowerShell changes
+
+The JSON returned by the `REST` server was completely missing the `Status`
+object, this is now fixed. Additionally, that object now also contains a
+`Timestamp` property to report (in seconds since the epoch, a.k.a. *Unix time*)
+when the response has been generated.
+
 ## 2.0.0
 
 ### Common
