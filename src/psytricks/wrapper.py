@@ -354,14 +354,16 @@ class ResTricksWrapper:
         and compare them for equality (ignoring the 4th component, which may
         denote a pre- or development-release).
 
-        Currently only log messages are generated, with an error-level message
-        in case the versions don't match. No other action is taken.
-
         Parameters
         ----------
         server_ver : dict
             The dict parsed from the JSON response when sending a `version` GET
             request to the server.
+
+        Returns
+        -------
+        bool
+            True in case the versions are matching, False otherwise.
         """
 
         def parse_ver(ver):
@@ -378,6 +380,7 @@ class ResTricksWrapper:
             log.info(f"Server version: {self.server_version} 🪪")
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.warning(f"Unable to parse server version [{server_ver}]: {ex}")
+            return False
 
         client_version = parse_ver(__version__)
         log.info(f"Client version: {client_version} 🪪")
@@ -385,8 +388,10 @@ class ResTricksWrapper:
         # compare versions, ignoring the 4th component (dev/pre/alpha/...)
         if client_version[:3] == self.server_version[:3]:
             log.success("Versions are matching! 🏅")
-        else:
-            log.error("Version mismatch! 🧨")
+            return True
+
+        log.error("Version mismatch! 🧨")
+        return False
 
     def send_get_request(self, raw_url: str) -> list:
         """Common method to perform a `GET` request and process the response.
