@@ -348,7 +348,7 @@ function Switch-GetRequest {
     $Command = $ParsedUrl[1]
 
     if ($Command -eq 'end') {
-        Send-Response -Response $Response -Body "Terminating." -Html
+        Send-Response -Response $Response -Body "Terminating."
         Write-Host "Received a termination request, stopping." @Red
         break
 
