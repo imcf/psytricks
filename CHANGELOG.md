@@ -21,6 +21,18 @@ when the response has been generated.
 * If `verify` is set to `True` exceptions will be raised in case the connection
   check fails or if a version mismatch is detected.
 
+### Changed
+
+* In case the core HTTP request (`GET` or `POST`) fails in any of the wrapper
+  methods, the corresponding exception is now re-raised to make this visible to
+  the calling code. Previously only log messages were generated and the
+  exceptions had been silenced explicitly.
+* Each HTTP response is now expected to contain a JSON payload. In case the HTTP
+  status code is indicating an issue, the `Status` attributes of the returned
+  JSON are printed to the log to facilitate debugging.
+* The `psytricks.wrapper.ResTricksWrapper.perform_poweraction` method now
+  returns the details on the power action status of the given machine.
+
 ## 2.0.0
 
 ### Common
