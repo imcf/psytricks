@@ -157,10 +157,10 @@ function Send-Response {
         [Parameter(
             HelpMessage = 'The content body ("payload") to return in the ' + `
                 'response. For non-HTML responses (which are the default), ' + `
-                'this will be placed in the "Data" object. A "Status" object ' + `
-                'will be automatically generated from the other parameters.'
+                'this will be placed in the "Data" object. A "Status" ' + `
+                'object will be automatically generated from the other ' + `
+                'parameters. Needs to be serializable!'
         )]
-        [string]
         $Body = "",
 
         [Parameter(HelpMessage = "The internal execution status (0 = success).")]
