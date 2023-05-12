@@ -33,6 +33,12 @@ when the response has been generated.
 * The `psytricks.wrapper.ResTricksWrapper.perform_poweraction` method now
   returns the details on the power action status of the given machine.
 
+### Fixed
+
+* Citrix status values and PowerShell timestamps are now properly mapped also in
+  `psytricks.wrapper.ResTricksWrapper` methods. Previously this had been the
+  case in `psytricks.wrapper.PSyTricksWrapper` methods only.
+
 ## 2.0.0
 
 ### Common
