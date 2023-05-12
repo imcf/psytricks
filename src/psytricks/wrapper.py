@@ -364,7 +364,7 @@ class ResTricksWrapper:
             request to the server.
         """
 
-        def parse_version(ver):
+        def parse_ver(ver):
             _split = ver.split(".")
             version = [int(x) for x in _split[:3]]
             version.append(0)
@@ -374,12 +374,12 @@ class ResTricksWrapper:
             return version
 
         try:
-            self.server_version = parse_version(server_ver["PSyTricksVersion"])
+            self.server_version = parse_ver(server_ver)
             log.info(f"Server version: {self.server_version} 🪪")
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.warning(f"Unable to parse server version [{server_ver}]: {ex}")
 
-        client_version = parse_version(__version__)
+        client_version = parse_ver(__version__)
         log.info(f"Client version: {client_version} 🪪")
 
         # compare versions, ignoring the 4th component (dev/pre/alpha/...)
