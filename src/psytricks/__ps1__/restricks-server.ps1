@@ -150,12 +150,16 @@ function Send-Response {
         )]
         $Response,
 
-        # the HTTP status code
-        [Parameter()]
+        [Parameter(HelpMessage = "The HTTP status code to send (default=200).")]
         [int]
         $StatusCode = 200,
 
-        [Parameter(HelpMessage = "The content body to return in the response.")]
+        [Parameter(
+            HelpMessage = 'The content body ("payload") to return in the ' + `
+                'response. For non-HTML responses (which are the default), ' + `
+                'this will be placed in the "Data" object. A "Status" object ' + `
+                'will be automatically generated from the other parameters.'
+        )]
         [string]
         $Body = "",
 
