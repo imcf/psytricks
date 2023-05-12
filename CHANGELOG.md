@@ -11,6 +11,16 @@ object, this is now fixed. Additionally, that object now also contains a
 `Timestamp` property to report (in seconds since the epoch, a.k.a. *Unix time*)
 when the response has been generated.
 
+### Added
+
+* The constructor of `psytricks.wrapper.ResTricksWrapper` is now doing a
+  connection check to the defined server upon instantiation.
+* In addition it was extended by an optional argument `verify` (defaulting to
+  `True`) for requesting the server version to be verified against the client
+  version.
+* If `verify` is set to `True` exceptions will be raised in case the connection
+  check fails or if a version mismatch is detected.
+
 ## 2.0.0
 
 ### Common
