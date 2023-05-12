@@ -435,7 +435,7 @@ class ResTricksWrapper:
             response = requests.get(self.base_url + raw_url, timeout=self.timeout)
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"GET request [{raw_url}] failed: {ex}")
-            return []
+            raise ex
 
         try:
             data = response.json()
@@ -489,7 +489,7 @@ class ResTricksWrapper:
             )
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"POST request [{raw_url}] failed: {ex}")
-            return []
+            raise ex
 
         if response.status_code != 200:
             log.warning(f"Response code {response.status_code} indicates a problem!")
