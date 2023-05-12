@@ -335,15 +335,33 @@ class ResTricksWrapper:
         verify : bool, optional
             By default the constructor will try to establish a connection to the
             ResTricks service and validate the version. Set to `False` to
-            disable the initial connection and version check.
+            disable the version check and ignore potential problems during the
+            initial connection check.
+
+        Raises
+        ------
+        ValueError
+            Raised in case the server version doesn't match the local version.
+        ConnectionError
+            Raised in case the initial connection check failed.
         """
         self.base_url = base_url
         self.timeout = 5
         self.server_version = [0, 0, 0, 0]
-        if verify:
-            server_version = self.send_get_request("version")
+        try:
+            status = self.send_get_request("version")["Status"]
+            log.trace(f"Server status: [{status}]")
+            server_version = status["PSyTricksVersion"]
+            log.info(f"Server version: [{server_version}]")
+
             log.success("Successfully tested connection 🔌 to ResTricks server 🆗")
-            self.validate_version(server_version)
+            if verify:
+                version_matching = self.validate_version(server_version)
+                if not version_matching:
+                    raise ValueError(f"Unexpected server version: {server_version}")
+        except Exception as ex:  # pylint: disable-msg=broad-except
+            if verify:
+                raise ConnectionError(f"Connecting to [{base_url}] failed!") from ex
 
         log.debug(f"Initialized {self.__class__.__name__}({base_url}) ✨")
 
