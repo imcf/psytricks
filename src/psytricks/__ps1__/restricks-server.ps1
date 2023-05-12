@@ -342,7 +342,7 @@ function Switch-GetRequest {
         try {
             $Body = Get-BrokerData -ParsedUrl $ParsedUrl
         } catch {
-            Send-Response -Response $Response -StatusCode 400 -Body $_
+            Send-Response -Response $Response -StatusCode 400 -Body $_ -Html
         }
         Send-Response -Response $Response -Body $Body
 
@@ -350,6 +350,7 @@ function Switch-GetRequest {
         Send-Response `
             -Response $Response `
             -StatusCode 400 `
+            -Html `
             -Body "Invalid or unknown command: [$Command]"
     }
 }
@@ -365,7 +366,7 @@ function Switch-PostRequest {
     $Command = $ParsedUrl[1]
 
     if (-not ($Request.HasEntityBody)) {
-        Send-Response -Response $Response -Body "No POST data." -StatusCode 400
+        Send-Response -Response $Response -Body "No POST data." -StatusCode 400 -Html
 
     } elseif ($PostRoutes -contains $Command) {
         try {
@@ -373,7 +374,7 @@ function Switch-PostRequest {
             $Content = $StreamReader.ReadToEnd()
             $Decoded = ConvertFrom-Json $Content
         } catch {
-            Send-Response $Response -Body "Error decoding JSON: $_" -StatusCode 422
+            Send-Response $Response -Body "Decoding error: $_" -StatusCode 422 -Html
             return
         }
 
@@ -384,6 +385,7 @@ function Switch-PostRequest {
         Send-Response `
             -Response $Response `
             -StatusCode 400 `
+            -Html `
             -Body "Invalid or unknown command: [$Command]"
     }
 }
@@ -420,7 +422,7 @@ function Start-ListenerBlocking {
                 Write-Host "$($Message): $_" @Red
                 try {
                     # do NOT include details in the response, only log it to stdout!
-                    Send-Response -Response $Response -Body "$($Message)!" -Html
+                    Send-Response $Response -Body "$($Message)!" -StatusCode 400 -Html
                 } catch {
                     Write-Host "Unable to send the response: $_" @Red
                 }
