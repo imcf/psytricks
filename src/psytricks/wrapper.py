@@ -513,8 +513,8 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The `JSON` returned by the REST service.
+        dict
+            The `Data` dict parsed from the JSON returned by the REST service.
         """
         log.debug("Requesting current status of machines...")
         return self.send_get_request("GetMachineStatus")["Data"]
@@ -524,8 +524,8 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The `JSON` returned by the REST service.
+        dict
+            The `Data` dict parsed from the JSON returned by the REST service.
         """
         log.debug("Requesting current sessions...")
         return self.send_get_request("GetSessions")["Data"]
@@ -540,8 +540,8 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The `JSON` returned by the REST service.
+        dict
+            The `Data` dict parsed from the JSON returned by the REST service.
         """
         log.debug(f"Requesting users having access to group [{group}]...")
         return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
@@ -556,11 +556,13 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The `JSON` containing details on the affected session, as returned
-            by the REST service. In case the server doesn't return (valid) JSON
-            (for example no session exists on the given machine) an empty list
-            will be returned.
+        dict
+            The `Data` dict parsed from the JSON returned by the REST service,
+            containing details on the affected session. In case the JSON
+            contains an empty `Data` object, an empty dict will be returned.
+            Please note that sending a disconnect request for a session that is
+            already disconnected will not change the session state but still
+            return the session details.
         """
         log.debug(f"Requesting session on [{machine}] to be disconnected...")
         payload = {"DNSName": machine}
@@ -587,8 +589,8 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The `JSON` returned by the REST service.
+        dict
+            The `Data` dict parsed from the JSON returned by the REST service.
         """
         verb = "Removing" if disable else "Adding"
         log.debug(f"{verb} access to group [{group}] for user(s) [{users}]...")
@@ -612,8 +614,8 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The `JSON` returned by the REST service.
+        dict
+            The `Data` dict parsed from the JSON returned by the REST service.
         """
         verb = "Disabling" if disable else "Enabling"
         log.debug(f"{verb} maintenance mode on [{machine}]...")
