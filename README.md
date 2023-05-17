@@ -117,7 +117,13 @@ log file:
 Get-Content -Wait C:\ProgramData\PSyTricks\restricks-server.log
 ```
 
-Tada! That's it, the service is now ready to take HTTP requests! 🎉
+Tada! That's it, the service is now ready to take HTTP requests (from
+`localhost`)! 🎉
+
+Please be aware that the REST interface doesn't do **any authentication** on
+purpose, meaning everything / everyone that can access it will be able to run
+all requests! We're using it in combination with an SSH tunnel but essentially
+anything that controls who / what can access the service will do the job.
 
 ## 🎪 What does it provide?
 
