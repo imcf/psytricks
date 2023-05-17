@@ -2,6 +2,10 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.1.1
+
+No functional / code changes, only lowering minimal Python version to `3.9`.
+
 ## 2.1.0
 
 ### PowerShell changes
