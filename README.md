@@ -19,8 +19,8 @@ there) is required.
 PSyTricks ships with two options for the PowerShell layer:
 
 * A wrapper script that is launched as a suprocess from the Python code. It
-  doesn't require and further setup beyond the package installation but
-  performance is rather poor.
+  doesn't require any further setup beyond the package installation but
+  performance, well, slow.
 * A (zero-authentication) `REST` service providing several `GET` and `POST`
   endpoints to request status information or perform actions. Performance is
   *much* better compared to the wrapper script, but obviously this requires the
