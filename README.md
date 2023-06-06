@@ -152,7 +152,7 @@ under which the REST service is reachable, e.g.
 ```Python
 from psytricks.wrapper import ResTricksWrapper
 
-wrapper = ResTricksWrapper(raw_url="http://localhost:8080/")
+wrapper = ResTricksWrapper(base_url="http://localhost:8080/")
 ```
 
 ### Fetching status information
