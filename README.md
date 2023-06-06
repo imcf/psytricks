@@ -149,7 +149,10 @@ from psytricks.wrapper import ResTricksWrapper
 wrapper = ResTricksWrapper(base_url="http://localhost:8080/")
 ```
 
-### Using the subprocess wrapper
+### Using the subprocess wrapper - *use with caution*
+
+(This is only recommended for testing or if for some reason you don't want /
+can't set up the REST service.)
 
 To create a wrapper object using the subprocess variant, a
 `psytricks.wrapper.PSyTricksWrapper` with the address of the *Delivery
