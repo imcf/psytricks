@@ -136,18 +136,6 @@ anything that controls who / what can access the service will do the job.
 To interact with CVAD, a wrapper object needs to be
 instantiated and instructed how to communicate with the stack.
 
-### Using the subprocess wrapper
-
-To create a wrapper object using the subprocess variant, a
-`psytricks.wrapper.PSyTricksWrapper` with the address of the *Delivery
-Controller* to connect to has to be instantiated, for example:
-
-```Python
-from psytricks.wrapper import PSyTricksWrapper
-
-wrapper = PSyTricksWrapper(deliverycontroller="cdc01.vdi.example.xy")
-```
-
 ### Using the REST service - *recommended*
 
 After setting up the REST service as described above and making sure to be able
@@ -159,6 +147,18 @@ under which the REST service is reachable, e.g.
 from psytricks.wrapper import ResTricksWrapper
 
 wrapper = ResTricksWrapper(base_url="http://localhost:8080/")
+```
+
+### Using the subprocess wrapper
+
+To create a wrapper object using the subprocess variant, a
+`psytricks.wrapper.PSyTricksWrapper` with the address of the *Delivery
+Controller* to connect to has to be instantiated, for example:
+
+```Python
+from psytricks.wrapper import PSyTricksWrapper
+
+wrapper = PSyTricksWrapper(deliverycontroller="cdc01.vdi.example.xy")
 ```
 
 ### Fetching status information
