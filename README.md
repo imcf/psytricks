@@ -21,10 +21,16 @@ PSyTricks ships with two options for the PowerShell layer:
 * A wrapper script that is launched as a suprocess from the Python code. It
   doesn't require any further setup beyond the package installation but
   performance, well, slow.
-* A (zero-authentication) `REST` service providing several `GET` and `POST`
-  endpoints to request status information or perform actions. Performance is
-  *much* better compared to the wrapper script, but obviously this requires the
-  code to be running as a service in an appropriate permission context.
+* A (zero-authentication) `REST` (see the note below on this) service providing
+  several `GET` and `POST` endpoints to request status information or perform
+  actions. Performance is *much* better compared to the wrapper script, but
+  obviously this requires the code to be running as a service in an appropriate
+  permission context.
+
+NOTE: this `RESTful` claim is actually not entirely true. Or basically not at
+all, it would be better called an `HTTP-JSON-RPC-API`. We'll still be using the
+term `REST` for it as this is basically what people nowadays think of when they
+are coming across this label. Sorry, [Roy T. Fielding][www_rtf].
 
 ## 🤯 Are you serious?
 
@@ -185,3 +191,4 @@ wrapper.set_maintenance(machine="vm42.vdi.example.xy", disable=False)
 [www_cvad]: https://docs.citrix.com/en-us/citrix-virtual-apps-desktops
 [www_winsw]: https://github.com/winsw/winsw
 [www_releases]: https://github.com/imcf/psytricks/releases
+[www_rtf]: https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven
