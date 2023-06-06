@@ -2,6 +2,12 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.1.2
+
+### Changed
+
+* Updated [loguru] dependency to `0.7.0`.
+
 ## 2.1.1
 
 No functional / code changes, only lowering minimal Python version to `3.9`.
@@ -165,3 +171,4 @@ independent context.
   testing.
 
 [restricks]: https://github.com/imcf/psytricks/tree/main/src/psytricks/__ps1__
+[loguru]: https://github.com/Delgan/loguru
