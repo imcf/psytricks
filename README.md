@@ -53,7 +53,7 @@ seconds. ⏳
 
 The REST interface provides a much better performance, at the cost of some
 additional setup. If you're happy to take on this approach, the package offers a
-very smooth experience. 🎢🎡
+very smooth ride. 🎢🎡
 
 ## 🛠🚧 Installation
 
@@ -73,17 +73,24 @@ Controller` or `XenDesktop` installation media and install it as usual:
 
 * `Broker_PowerShellSnapIn_x64.msi`
 
-### Installing the package
+### Installing the 🐍 package
 
-For installing `psytricks` please create a `venv`, then run:
+In case you're planning to use `psytricks` via the subprocess approach
+(discouraged but less components to set up), you will have to install the
+package itself on the Windows machine having the above mentioned *Snap-In*
+installed. For the `REST` approach (recommended) only the PowerShell service
+described in the section below has to run on that machine - the Python package
+can be installed on any computer that is able to talk to the `REST` service.
+
+For installing `psytricks` please create and activate a `venv`, then run:
 
 ```bash
 pip install psytricks
 ```
 
-This will also register the CLI tool `psytricks.exe` although that one is mostly
-meant for testing and demonstration purposes, otherwise the `*-Broker*` commands
-provided by the PowerShell snap-in could be used directly.
+NOTE: this will also register the `psytricks` CLI tool although that one is
+mostly meant for testing and demonstration purposes, otherwise the `*-Broker*`
+commands provided by the PowerShell snap-in could be used directly.
 
 ### Setting up the REST service
 
