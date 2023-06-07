@@ -395,12 +395,15 @@ class ResTricksWrapper:
 
         def parse_ver(ver):
             log.trace(f"Parsing version string: [{ver}]")
-            _split = ver.split(".")
-            version = [int(x) for x in _split[:3]]
-            version.append(0)
-            if len(_split) > 3:
-                # the 4th component is usually a string, so do not cast it if present:
-                version[3] = _split[3]
+            # pre / alpha versions are separated by a dash "-" char according to
+            # semantic versioning rules (use "0" if no dash is present):
+            pre = 0
+            if "-" in ver:
+                ver, pre = ver.split("-")
+
+            version = [int(x) for x in ver.split(".")]
+            version.append(pre)
+            log.trace(f"Parsed version: {version}")
             return version
 
         try:
