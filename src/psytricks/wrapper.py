@@ -356,13 +356,14 @@ class ResTricksWrapper:
             status = self.send_get_request("version")["Status"]
             log.trace(f"Server status: [{status}]")
             server_version = status["PSyTricksVersion"]
-            log.info(f"Server version: [{server_version}]")
 
-            log.success("Successfully tested connection 🔌 to ResTricks server 🆗")
+            log.success("Successfully connected 🔌 to ResTricks server 🆗")
             if verify:
                 version_matching = self.validate_version(server_version)
                 if not version_matching:
                     raise ValueError(f"Unexpected server version: {server_version}")
+            else:
+                log.warning(f"Skipping version check (server: {server_version})")
         except Exception as ex:  # pylint: disable-msg=broad-except
             if verify:
                 raise ConnectionError(f"Connecting to [{base_url}] failed!") from ex
@@ -400,17 +401,17 @@ class ResTricksWrapper:
 
         try:
             self.server_version = parse_ver(server_ver)
-            log.info(f"Server version: {self.server_version} 🪪")
+            log.debug(f"Server version: {self.server_version} 🪪")
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.warning(f"Unable to parse server version [{server_ver}]: {ex}")
             return False
 
         client_version = parse_ver(__version__)
-        log.info(f"Client version: {client_version} 🪪")
+        log.debug(f"Client version: {client_version} 🪪")
 
         # compare versions, ignoring the 4th component (dev/pre/alpha/...)
         if client_version[:3] == self.server_version[:3]:
-            log.success("Versions are matching! 🏅")
+            log.info("Versions are matching! 🏅")
             return True
 
         log.error("Version mismatch! 🧨")
