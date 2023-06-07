@@ -11,7 +11,8 @@
   still expected to be fully compatible. It issues a warning-level log message
   to indicate the mismatch though. This allows for easy fixes on the Python
   side of the package without having to re-install / upgrade the server side
-  each time.
+  each time. A small fix to respect pre-releases following the semantic
+  versioning rules has been added as well.
 
 ## 2.1.2
 
