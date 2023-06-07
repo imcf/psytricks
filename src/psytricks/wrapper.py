@@ -377,6 +377,9 @@ class ResTricksWrapper:
         and compare them for equality (ignoring the 4th component, which may
         denote a pre- or development-release).
 
+        If the 3rd component (PATCH level) is differing a warning message will
+        be issued to the log but the method will still return True.
+
         Parameters
         ----------
         server_ver : dict
@@ -386,7 +389,8 @@ class ResTricksWrapper:
         Returns
         -------
         bool
-            True in case the versions are matching, False otherwise.
+            True in case the versions are matching (at least MAJOR and MINOR
+            levels), False otherwise.
         """
 
         def parse_ver(ver):
@@ -412,6 +416,11 @@ class ResTricksWrapper:
         # compare versions, ignoring the 4th component (dev/pre/alpha/...)
         if client_version[:3] == self.server_version[:3]:
             log.info("Versions are matching! 🏅")
+            return True
+
+        # be lenient on patch-level mismatches (but issue a warning message)
+        if client_version[:2] == self.server_version[:2]:
+            log.warning("Versions are differing in PATCH level! 🔍")
             return True
 
         log.error("Version mismatch! 🧨")

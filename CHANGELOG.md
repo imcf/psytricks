@@ -2,6 +2,17 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.1.3
+
+### Changed
+
+* The version check done when instantiating a `psytricks.wrapper.ResTricksWrapper`
+  object now allows for a `PATCH` level mismatch as by definition the API is
+  still expected to be fully compatible. It issues a warning-level log message
+  to indicate the mismatch though. This allows for easy fixes on the Python
+  side of the package without having to re-install / upgrade the server side
+  each time.
+
 ## 2.1.2
 
 ### Changed
