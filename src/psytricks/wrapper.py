@@ -357,7 +357,7 @@ class ResTricksWrapper:
             log.trace(f"Server status: [{status}]")
             server_version = status["PSyTricksVersion"]
 
-            log.success("Successfully connected 🔌 to ResTricks server 🆗")
+            log.debug("Successfully connected 🔌 to ResTricks server 🆗")
             if verify:
                 version_matching = self.validate_version(server_version)
                 if not version_matching:
@@ -418,12 +418,12 @@ class ResTricksWrapper:
 
         # compare versions, ignoring the 4th component (dev/pre/alpha/...)
         if client_version[:3] == self.server_version[:3]:
-            log.info("Versions are matching! 🏅")
+            log.debug("Versions are matching! 🏅")
             return True
 
-        # be lenient on patch-level mismatches (but issue a warning message)
+        # be lenient on patch-level mismatches (but issue an debug message)
         if client_version[:2] == self.server_version[:2]:
-            log.warning("Versions are differing in PATCH level! 🔍")
+            log.debug("Versions are differing in PATCH level! 🔍")
             return True
 
         log.error("Version mismatch! 🧨")
