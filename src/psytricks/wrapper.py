@@ -377,8 +377,8 @@ class ResTricksWrapper:
         and compare them for equality (ignoring the 4th component, which may
         denote a pre- or development-release).
 
-        If the 3rd component (PATCH level) is differing a warning message will
-        be issued to the log but the method will still return True.
+        If the 3rd component (PATCH level) is differing a message will be issued
+        to the debug log but the method will still return True.
 
         Parameters
         ----------
