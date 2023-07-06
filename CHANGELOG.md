@@ -2,6 +2,12 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.1.4
+
+### Changed
+
+* Logging level changes only, reducing messages higher than debug.
+
 ## 2.1.3
 
 ### Changed
