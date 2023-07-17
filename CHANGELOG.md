@@ -2,6 +2,13 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.1.5
+
+### Changed
+
+* Type hints and docstrings were fixed, some of them were indicating the wrong
+  return types.
+
 ## 2.1.4
 
 ### Changed
