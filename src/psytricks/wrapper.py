@@ -483,9 +483,7 @@ class ResTricksWrapper:
 
         return data
 
-    def send_post_request(
-        self, raw_url: str, payload: dict, no_json: bool = False
-    ) -> list:
+    def send_post_request(self, raw_url: str, payload: dict, no_json: bool = False):
         """Common method to perform a `POST` request and process the response.
 
         Parameters
@@ -500,10 +498,10 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list
-            The parsed `JSON` of the response, usually a list of dict. Will be
-            an empty list in case something went wrong performing the POST
-            request or processing the response (or in case the `no_json`
+        list or dict or None
+            The parsed `JSON` of the response, often a dict or a list of dict.
+            Will be an empty list in case something went wrong performing the
+            POST request or processing the response (or in case the `no_json`
             parameter was set to `True`).
         """
         try:
