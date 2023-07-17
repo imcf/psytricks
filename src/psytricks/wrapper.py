@@ -452,7 +452,7 @@ class ResTricksWrapper:
             log.warning(response.text)
             raise ValueError(f"Malformed response: {response.text}") from ex
 
-    def send_get_request(self, raw_url: str) -> list:
+    def send_get_request(self, raw_url: str):
         """Common method to perform a `GET` request and process the response.
 
         Parameters
@@ -462,10 +462,10 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed `JSON` of the response. Will be an empty list in case
-            something went wrong performing the GET request or processing the
-            response.
+        list or dict or None
+            The parsed `JSON` of the response, often a dict or a list of dict.
+            Will be an empty list in case something went wrong performing the
+            GET request or processing the response.
         """
         try:
             response = requests.get(self.base_url + raw_url, timeout=self.timeout)
@@ -500,10 +500,11 @@ class ResTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed `JSON` of the response. Will be an empty list in case
-            something went wrong performing the POST request or processing the
-            response (or in case the `no_json` parameter was set to `True`).
+        list
+            The parsed `JSON` of the response, usually a list of dict. Will be
+            an empty list in case something went wrong performing the POST
+            request or processing the response (or in case the `no_json`
+            parameter was set to `True`).
         """
         try:
             response = requests.post(
@@ -526,8 +527,8 @@ class ResTricksWrapper:
 
         Returns
         -------
-        dict
-            The `Data` dict parsed from the JSON returned by the REST service.
+        list(dict)
+            The `Data` dicts parsed from the JSON returned by the REST service.
         """
         log.debug("Requesting current status of machines...")
         return self.send_get_request("GetMachineStatus")["Data"]
@@ -537,8 +538,9 @@ class ResTricksWrapper:
 
         Returns
         -------
-        dict
-            The `Data` dict parsed from the JSON returned by the REST service.
+        list(dict)
+            The `Data` dicts parsed from the JSON returned by the REST service,
+            containing details about the currently existing sessions.
         """
         log.debug("Requesting current sessions...")
         return self.send_get_request("GetSessions")["Data"]
@@ -553,13 +555,14 @@ class ResTricksWrapper:
 
         Returns
         -------
-        dict
-            The `Data` dict parsed from the JSON returned by the REST service.
+        list(dict)
+            The `Data` dicts parsed from the JSON returned by the REST service,
+            containing the user objects having access to the given group.
         """
         log.debug(f"Requesting users having access to group [{group}]...")
         return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
 
-    def disconnect_session(self, machine: str) -> list:
+    def disconnect_session(self, machine: str) -> dict:
         """Send a `POST` request with `DisconnectSession`.
 
         Parameters
@@ -602,8 +605,10 @@ class ResTricksWrapper:
 
         Returns
         -------
-        dict
-            The `Data` dict parsed from the JSON returned by the REST service.
+        list(dict)
+            The `Data` dicts parsed from the JSON returned by the REST service,
+            containing the user objects having access to the given group *after*
+            the operation has been performed.
         """
         verb = "Removing" if disable else "Adding"
         log.debug(f"{verb} access to group [{group}] for user(s) [{users}]...")
@@ -614,7 +619,7 @@ class ResTricksWrapper:
         }
         return self.send_post_request("SetAccessUsers", payload)["Data"]
 
-    def set_maintenance(self, machine: str, disable: bool) -> list:
+    def set_maintenance(self, machine: str, disable: bool) -> dict:
         """Send a `POST` request with `SetMaintenanceMode`.
 
         Parameters
@@ -662,7 +667,7 @@ class ResTricksWrapper:
         }
         self.send_post_request("SendSessionMessage", payload, no_json=True)
 
-    def perform_poweraction(self, machine: str, action: Action) -> None:
+    def perform_poweraction(self, machine: str, action: Action) -> dict:
         """Send a `POST` request with `MachinePowerAction`.
 
         Parameters
