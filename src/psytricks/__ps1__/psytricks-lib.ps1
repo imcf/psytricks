@@ -128,6 +128,9 @@ function Set-AccessUsers {
         throw "Error fetching permissions for Delivery Group [$Group]!"
     }
 
+    # convert into a string array (required in case of multiple usernames):
+    $UserNames = $UserNames.Split(",")
+
     if ($RemoveAccess) {
         $Data = Set-BrokerAccessPolicyRule `
             -AdminAddress $AdminAddress `

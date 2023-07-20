@@ -2,6 +2,17 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.1.6
+
+### Fixed
+
+* `Set-AccessUsers()` in `psytricks-lib.ps1` did not work correctly if multiple
+  usernames were specified. This is now fixed by foce-converting the given
+  string into an array, splitting at "`,`" characters. This directly affects the
+  functionality for adding / removing multiple users at once via
+  `psytricks.wrapper.ResTricksWrapper.set_access_users()` and
+  `psytricks.wrapper.PSyTricksWrapper.set_access_users()`.
+
 ## 2.1.5
 
 ### Changed
