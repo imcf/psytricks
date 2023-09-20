@@ -18,7 +18,7 @@ there) is required.
 
 PSyTricks ships with two options for the PowerShell layer:
 
-* A wrapper script that is launched as a suprocess from the Python code. It
+* A wrapper script that is launched as a subprocess from the Python code. It
   doesn't require any further setup beyond the package installation but
   performance, well, slow.
 * A (zero-authentication) `REST` (see the note below on this) service providing
@@ -116,7 +116,7 @@ Next step is to install and start the service:
 
 ```PowerShell
 cd C:\ProgramData\PSyTricks
-restricks-server.exe isntall
+restricks-server.exe install
 Start-Service RESTricksServer
 ```
 
