@@ -595,8 +595,9 @@ class ResTricksWrapper:
         group : str
             The name of the Delivery Group to request users having access.
         users : str
-            A string with one or more (comma-separated) usernames whose access
-            permissions to the given group should be adapted.
+            A string with one or more (comma-separated) usernames (prefixed with
+            the domain name) whose access permissions to the given group should
+            be adapted.
         disable : bool
             A flag requesting the permissions for the given username(s) to be
             removed (if True) instead of being added (if False).
