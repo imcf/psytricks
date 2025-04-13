@@ -36,7 +36,7 @@ class PSyTricksWrapper:
     pswrapper = Path(dirname(__file__)) / "__ps1__" / "psytricks-wrapper.ps1"
 
     def __init__(self, deliverycontroller: str):
-        """Constructor for the `PSyTricksWrapper` class.
+        """Instantiate a `PSyTricksWrapper` object.
 
         Parameters
         ----------
@@ -431,7 +431,7 @@ class ResTricksWrapper:
 
     @staticmethod
     def _check_response(response):
-        """Helper checking the HTTP response code and JSON status attributes."""
+        """Check the HTTP response code and JSON status attributes."""
         if response.status_code == 200:
             return
 
@@ -453,7 +453,7 @@ class ResTricksWrapper:
             raise ValueError(f"Malformed response: {response.text}") from ex
 
     def send_get_request(self, raw_url: str):
-        """Common method to perform a `GET` request and process the response.
+        """Perform a `GET` request and process the response.
 
         Parameters
         ----------
@@ -484,7 +484,7 @@ class ResTricksWrapper:
         return data
 
     def send_post_request(self, raw_url: str, payload: dict, no_json: bool = False):
-        """Common method to perform a `POST` request and process the response.
+        """Perform a `POST` request and process the response.
 
         Parameters
         ----------
@@ -648,7 +648,7 @@ class ResTricksWrapper:
         Parameters
         ----------
         machine : str
-            The FQDN of the machine to disconnect the session on.
+            The FQDN of the machine to send the message to.
         message : str
             The message body.
         title : str
