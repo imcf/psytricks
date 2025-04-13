@@ -328,19 +328,37 @@ class ResTricksWrapper:
         whereas the last component may be a `str` as well.
     """
 
-    def __init__(self, base_url: str = "http://localhost:8080/", verify: bool = True):
-        """Constructor for the `ResTricksWrapper` class.
+    def __init__(self, base_url: str = "", verify: bool = True, lazy: bool = False):
+        """Instantiate a `ResTricksWrapper` object.
 
         Parameters
         ----------
         base_url : str, optional
-            The base URL where to find the ResTricks service, by default
-            `http://localhost:8080/`.
+            The base URL where to find the ResTricks service. Will default to
+            `http://localhost:8080/` if nothing is specified.
         verify : bool, optional
+            Validate the server version as soon as a connection is established.
+            Set to `False` to disable the version check and ignore potential
+            problems during the connection check.
+        lazy : bool, optional
             By default the constructor will try to establish a connection to the
-            ResTricks service and validate the version. Set to `False` to
-            disable the version check and ignore potential problems during the
-            initial connection check.
+            ResTricks service. If this is set to `True`, the connection will
+            only be established once a request has to be sent to the server but
+            not during instantiation.
+        """
+        self.base_url = "http://localhost:8080/" if not base_url else base_url
+        self.timeout = 5
+        self.server_version = [0, 0, 0, 0]
+        self._connected = False
+        self._verify = verify
+
+        if not lazy:
+            self.connect()
+
+        log.debug(f"Initialized {self.__class__.__name__}({base_url}) ✨")
+
+    def connect(self):
+        """Connect to the ResTricks service unless already connected.
 
         Raises
         ------
@@ -349,26 +367,27 @@ class ResTricksWrapper:
         ConnectionError
             Raised in case the initial connection check failed.
         """
-        self.base_url = base_url
-        self.timeout = 5
-        self.server_version = [0, 0, 0, 0]
+        if self._connected:
+            log.trace("Connection 🔌 established previously, not reconnecting.")
+            return
+
         try:
             status = self.send_get_request("version")["Status"]
             log.trace(f"Server status: [{status}]")
             server_version = status["PSyTricksVersion"]
 
             log.debug("Successfully connected 🔌 to ResTricks server 🆗")
-            if verify:
+            if self._verify:
                 version_matching = self.validate_version(server_version)
                 if not version_matching:
                     raise ValueError(f"Unexpected server version: {server_version}")
             else:
                 log.warning(f"Skipping version check (server: {server_version})")
-        except Exception as ex:  # pylint: disable-msg=broad-except
-            if verify:
-                raise ConnectionError(f"Connecting to [{base_url}] failed!") from ex
+            self._connected = True
 
-        log.debug(f"Initialized {self.__class__.__name__}({base_url}) ✨")
+        except Exception as ex:  # pylint: disable-msg=broad-except
+            if self._verify:
+                raise ConnectionError(f"Connecting to {self.base_url} failed") from ex
 
     def validate_version(self, server_ver):
         """Validate the server version against the local module.
@@ -467,6 +486,8 @@ class ResTricksWrapper:
             Will be an empty list in case something went wrong performing the
             GET request or processing the response.
         """
+        self.connect()
+
         try:
             response = requests.get(self.base_url + raw_url, timeout=self.timeout)
         except Exception as ex:  # pylint: disable-msg=broad-except
@@ -504,6 +525,8 @@ class ResTricksWrapper:
             POST request or processing the response (or in case the `no_json`
             parameter was set to `True`).
         """
+        self.connect()
+
         try:
             response = requests.post(
                 self.base_url + raw_url, json=payload, timeout=self.timeout

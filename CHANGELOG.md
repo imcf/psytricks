@@ -2,6 +2,15 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.2.0
+
+### Added
+
+* The constructor of `psytricks.wrapper.ResTricksWrapper` is now having an
+  additional optional parameter `lazy`. If this is set to `True` (default is
+  `False`), the initial connection check will not be performed during
+  instantiation but is deferred until the connection is actually required.
+
 ## 2.1.6
 
 ### Fixed
