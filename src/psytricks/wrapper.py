@@ -388,10 +388,6 @@ class ResTricksWrapper:
         This is particularly useful when testing changes to software using this
         library without having a Citrix test environment available, or for
         making sure a tool is running in *monitoring-only* mode.
-
-        Returns
-        -------
-        bool
         """
         return self._read_only
 
