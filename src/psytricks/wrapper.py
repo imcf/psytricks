@@ -360,6 +360,12 @@ class ResTricksWrapper:
         self.base_url = "http://localhost:8080/" if not base_url else base_url
         self.timeout = 5
         self.server_version = [0, 0, 0, 0]
+
+        # FIXME: currently "localhost" is hardcoded here as this is what the
+        # service expects (see `Listener.Prefixes` in `restricks-server.ps1` for
+        # the details) - this should be made configurable!
+        self.headers = {"Host": "localhost"}
+
         self._connected = False
         self._verify = verify
         self._read_only = False
@@ -536,7 +542,9 @@ class ResTricksWrapper:
             self.connect()
 
         try:
-            response = requests.get(self.base_url + raw_url, timeout=self.timeout)
+            response = requests.get(
+                self.base_url + raw_url, timeout=self.timeout, headers=self.headers
+            )
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"GET request [{raw_url}] failed: {ex}")
             raise ex
@@ -608,7 +616,10 @@ class ResTricksWrapper:
 
         try:
             response = requests.post(
-                self.base_url + raw_url, json=payload, timeout=self.timeout
+                self.base_url + raw_url,
+                json=payload,
+                timeout=self.timeout,
+                headers=self.headers,
             )
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"POST request [{raw_url}] failed: {ex}")
