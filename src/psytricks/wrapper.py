@@ -352,6 +352,8 @@ class ResTricksWrapper:
         The server version as a list of version components, where the first
         three components are of type `int` (representing `major.minor.patch`),
         whereas the last component may be a `str` as well.
+    headers : dict
+        A dict of headers to be sent along the requests.
     """
 
     def __init__(self, base_url: str = "", verify: bool = True, lazy: bool = False):
