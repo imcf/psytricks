@@ -18,7 +18,6 @@ from .literals import Action, RequestName, MsgStyle
 
 
 class PSyTricksWrapper:
-
     """Wrapper handling PowerShell calls and processing of returned data.
 
     Parameters
@@ -325,7 +324,6 @@ class PSyTricksWrapper:
 
 
 class ResTricksWrapper:
-
     """Wrapper performing REST requests and processing the responses.
 
     Parameters
