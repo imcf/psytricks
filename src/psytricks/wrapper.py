@@ -69,6 +69,9 @@ class PSyTricksWrapper:
         ----------
         request : str
             The request name, one of `psytricks.literals.RequestName`.
+        extra_params : list(str)
+            A list of strings that should be added as extra parameters to the
+            PowerShell command that is run as a subprocess.
 
         Returns
         -------
