@@ -1,9 +1,13 @@
 {
     "cSpell.words": [
+        "conffile",
         "deliverycontroller",
+        "getaccess",
         "poweraction",
         "restricks",
+        "sendmessage",
         "serviceaccount",
+        "setaccess",
         "startarguments"
     ]
 }

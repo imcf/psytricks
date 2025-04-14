@@ -16,7 +16,7 @@
 ### Fixed
 
 * `Set-AccessUsers()` in `psytricks-lib.ps1` did not work correctly if multiple
-  usernames were specified. This is now fixed by foce-converting the given
+  usernames were specified. This is now fixed by force-converting the given
   string into an array, splitting at "`,`" characters. This directly affects the
   functionality for adding / removing multiple users at once via
   `psytricks.wrapper.ResTricksWrapper.set_access_users()` and
@@ -207,7 +207,7 @@ independent context.
 ### Changed
 
 * The *command* CLI argument is now an option, requiring `--command` to be used.
-* The JSON returned by the PowerShell wrapepr script now contains two objects
+* The JSON returned by the PowerShell wrapper script now contains two objects
   (`Status` and `Data`), making it possible to return proper exit codes and
   error messages to the calling code.
 * Date strings in the JSON formatted by PowerShell 5.1 are now properly parsed
