@@ -88,7 +88,7 @@ class ResTricksWrapper:
     @read_only.setter
     def read_only(self, value: bool) -> None:
         verb = "Enabling" if value else "Disabling"
-        log.debug(f"{verb}'read-only' mode.")
+        log.debug(f"{verb} 'read-only' mode.")
         self._read_only = value
 
     def connect(self):
