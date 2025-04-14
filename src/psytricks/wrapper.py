@@ -409,6 +409,8 @@ class ResTricksWrapper:
             log.trace("Connection 🔌 established previously, not reconnecting.")
             return
 
+        log.debug(f"Trying to connect 🔌 to the ResTricks server: {self.base_url}")
+
         try:
             status = self.send_get_request("version")["Status"]
             log.trace(f"Server status: [{status}]")
