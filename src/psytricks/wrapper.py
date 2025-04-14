@@ -377,7 +377,7 @@ class ResTricksWrapper:
 
     @property
     def read_only(self) -> bool:
-        """Operation mode of the wrapper object (default is `False`).
+        """Mode of operation (default is `False`, meaning read / write).
 
         In case `read_only` is set to `True`, any request that would potentially
         result in a changed state of the Citrix environment (currently this is
