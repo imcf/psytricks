@@ -594,8 +594,8 @@ class ResTricksWrapper:
 
         Note
         ----
-        In case the instance attribute `read_only` is set to `True`, this method
-        will **NOT perform and actual `POST` request** (as this would
+        In case the object's instance attribute `read_only` is set to `True`,
+        this method will **NOT perform an actual `POST` request** (as this would
         potentially lead to a state-change in the Citrix platform) but rather
         issue a `WARNING` level log message and return an empty list.
         """
