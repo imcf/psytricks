@@ -427,7 +427,9 @@ class ResTricksWrapper:
 
         except Exception as ex:  # pylint: disable-msg=broad-except
             if self._verify:
-                raise ConnectionError(f"Connecting to {self.base_url} failed") from ex
+                raise ConnectionError(
+                    f"Connecting to {self.base_url} failed: {ex}"
+                ) from ex
 
     def validate_version(self, server_ver):
         """Validate the server version against the local module.
@@ -536,9 +538,20 @@ class ResTricksWrapper:
 
         try:
             data = response.json(object_hook=parse_powershell_json)
+        except json.JSONDecodeError as ex:
+            msg = (
+                f"Decoding JSON failed at pos {ex.pos}\n"
+                f"Response text (lim. to 500 chars):\n--\n{response.text[:500]}\n--\n"
+            )
+            log.error(msg)
+            raise json.JSONDecodeError(msg, doc=ex.doc, pos=ex.pos) from ex
         except Exception as ex:  # pylint: disable-msg=broad-except
-            log.error(f"GET request [{raw_url}] didn't return any JSON: {ex}")
-            raise ex
+            msg = (
+                f"Exception processing response from GET request [{raw_url}]: {ex}\n"
+                f"Response text (lim. to 500 chars):\n--\n{response.text[:500]}\n--\n"
+            )
+            log.error(f"{msg}\n== STATUS CODE:{response.status_code}")
+            raise json.JSONDecodeError(msg, doc=response.text, pos=0)
 
         ResTricksWrapper._check_response(response)
 
