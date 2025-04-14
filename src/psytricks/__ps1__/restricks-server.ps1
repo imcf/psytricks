@@ -169,7 +169,7 @@ function Send-Response {
 
         [Parameter(HelpMessage = "An error message for the 'Status' JSON section.")]
         [string]
-        $ErrorMesage = "",
+        $ErrorMessage = "",
 
         [Parameter(HelpMessage = "Use 'text/html' instead of 'application/json'.")]
         [Switch]
@@ -182,7 +182,7 @@ function Send-Response {
     } else {
         $Status = @{
             ExecutionStatus  = $ExecutionStatus
-            ErrorMessage     = $ErrorMesage
+            ErrorMessage     = $ErrorMessage
             ScriptName       = $ScriptName
             ScriptPath       = $ScriptPath
             PSyTricksVersion = $Version
@@ -450,7 +450,7 @@ function Start-ListenerBlocking {
                         -Response $Response `
                         -StatusCode 400 `
                         -ExecutionStatus 1 `
-                        -ErrorMesage $_ `
+                        -ErrorMessage $_ `
                         -Body $Message
                 } catch {
                     Write-Host "Unable to send the response: $_" @Red
