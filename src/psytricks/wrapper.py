@@ -53,7 +53,8 @@ class PSyTricksWrapper:
     pswrapper = Path(dirname(__file__)) / "__ps1__" / "psytricks-wrapper.ps1"
 
     def __init__(self, deliverycontroller: str):
-        # FIXME: this is a hack while implementing the package, remove for production!
+        # FIXME: this platform-specific conditional below is a hack while
+        # implementing the package, remove for production!
         self.add_flags = []
         if platform.startswith("linux"):
             self.ps_exe = Path("/snap/bin/pwsh")
