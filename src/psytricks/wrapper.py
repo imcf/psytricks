@@ -412,7 +412,7 @@ class ResTricksWrapper:
         log.debug(f"Trying to connect 🔌 to the ResTricks server: {self.base_url}")
 
         try:
-            status = self.send_get_request("version")["Status"]
+            status = self.send_get_request("version", auto_conn=False)["Status"]
             log.trace(f"Server status: [{status}]")
             server_version = status["PSyTricksVersion"]
 
@@ -513,13 +513,17 @@ class ResTricksWrapper:
             log.warning(response.text)
             raise ValueError(f"Malformed response: {response.text}") from ex
 
-    def send_get_request(self, raw_url: str):
+    def send_get_request(self, raw_url: str, auto_conn: bool = True):
         """Perform a `GET` request and process the response.
 
         Parameters
         ----------
         raw_url : str
             The part of the URL that will be appended to `self.base_url`.
+        auto_conn: bool, optional
+            If set to `True` (default), `self.connect()` will be called before
+            sending the request. Can be disabled to avoid a recursive loop as
+            this method itself is also called by `connect()`.
 
         Returns
         -------
@@ -528,7 +532,8 @@ class ResTricksWrapper:
             Will be an empty list in case something went wrong performing the
             GET request or processing the response.
         """
-        self.connect()
+        if auto_conn:
+            self.connect()
 
         try:
             response = requests.get(self.base_url + raw_url, timeout=self.timeout)

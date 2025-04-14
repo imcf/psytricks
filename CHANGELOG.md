@@ -15,6 +15,10 @@
   the CVAD platform and turn it into a `WARNING` level log message. This is
   meant for testing applications against a production CVAD or for creating
   *monitoring-only* tools.
+* `psytricks.wrapper.ResTricksWrapper.send_get_request` now takes an additional
+  optional parameter `auto_conn` (default is `True`) that can be used to prevent
+  it from calling `self.connect()`, which is required to avoid a recursive loop
+  triggered by the new `lazy` connection approach described above.
 
 ## 2.1.6
 
