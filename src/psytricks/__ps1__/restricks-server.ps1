@@ -26,7 +26,7 @@ param (
 
     [Parameter(
         ParameterSetName = "Startup",
-        HelpMessage = "A logfile to use for the output (default: stdtout)."
+        HelpMessage = "A logfile to use for the output (default: stdout)."
     )]
     [string]
     $LogFile,
