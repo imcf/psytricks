@@ -21,6 +21,23 @@ class PSyTricksWrapper:
 
     """Wrapper handling PowerShell calls and processing of returned data.
 
+    Parameters
+    ----------
+    deliverycontroller : str
+        The address (IP or FQDN) of the Citrix Delivery Controller to
+        connect to.
+
+    Attributes
+    ----------
+    pswrapper : pathlib.Path
+        The path to the PowerShell wrapper script (class variable!).
+    ps_exe : pathlib.Path
+        Path to the PowerShell executable itself (i.e. the *interpreter*).
+    add_flags : list(str)
+        A list of additional flags to add to the call of the wrapper script.
+    deliverycontroller : str
+        The address of the Delivery Controller.
+
     Raises
     ------
     RuntimeError
@@ -36,14 +53,6 @@ class PSyTricksWrapper:
     pswrapper = Path(dirname(__file__)) / "__ps1__" / "psytricks-wrapper.ps1"
 
     def __init__(self, deliverycontroller: str):
-        """Instantiate a `PSyTricksWrapper` object.
-
-        Parameters
-        ----------
-        deliverycontroller : str
-            The address (IP or FQDN) of the Citrix Delivery Controller to
-            connect to.
-        """
         # FIXME: this is a hack while implementing the package, remove for production!
         self.add_flags = []
         if platform.startswith("linux"):
@@ -318,6 +327,21 @@ class ResTricksWrapper:
 
     """Wrapper performing REST requests and processing the responses.
 
+    Parameters
+    ----------
+    base_url : str, optional
+        The base URL where to find the ResTricks service. Will default to
+        `http://localhost:8080/` if nothing is specified.
+    verify : bool, optional
+        Validate the server version as soon as a connection is established. Set
+        to `False` to disable the version check and ignore potential problems
+        during the connection check.
+    lazy : bool, optional
+        By default the constructor will try to establish a connection to the
+        ResTricks service. If this is set to `True`, the connection will only be
+        established once a request has to be sent to the server but not during
+        instantiation.
+
     Attributes
     ----------
     base_url : str
@@ -332,23 +356,6 @@ class ResTricksWrapper:
     """
 
     def __init__(self, base_url: str = "", verify: bool = True, lazy: bool = False):
-        """Instantiate a `ResTricksWrapper` object.
-
-        Parameters
-        ----------
-        base_url : str, optional
-            The base URL where to find the ResTricks service. Will default to
-            `http://localhost:8080/` if nothing is specified.
-        verify : bool, optional
-            Validate the server version as soon as a connection is established.
-            Set to `False` to disable the version check and ignore potential
-            problems during the connection check.
-        lazy : bool, optional
-            By default the constructor will try to establish a connection to the
-            ResTricks service. If this is set to `True`, the connection will
-            only be established once a request has to be sent to the server but
-            not during instantiation.
-        """
         self.base_url = "http://localhost:8080/" if not base_url else base_url
         self.timeout = 5
         self.server_version = [0, 0, 0, 0]
