@@ -362,11 +362,38 @@ class ResTricksWrapper:
         self.server_version = [0, 0, 0, 0]
         self._connected = False
         self._verify = verify
+        self._read_only = False
 
         if not lazy:
             self.connect()
 
         log.debug(f"Initialized {self.__class__.__name__}({base_url}) ✨")
+
+    @property
+    def read_only(self) -> bool:
+        """Operation mode of the wrapper object (default is `False`).
+
+        In case `read_only` is set to `True`, any request that would potentially
+        result in a changed state of the Citrix environment (currently this is
+        exclusively done by `POST` requests) will not be executed. Instead, a
+        log message (level `WARNING`) will be issued, documenting the
+        intercepted request.
+
+        This is particularly useful when testing changes to software using this
+        library without having a Citrix test environment available, or for
+        making sure a tool is running in *monitoring-only* mode.
+
+        Returns
+        -------
+        bool
+        """
+        return self._read_only
+
+    @read_only.setter
+    def read_only(self, value: bool) -> None:
+        verb = "Enabling" if value else "Disabling"
+        log.debug(f"{verb}'read-only' mode.")
+        self._read_only = value
 
     def connect(self):
         """Connect to the ResTricks service unless already connected.
@@ -518,6 +545,11 @@ class ResTricksWrapper:
     def send_post_request(self, raw_url: str, payload: dict, no_json: bool = False):
         """Perform a `POST` request and process the response.
 
+        The response will be checked for a valid HTTP status code and will be
+        parsed into a `JSON` object.
+
+        Respects the `read_only` instance attribute, see note below for details.
+
         Parameters
         ----------
         raw_url : str
@@ -535,8 +567,24 @@ class ResTricksWrapper:
             Will be an empty list in case something went wrong performing the
             POST request or processing the response (or in case the `no_json`
             parameter was set to `True`).
+
+        Note
+        ----
+        In case the instance attribute `read_only` is set to `True`, this method
+        will **NOT perform and actual `POST` request** (as this would
+        potentially lead to a state-change in the Citrix platform) but rather
+        issue a `WARNING` level log message and return an empty list.
         """
         self.connect()
+
+        if self.read_only:
+            log.warning(
+                f"{self.__class__.__name__} is running in READ-ONLY mode, the "
+                f"following request has **NOT** been performed:\n"
+                f"> raw_url: [{raw_url}]\n"
+                f"> payload:\n------\n{payload}\n------\n"
+            )
+            return []
 
         try:
             response = requests.post(

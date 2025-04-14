@@ -10,6 +10,11 @@
   additional optional parameter `lazy`. If this is set to `True` (default is
   `False`), the initial connection check will not be performed during
   instantiation but is deferred until the connection is actually required.
+* The instance attribute `psytricks.wrapper.ResTricksWrapper.read_only` has been
+  added in order to intercept any request that would perform a *state change* to
+  the CVAD platform and turn it into a `WARNING` level log message. This is
+  meant for testing applications against a production CVAD or for creating
+  *monitoring-only* tools.
 
 ## 2.1.6
 
