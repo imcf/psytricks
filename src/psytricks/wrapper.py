@@ -21,6 +21,23 @@ class PSyTricksWrapper:
 
     """Wrapper handling PowerShell calls and processing of returned data.
 
+    Parameters
+    ----------
+    deliverycontroller : str
+        The address (IP or FQDN) of the Citrix Delivery Controller to
+        connect to.
+
+    Attributes
+    ----------
+    pswrapper : pathlib.Path
+        The path to the PowerShell wrapper script (class variable!).
+    ps_exe : pathlib.Path
+        Path to the PowerShell executable itself (i.e. the *interpreter*).
+    add_flags : list(str)
+        A list of additional flags to add to the call of the wrapper script.
+    deliverycontroller : str
+        The address of the Delivery Controller.
+
     Raises
     ------
     RuntimeError
@@ -36,15 +53,8 @@ class PSyTricksWrapper:
     pswrapper = Path(dirname(__file__)) / "__ps1__" / "psytricks-wrapper.ps1"
 
     def __init__(self, deliverycontroller: str):
-        """Instantiate a `PSyTricksWrapper` object.
-
-        Parameters
-        ----------
-        deliverycontroller : str
-            The address (IP or FQDN) of the Citrix Delivery Controller to
-            connect to.
-        """
-        # FIXME: this is a hack while implementing the package, remove for production!
+        # FIXME: this platform-specific conditional below is a hack while
+        # implementing the package, remove for production!
         self.add_flags = []
         if platform.startswith("linux"):
             self.ps_exe = Path("/snap/bin/pwsh")
@@ -318,6 +328,21 @@ class ResTricksWrapper:
 
     """Wrapper performing REST requests and processing the responses.
 
+    Parameters
+    ----------
+    base_url : str, optional
+        The base URL where to find the ResTricks service. Will default to
+        `http://localhost:8080/` if nothing is specified.
+    verify : bool, optional
+        Validate the server version as soon as a connection is established. Set
+        to `False` to disable the version check and ignore potential problems
+        during the connection check.
+    lazy : bool, optional
+        By default the constructor will try to establish a connection to the
+        ResTricks service. If this is set to `True`, the connection will only be
+        established once a request has to be sent to the server but not during
+        instantiation.
+
     Attributes
     ----------
     base_url : str
@@ -332,33 +357,49 @@ class ResTricksWrapper:
     """
 
     def __init__(self, base_url: str = "", verify: bool = True, lazy: bool = False):
-        """Instantiate a `ResTricksWrapper` object.
-
-        Parameters
-        ----------
-        base_url : str, optional
-            The base URL where to find the ResTricks service. Will default to
-            `http://localhost:8080/` if nothing is specified.
-        verify : bool, optional
-            Validate the server version as soon as a connection is established.
-            Set to `False` to disable the version check and ignore potential
-            problems during the connection check.
-        lazy : bool, optional
-            By default the constructor will try to establish a connection to the
-            ResTricks service. If this is set to `True`, the connection will
-            only be established once a request has to be sent to the server but
-            not during instantiation.
-        """
         self.base_url = "http://localhost:8080/" if not base_url else base_url
         self.timeout = 5
         self.server_version = [0, 0, 0, 0]
+
+        # FIXME: currently "localhost" is hardcoded here as this is what the
+        # service expects (see `Listener.Prefixes` in `restricks-server.ps1` for
+        # the details) - this should be made configurable!
+        self.headers = {"Host": "localhost"}
+
         self._connected = False
         self._verify = verify
+        self._read_only = False
 
         if not lazy:
             self.connect()
 
         log.debug(f"Initialized {self.__class__.__name__}({base_url}) ✨")
+
+    @property
+    def read_only(self) -> bool:
+        """Operation mode of the wrapper object (default is `False`).
+
+        In case `read_only` is set to `True`, any request that would potentially
+        result in a changed state of the Citrix environment (currently this is
+        exclusively done by `POST` requests) will not be executed. Instead, a
+        log message (level `WARNING`) will be issued, documenting the
+        intercepted request.
+
+        This is particularly useful when testing changes to software using this
+        library without having a Citrix test environment available, or for
+        making sure a tool is running in *monitoring-only* mode.
+
+        Returns
+        -------
+        bool
+        """
+        return self._read_only
+
+    @read_only.setter
+    def read_only(self, value: bool) -> None:
+        verb = "Enabling" if value else "Disabling"
+        log.debug(f"{verb}'read-only' mode.")
+        self._read_only = value
 
     def connect(self):
         """Connect to the ResTricks service unless already connected.
@@ -374,8 +415,10 @@ class ResTricksWrapper:
             log.trace("Connection 🔌 established previously, not reconnecting.")
             return
 
+        log.debug(f"Trying to connect 🔌 to the ResTricks server: {self.base_url}")
+
         try:
-            status = self.send_get_request("version")["Status"]
+            status = self.send_get_request("version", auto_conn=False)["Status"]
             log.trace(f"Server status: [{status}]")
             server_version = status["PSyTricksVersion"]
 
@@ -390,7 +433,9 @@ class ResTricksWrapper:
 
         except Exception as ex:  # pylint: disable-msg=broad-except
             if self._verify:
-                raise ConnectionError(f"Connecting to {self.base_url} failed") from ex
+                raise ConnectionError(
+                    f"Connecting to {self.base_url} failed: {ex}"
+                ) from ex
 
     def validate_version(self, server_ver):
         """Validate the server version against the local module.
@@ -474,13 +519,17 @@ class ResTricksWrapper:
             log.warning(response.text)
             raise ValueError(f"Malformed response: {response.text}") from ex
 
-    def send_get_request(self, raw_url: str):
+    def send_get_request(self, raw_url: str, auto_conn: bool = True):
         """Perform a `GET` request and process the response.
 
         Parameters
         ----------
         raw_url : str
             The part of the URL that will be appended to `self.base_url`.
+        auto_conn: bool, optional
+            If set to `True` (default), `self.connect()` will be called before
+            sending the request. Can be disabled to avoid a recursive loop as
+            this method itself is also called by `connect()`.
 
         Returns
         -------
@@ -489,19 +538,33 @@ class ResTricksWrapper:
             Will be an empty list in case something went wrong performing the
             GET request or processing the response.
         """
-        self.connect()
+        if auto_conn:
+            self.connect()
 
         try:
-            response = requests.get(self.base_url + raw_url, timeout=self.timeout)
+            response = requests.get(
+                self.base_url + raw_url, timeout=self.timeout, headers=self.headers
+            )
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"GET request [{raw_url}] failed: {ex}")
             raise ex
 
         try:
             data = response.json(object_hook=parse_powershell_json)
+        except json.JSONDecodeError as ex:
+            msg = (
+                f"Decoding JSON failed at pos {ex.pos}\n"
+                f"Response text (lim. to 500 chars):\n--\n{response.text[:500]}\n--\n"
+            )
+            log.error(msg)
+            raise json.JSONDecodeError(msg, doc=ex.doc, pos=ex.pos) from ex
         except Exception as ex:  # pylint: disable-msg=broad-except
-            log.error(f"GET request [{raw_url}] didn't return any JSON: {ex}")
-            raise ex
+            msg = (
+                f"Exception processing response from GET request [{raw_url}]: {ex}\n"
+                f"Response text (lim. to 500 chars):\n--\n{response.text[:500]}\n--\n"
+            )
+            log.error(f"{msg}\n== STATUS CODE:{response.status_code}")
+            raise json.JSONDecodeError(msg, doc=response.text, pos=0)
 
         ResTricksWrapper._check_response(response)
 
@@ -509,6 +572,11 @@ class ResTricksWrapper:
 
     def send_post_request(self, raw_url: str, payload: dict, no_json: bool = False):
         """Perform a `POST` request and process the response.
+
+        The response will be checked for a valid HTTP status code and will be
+        parsed into a `JSON` object.
+
+        Respects the `read_only` instance attribute, see note below for details.
 
         Parameters
         ----------
@@ -527,12 +595,31 @@ class ResTricksWrapper:
             Will be an empty list in case something went wrong performing the
             POST request or processing the response (or in case the `no_json`
             parameter was set to `True`).
+
+        Note
+        ----
+        In case the instance attribute `read_only` is set to `True`, this method
+        will **NOT perform and actual `POST` request** (as this would
+        potentially lead to a state-change in the Citrix platform) but rather
+        issue a `WARNING` level log message and return an empty list.
         """
         self.connect()
 
+        if self.read_only:
+            log.warning(
+                f"{self.__class__.__name__} is running in READ-ONLY mode, the "
+                f"following request has **NOT** been performed:\n"
+                f"> raw_url: [{raw_url}]\n"
+                f"> payload:\n------\n{payload}\n------\n"
+            )
+            return []
+
         try:
             response = requests.post(
-                self.base_url + raw_url, json=payload, timeout=self.timeout
+                self.base_url + raw_url,
+                json=payload,
+                timeout=self.timeout,
+                headers=self.headers,
             )
         except Exception as ex:  # pylint: disable-msg=broad-except
             log.error(f"POST request [{raw_url}] failed: {ex}")

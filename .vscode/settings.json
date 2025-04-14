@@ -4,6 +4,7 @@
         "deliverycontroller",
         "getaccess",
         "poweraction",
+        "pswrapper",
         "restricks",
         "sendmessage",
         "serviceaccount",

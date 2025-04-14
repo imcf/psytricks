@@ -9,7 +9,9 @@ from .mappings import by_keyword
 
 
 def parse_powershell_json(json_dict):
-    """Hook for `json.loads()` to process PowerShell 5.1 / Citrix JSON.
+    """Process PowerShell 5.1 / Citrix JSON.
+
+    Intended to be used as a hook for `json.loads()`.
 
     Windows PowerShell up to version 5.1 will produce strings in the format
     `/Date(<ms-since-epoch>)/` when converting a timestamp to JSON using the
