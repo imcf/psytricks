@@ -16,6 +16,12 @@
 
 ### Added ✨
 
+* The dict `psytricks.mappings.power_state` now contains mappings for index
+  numbers `10` (*NotSupported*) and `11` (*VirtualMachineNotFound*) that
+  apparently got added in CVAD versions newer than `2203` (note that it's not
+  required for the Delivery Controller to have a more recent version for this to
+  show up, it is actually sufficient if one of the connected machines is running
+  a corresponding VDA version, e.g. `2507`).
 * The constructor of `psytricks.wrapper.ResTricksWrapper` is now having an
   additional optional parameter `lazy`. If this is set to `True` (default is
   `False`), the initial connection check will not be performed during
