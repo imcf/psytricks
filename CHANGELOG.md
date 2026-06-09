@@ -4,7 +4,17 @@
 
 ## 2.2.0
 
-### Added
+### Fixed 🚑️
+
+* In situations where Citrix reports a state that is not reflected in
+  `psytricks.mappings`, decoding of the JSON response failed with a `KeyError`
+  in `psytricks.decoder.parse_powershell_json`. This is now fixed by catching 🥅
+  any unknown mapping error and replacing it with `undefined-mapping-<index>`,
+  where `<index>` is the integer value reported by Citrix that should be added
+  to the corresponding mapping dict. This approach ensures that the function
+  doesn't fail while still indicating clearly what went wrong.
+
+### Added ✨
 
 * The constructor of `psytricks.wrapper.ResTricksWrapper` is now having an
   additional optional parameter `lazy`. If this is set to `True` (default is
