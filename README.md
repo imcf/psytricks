@@ -100,6 +100,9 @@ Service Wrapper)][www_winsw] but you may choose anything you like to launch the
 server process like NSSM, Scheduled Tasks 📅, homegrown dark magic 🪄🔮 or
 others.
 
+🧪 A more recent approach could be [Shawl][www_shawl] - let us know if you've
+tried it and how it went!
+
 To go with **WinSW** simply download the bundled version provided with each
 [PSyTricks release][www_releases]. Just look for the `.zip` asset having `REST`
 and `WinSW` in its name.
@@ -203,3 +206,4 @@ wrapper.set_maintenance(machine="vm42.vdi.example.xy", disable=False)
 [www_winsw]: https://github.com/winsw/winsw
 [www_releases]: https://github.com/imcf/psytricks/releases
 [www_rtf]: https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven
+[www_shawl]: https://github.com/mtkennerly/shawl
