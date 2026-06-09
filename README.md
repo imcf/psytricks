@@ -29,8 +29,9 @@ PSyTricks ships with two options for the PowerShell layer:
 
 NOTE: this `RESTful` claim is actually not entirely true. Or basically not at
 all, it would be better called an `HTTP-JSON-RPC-API`. We'll still be using the
-term `REST` for it as this is basically what people nowadays think of when they
-are coming across this label. Sorry, [Roy T. Fielding][www_rtf].
+term `REST` for it as the functionality of this package basically serves a very
+similar purpose to what people think of when they are coming across this label.
+Apologies, [Roy T. Fielding][www_rtf].
 
 ## 🤯 Are you serious?
 
@@ -42,7 +43,7 @@ Really? 🧐
 Or, not sure if that's any better, implementing an HTTP REST API in plain
 PowerShell?!? 🫣
 
-### ✅ Yes. We. Are
+### ✅ Yes, we are
 
 *And the package name was chosen to reflect this.*
 
@@ -51,9 +52,9 @@ at all* an issue for us. Abysmal, as in: for every wrapped call a full (new)
 PowerShell process needs to be instantiated, usually taking something like 1-2
 seconds. ⏳
 
-The REST interface provides a much better performance, at the cost of some
-additional setup. If you're happy to take on this approach, the package offers a
-very smooth ride. 🎢🎡
+The REST / HTTP-RPC interface provides a much better performance, at the cost of
+some additional setup. If you're happy to take on this approach, the package
+offers a very smooth ride. 🎢🎡
 
 ## 🛠🚧 Installation
 
