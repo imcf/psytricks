@@ -46,7 +46,12 @@ def parse_powershell_json(json_dict):
             ret[key] = datetime.fromtimestamp(int(epoch_ms[:10]))
         elif key in by_keyword:
             mapping = by_keyword[key]
-            mapped_value = mapping[value]
+            try:
+                mapped_value = mapping[value]
+            except KeyError as err:
+                mapped_value = f"undefined-mapping-{value}"
+                log.error(f"No mapping for value '{value}' - using '{mapped_value}'!")
+                log.trace(err)
             log.trace(f"{key}: {value} -> {mapped_value}")
             ret[key] = mapped_value
         else:
