@@ -40,6 +40,18 @@
   the CVAD platform and turn it into a `WARNING` level log message. This is
   meant for testing applications against a production CVAD or for creating
   *monitoring-only* tools.
+* 👷🚚🌍🎪 **Build and publish via GitHub Actions**:
+  Packages are now built through a GitHub Action workflow and automatically
+  [published on 🎪 PyPI][www_pypi_psytricks], including a trigger to update the
+  [API docs available at imcf.one][www_apidocs_psytricks].
+* 📝✨ **Improved API documentation**:
+  While the exact structure of the data returned by any of the wrapped calls to
+  the CVAD infrastructure depends on the behavior of the 👽️ Citrix toolstack,
+  the respective methods now describe the expected keys of the delivered dicts
+  for CVAD version `2203` in their docstrings.
+
+[www_pypi_psytricks]: https://pypi.org/project/psytricks/
+[www_apidocs_psytricks]: https://imcf.one/apidocs/psytricks/
 
 ## 2.1.6
 
