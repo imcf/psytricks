@@ -667,7 +667,7 @@ class PSyTricksWrapper:
         """
         return self.run_ps1_script(request="GetSessions")
 
-    def disconnect_session(self, machine: str) -> list:
+    def disconnect_session(self, machine: str) -> dict:
         """Call the wrapper with command `DisconnectSession`.
 
         Parameters
@@ -733,7 +733,7 @@ class PSyTricksWrapper:
 
         return self.run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
 
-    def set_maintenance(self, machine: str, disable: bool) -> list:
+    def set_maintenance(self, machine: str, disable: bool) -> dict:
         """Call the wrapper with command `SetMaintenanceMode`.
 
         Parameters
@@ -757,7 +757,9 @@ class PSyTricksWrapper:
             request="SetMaintenanceMode", extra_params=extra_params
         )
 
-    def send_message(self, machine: str, message: str, title: str, style: MsgStyle):
+    def send_message(
+        self, machine: str, message: str, title: str, style: MsgStyle
+    ) -> None:
         """Call the wrapper with command `SendSessionMessage`.
 
         Parameters
@@ -785,7 +787,7 @@ class PSyTricksWrapper:
 
         self.run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
 
-    def perform_poweraction(self, machine: str, action: Action) -> None:
+    def perform_poweraction(self, machine: str, action: Action) -> dict:
         """Call the wrapper with command `MachinePowerAction`.
 
         Parameters
