@@ -1,15 +1,31 @@
 {
     "cSpell.words": [
+        "agenterror",
+        "bytecodes",
         "conffile",
         "deliverycontroller",
         "getaccess",
+        "Hostingpoweraction",
+        "inuse",
+        "notsupported",
+        "NSSM",
         "poweraction",
         "pswrapper",
+        "pydeps",
+        "pypa",
         "restricks",
+        "sampledata",
         "sendmessage",
         "serviceaccount",
         "setaccess",
-        "startarguments"
+        "shutdownlogic",
+        "snapin",
+        "snok",
+        "startarguments",
+        "tstart",
+        "turningoff",
+        "turningon",
+        "virtualmachinenotfound"
     ],
     "python-envs.pythonProjects": [
         {
