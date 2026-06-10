@@ -93,3 +93,26 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         packages-dir: dist/
+
+  dispatch-foreign-workflows:
+    name: Dispatch foreign workflows 🚀🌖
+
+    runs-on: ubuntu-latest
+
+    needs:
+    - pypi-publish
+
+    strategy:
+      matrix:
+        repo: [ 'imcf/imcf.github.io' ]
+
+    steps:
+    - name: 🏹 Fire event on `${{ matrix.repo }}`
+      run: |
+        curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.DISPATCH_DEPLOY_PAGES }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ matrix.repo }}/dispatches \
+          -d '{"event_type":"dispatch-event"}'
