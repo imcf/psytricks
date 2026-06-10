@@ -18,7 +18,7 @@ from .literals import Action, RequestName, MsgStyle
 
 
 class ResTricksWrapper:
-    """Wrapper performing REST requests and processing the responses.
+    """Perform requests to a ResTricks service and process the responses.
 
     Parameters
     ----------
