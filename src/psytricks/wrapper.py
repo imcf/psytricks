@@ -547,7 +547,7 @@ class PSyTricksWrapper:
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using Delivery Controller [{self.deliverycontroller}].")
 
-    def run_ps1_script(self, request: RequestName, extra_params: list = None) -> list:
+    def run_ps1_script(self, request: RequestName, extra_params: list = None):
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
@@ -560,9 +560,10 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
+        list(dict) or dict or None
             The "Data" section of the JSON parsed from the output returned by
-            the PS1 wrapper script.
+            the PS1 wrapper script. Depending on the command, this can be a list
+            of dicts or a single dict or None.
 
         Raises
         ------
