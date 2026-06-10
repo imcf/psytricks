@@ -652,8 +652,23 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON.
+        list(dict)
+            A list of dicts with the current machine state details. Each dict is
+            expected to contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         return self.run_ps1_script(request="GetMachineStatus")
 
@@ -662,8 +677,25 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON.
+        list(dict)
+            A list of dicts with the current session details. Each dict is
+            expected to contain the following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
         """
         return self.run_ps1_script(request="GetSessions")
 
@@ -677,8 +709,26 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        dict
+            A dict with the details on the session that was requested to be
+            disconnected. The dict is expected to contain the following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
+
         """
         return self.run_ps1_script(
             request="DisconnectSession",
@@ -695,8 +745,20 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        list(dict)
+            A list of dicts with the details on the user objects having access
+            to the given Delivery Group. Each dict is expected to contain the
+            following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
         """
         return self.run_ps1_script(
             request="GetAccessUsers",
@@ -719,8 +781,20 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        list(dict)
+            A list of dicts with the details on the user objects having access
+            to the given Delivery Group *after* the operation has been
+            performed. Each dict is expected to contain the following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
         """
         extra_params = [
             "-Group",
@@ -746,8 +820,23 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        dict
+            A dict created from the parsed JSON as returned by the wrapper
+            script. The dict is expected to contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         extra_params = ["-DNSName", machine]
         if disable:
@@ -796,6 +885,31 @@ class PSyTricksWrapper:
             The FQDN of the machine to disconnect the session on.
         action : str
             The power action to perform, one of `psytricks.literals.Action`.
+
+        Returns
+        -------
+        dict
+            The `Data` dict parsed from the JSON returned by the wrapper script,
+            containing details on the power action status of the machine. The
+            dict is expected to contain the following keys:
+                - `Action`
+                - `ActionCompletionTime`
+                - `ActionStartTime`
+                - `ActualPriority`
+                - `BasePriority`
+                - `DNSName`
+                - `FailureReason`
+                - `HostedMachineId`
+                - `HostedMachineName`
+                - `HypHypervisorConnectionUid`
+                - `HypervisorConnectionUid`
+                - `MachineName`
+                - `MetadataMap`
+                - `Origin`
+                - `RequestTime`
+                - `Sid`
+                - `State`
+                - `Uid`
         """
         extra_params = ["-DNSName", machine, "-Action", action]
         return self.run_ps1_script(
