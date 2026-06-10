@@ -15,7 +15,7 @@ permissions:
 jobs:
 
   release-build:
-    name: 🎭👷 Build release package 📦
+    name: 🎭👷 Build package 📦
 
     runs-on: ubuntu-24.04
 
@@ -72,7 +72,7 @@ jobs:
         path: dist/
 
   pypi-publish:
-    name: 🚚 Publish 📦 package on 🎪 PyPI
+    name: 🚚 Publish 📦 on 🎪 PyPI
 
     runs-on: ubuntu-latest
 
