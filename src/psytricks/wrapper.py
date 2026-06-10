@@ -91,7 +91,7 @@ class ResTricksWrapper:
         log.debug(f"{verb} 'read-only' mode.")
         self._read_only = value
 
-    def connect(self):
+    def connect(self) -> None:
         """Connect to the ResTricks service unless already connected.
 
         Raises
@@ -127,7 +127,7 @@ class ResTricksWrapper:
                     f"Connecting to {self.base_url} failed: {ex}"
                 ) from ex
 
-    def validate_version(self, server_ver):
+    def validate_version(self, server_ver) -> bool:
         """Validate the server version against the local module.
 
         Parse the version strings of the local module and the server response
@@ -187,7 +187,7 @@ class ResTricksWrapper:
         return False
 
     @staticmethod
-    def _check_response(response):
+    def _check_response(response) -> None:
         """Check the HTTP response code and JSON status attributes."""
         if response.status_code == 200:
             return
@@ -209,7 +209,9 @@ class ResTricksWrapper:
             log.warning(response.text)
             raise ValueError(f"Malformed response: {response.text}") from ex
 
-    def send_get_request(self, raw_url: str, auto_conn: bool = True):
+    def send_get_request(
+        self, raw_url: str, auto_conn: bool = True
+    ) -> list[dict] | dict | None:
         """Perform a `GET` request and process the response.
 
         Parameters
@@ -260,7 +262,9 @@ class ResTricksWrapper:
 
         return data
 
-    def send_post_request(self, raw_url: str, payload: dict, no_json: bool = False):
+    def send_post_request(
+        self, raw_url: str, payload: dict, no_json: bool = False
+    ) -> list[dict] | dict | None:
         """Perform a `POST` request and process the response.
 
         The response will be checked for a valid HTTP status code and will be
@@ -532,7 +536,9 @@ class ResTricksWrapper:
         }
         return self.send_post_request("SetMaintenanceMode", payload)["Data"]
 
-    def send_message(self, machine: str, message: str, title: str, style: MsgStyle):
+    def send_message(
+        self, machine: str, message: str, title: str, style: MsgStyle
+    ) -> None:
         """Send a `POST` request with `SendSessionMessage`.
 
         Parameters
@@ -653,7 +659,9 @@ class PSyTricksWrapper:
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using Delivery Controller [{self.deliverycontroller}].")
 
-    def run_ps1_script(self, request: RequestName, extra_params: list = None):
+    def run_ps1_script(
+        self, request: RequestName, extra_params: (list | None) = None
+    ) -> list[dict] | dict | None:
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
