@@ -379,34 +379,6 @@ class ResTricksWrapper:
         log.debug("Requesting current sessions...")
         return self.send_get_request("GetSessions")["Data"]
 
-    def get_access_users(self, group: str) -> list:
-        """Send a `GET` request with `GetAccessUsers`.
-
-        Parameters
-        ----------
-        group : str
-            The name of the Delivery Group to request users having access.
-
-        Returns
-        -------
-        list(dict)
-            The `Data` dicts parsed from the JSON returned by the REST service,
-            containing details on the user objects having access to the given
-            Delivery Group. Each dict is expected to contain the following keys:
-                - `DirectoryContext`
-                - `FullName`
-                - `HomeZoneName`
-                - `HomeZoneUid`
-                - `IdentityClaims`
-                - `Name`
-                - `NameLookupFailureCount`
-                - `PrimaryClaim`
-                - `SID`
-                - `UPN`
-        """
-        log.debug(f"Requesting users having access to group [{group}]...")
-        return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
-
     def disconnect_session(self, machine: str) -> dict:
         """Send a `POST` request with `DisconnectSession`.
 
@@ -450,6 +422,34 @@ class ResTricksWrapper:
             return {}
 
         return session
+
+    def get_access_users(self, group: str) -> list:
+        """Send a `GET` request with `GetAccessUsers`.
+
+        Parameters
+        ----------
+        group : str
+            The name of the Delivery Group to request users having access.
+
+        Returns
+        -------
+        list(dict)
+            The `Data` dicts parsed from the JSON returned by the REST service,
+            containing details on the user objects having access to the given
+            Delivery Group. Each dict is expected to contain the following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
+        """
+        log.debug(f"Requesting users having access to group [{group}]...")
+        return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
 
     def set_access_users(self, group: str, users: str, disable: bool) -> list:
         """Send a `POST` request with `SetAccessUsers`.
