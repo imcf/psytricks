@@ -71,6 +71,41 @@ jobs:
         name: release-dists
         path: dist/
 
+  build-service-package:
+    name: 👷 Build 🧑‍🔧 service package 📦
+
+    runs-on: ubuntu-latest
+
+    needs:
+    - build-python-package
+
+    strategy:
+      matrix:
+        WINSW_RELEASE: [ "2.12.0" ]
+        WINSW_FLAVOR: [ "NET461", "NET4" ]
+
+    steps:
+    - name: 📥 Checkout repo
+      uses: actions/checkout@v6
+
+    - name: 📥 Retrieve release 📦 distributions
+      uses: actions/download-artifact@v8
+      with:
+        name: release-dists
+        path: dist/
+
+    - name: 🏗️ Assemble service package 🧑‍🔧📦
+      run: |
+        WINSW_RELEASE=${{ matrix.WINSW_RELEASE }} \
+        WINSW_FLAVOR=${{ matrix.WINSW_FLAVOR }} \
+        scripts/assemble-service-pkg.sh
+
+    - name: 📤 Upload build artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: service-package-${{ matrix.WINSW_RELEASE}}-${{ matrix.WINSW_FLAVOR }}
+        path: dist/psytricks-REST-*.zip
+
   pypi-publish:
     name: 🚚 Publish 📦 on 🎪 PyPI
 
