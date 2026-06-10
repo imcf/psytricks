@@ -329,7 +329,23 @@ class ResTricksWrapper:
         Returns
         -------
         list(dict)
-            The `Data` dicts parsed from the JSON returned by the REST service.
+            The `Data` dicts parsed from the JSON returned by the REST service
+            with the current machine state details. Each dict is expected to
+            contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         log.debug("Requesting current status of machines...")
         return self.send_get_request("GetMachineStatus")["Data"]
@@ -341,7 +357,24 @@ class ResTricksWrapper:
         -------
         list(dict)
             The `Data` dicts parsed from the JSON returned by the REST service,
-            containing details about the currently existing sessions.
+            containing details about the currently existing sessions. Each dict
+            is expected to contain the following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
         """
         log.debug("Requesting current sessions...")
         return self.send_get_request("GetSessions")["Data"]
@@ -358,7 +391,18 @@ class ResTricksWrapper:
         -------
         list(dict)
             The `Data` dicts parsed from the JSON returned by the REST service,
-            containing the user objects having access to the given group.
+            containing details on the user objects having access to the given
+            Delivery Group. Each dict is expected to contain the following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
         """
         log.debug(f"Requesting users having access to group [{group}]...")
         return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
@@ -379,7 +423,24 @@ class ResTricksWrapper:
             contains an empty `Data` object, an empty dict will be returned.
             Please note that sending a disconnect request for a session that is
             already disconnected will not change the session state but still
-            return the session details.
+            return the session details. The dict is expected to contain the
+            following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
         """
         log.debug(f"Requesting session on [{machine}] to be disconnected...")
         payload = {"DNSName": machine}
@@ -409,8 +470,19 @@ class ResTricksWrapper:
         -------
         list(dict)
             The `Data` dicts parsed from the JSON returned by the REST service,
-            containing the user objects having access to the given group *after*
-            the operation has been performed.
+            containing the user objects having access to the given Delivery
+            Group *after* the operation has been performed. Each dict is
+            expected to contain the following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
         """
         verb = "Removing" if disable else "Adding"
         log.debug(f"{verb} access to group [{group}] for user(s) [{users}]...")
@@ -436,6 +508,21 @@ class ResTricksWrapper:
         -------
         dict
             The `Data` dict parsed from the JSON returned by the REST service.
+            It is expected to contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         verb = "Disabling" if disable else "Enabling"
         log.debug(f"{verb} maintenance mode on [{machine}]...")
@@ -483,7 +570,26 @@ class ResTricksWrapper:
         -------
         dict
             The `Data` dict parsed from the JSON returned by the REST service
-            containing details on the power action status of the machine.
+            containing details on the power action status of the machine. The
+            dict is expected to contain the following keys:
+                - `Action`
+                - `ActionCompletionTime`
+                - `ActionStartTime`
+                - `ActualPriority`
+                - `BasePriority`
+                - `DNSName`
+                - `FailureReason`
+                - `HostedMachineId`
+                - `HostedMachineName`
+                - `HypHypervisorConnectionUid`
+                - `HypervisorConnectionUid`
+                - `MachineName`
+                - `MetadataMap`
+                - `Origin`
+                - `RequestTime`
+                - `Sid`
+                - `State`
+                - `Uid`
         """
         log.debug(f"Requesting action [{action}] for machine [{machine}]...")
         payload = {
