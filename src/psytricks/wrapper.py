@@ -612,6 +612,7 @@ class PSyTricksWrapper:
                 f"Call returned a non-zero state: {ex.returncode} {ex.stderr}"
             ) from ex
 
+        stdout = "PRE-DECODING-DUMMY-VALUE"
         try:
             tstart = time.time()
             stdout = completed.stdout.decode(encoding="cp850")
