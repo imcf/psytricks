@@ -45,9 +45,9 @@ echo "[✔]"
 
 ####
 echo -n "Checking target location..."
-SERVICEDIR="${PKGNAME}-REST-${SUFFIX}_WinSW.$WINSW_FLAVOR-$WINSW_RELEASE"
-if [ -d "$SERVICEDIR" ]; then
-    echo "Target dir [$SERVICEDIR] already exists, stopping!"
+SERVICE_DIR="${PKGNAME}-REST-${SUFFIX}_WinSW.$WINSW_FLAVOR-$WINSW_RELEASE"
+if [ -d "$SERVICE_DIR" ]; then
+    echo "Target dir [$SERVICE_DIR] already exists, stopping!"
     exit 2
 fi
 echo "[✔]"
@@ -60,22 +60,22 @@ echo "[✔]"
 ####
 echo -n "Assembling service package..."
 SOURCE="$FULLNAME/src/psytricks/__ps1__"
-mv "$SOURCE" "$SERVICEDIR"
-mv "$FULLNAME/README.md" "$SERVICEDIR"
-rm "$SERVICEDIR/psytricks-wrapper.ps1"
-rm -r "$SERVICEDIR/sampledata"
+mv "$SOURCE" "$SERVICE_DIR"
+mv "$FULLNAME/README.md" "$SERVICE_DIR"
+rm "$SERVICE_DIR/psytricks-wrapper.ps1"
+rm -r "$SERVICE_DIR/sampledata"
 
-cp "$WINSW_DIR/$WINSW_EXE" "$SERVICEDIR/restricks-server.exe"
+cp "$WINSW_DIR/$WINSW_EXE" "$SERVICE_DIR/restricks-server.exe"
 echo "[✔]"
 
 ####
 echo -n "Creating service package artifact..."
-zip -r -q "$SERVICEDIR.zip" "$SERVICEDIR"
+zip -r -q "$SERVICE_DIR.zip" "$SERVICE_DIR"
 echo "[✔]"
 
 ####
 echo -n "Cleaning up..."
-rm -r "$SERVICEDIR" "$FULLNAME"
+rm -r "$SERVICE_DIR" "$FULLNAME"
 echo "[✔]"
 
 ####
