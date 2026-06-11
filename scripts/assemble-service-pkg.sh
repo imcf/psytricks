@@ -22,7 +22,7 @@ test -d "$WINSW_DIR" || mkdir "$WINSW_DIR"
 cd "$WINSW_DIR"
 if ! [ -f "$WINSW_EXE" ]; then
     echo "Downloading $WINSW_URL"
-    wget -q $WINSW_URL
+    wget -q "$WINSW_URL"
 fi
 echo "[✔]"
 
