@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ensure required variables are set or fall back to defaults:
+: "${WINSW_RELEASE:="2.12.0"}"
+: "${WINSW_FLAVOR:="NET461"}"
+
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -8,8 +12,6 @@ BASEDIR="$(dirname "$(realpath "$0")")/.."
 
 PKGNAME="psytricks"
 
-WINSW_RELEASE="2.12.0"
-WINSW_FLAVOR="NET461"
 WINSW_EXE="WinSW.$WINSW_FLAVOR.exe"
 WINSW_URL="https://github.com/winsw/winsw/releases/download/v$WINSW_RELEASE/$WINSW_EXE"
 WINSW_DIR="$BASEDIR/.winsw"
