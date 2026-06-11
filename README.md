@@ -1,9 +1,9 @@
 # PSytricks
 
-![PyPI](https://img.shields.io/pypi/v/psytricks)
+[![PyPI](https://img.shields.io/pypi/v/psytricks)](https://pypi.org/project/psytricks/)
 ![PyPI - License](https://img.shields.io/pypi/l/psytricks)
-![pdoc](https://img.shields.io/badge/docs-pdoc-brightgreen.svg)
-![black](https://img.shields.io/badge/code%20style-black-000000.svg)
+[![pdoc](https://img.shields.io/badge/docs-pdoc-brightgreen.svg)](https://imcf.one/apidocs/psytricks)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 `P`ower`S`hell P`y`thon Ci`tri`x Tri`cks` - pun intended.
 
@@ -27,9 +27,9 @@ PSyTricks ships with two options for the PowerShell layer:
   obviously this requires the code to be running as a service in an appropriate
   permission context.
 
-NOTE: this `RESTful` claim is actually not entirely true. Or basically not at
-all, it would be better called an `HTTP-JSON-RPC-API`. We'll still be using the
-term `REST` for it as the functionality of this package basically serves a very
+NOTE: this `RESTful` claim isn't fully true. Or actually not at all, it would be
+better called an `HTTP-JSON-RPC-API`. For now, we'll still be using the term
+`REST` for it as the functionality of this package basically serves a very
 similar purpose to what people think of when they are coming across this label.
 Apologies, [Roy T. Fielding][www_rtf].
 
@@ -105,7 +105,7 @@ tried it and how it went!
 
 To go with **WinSW** simply download the bundled version provided with each
 [PSyTricks release][www_releases]. Just look for the `.zip` asset having `REST`
-and `WinSW` in its name.
+and `WinSW` in its name, matching your .NET version.
 
 Unzip the downloaded file to the desired target location, e.g.
 `%PROGRAMDATA%\PSyTricks`, then copy / rename `restricks-server.example.xml` to
