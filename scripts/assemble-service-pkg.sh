@@ -47,9 +47,12 @@ echo "[✔]"
 # echo ${PARSED[2]}
 # echo ${PARSED[3]}
 
+SERVICE_DIR="${PKGNAME}-REST-${SUFFIX}_WinSW.$WINSW_FLAVOR-$WINSW_RELEASE"
+ZIP_NAME="${SERVICE_DIR}.zip"
+echo "Name of package to be built: ${ZIP_NAME}"
+
 ####
 echo -n "Checking target location..."
-SERVICE_DIR="${PKGNAME}-REST-${SUFFIX}_WinSW.$WINSW_FLAVOR-$WINSW_RELEASE"
 if [ -d "$SERVICE_DIR" ]; then
     echo "Target dir [$SERVICE_DIR] already exists, stopping!"
     exit 2
