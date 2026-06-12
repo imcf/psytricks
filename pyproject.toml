@@ -5,11 +5,11 @@ authors = [
     { name = "Niko Ehrenfeuchter", email = "nikolaus.ehrenfeuchter@unibas.ch" },
 ]
 license = "GPL-3.0-or-later"
-readme = "README.md"
-dynamic = ["version"]
+dynamic = ["version", "readme"]
 
 [tool.poetry]
 documentation = "https://imcf.one/apidocs/psytricks/psytricks.html"
+readme = ["README.md", "INSTALLATION.md"]
 version = "0.0.0"
 
 [tool.poetry.urls]

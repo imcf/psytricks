@@ -137,7 +137,9 @@ Unblock-File .\restricks-server.exe
 ```
 
 💡 Those steps also need to be performed when **upgrading** the service, which
-is done by replacing exactly the files listed above.
+is done by replacing exactly the files listed above. For a *TL;DR* summary on
+downloading, extracting and upgrading an installation, see the
+[installation / upgrade instructions](INSTALLATION.md).
 
 #### ☑️ Register and 🏃🏼‍♀️‍➡️ run it
 

@@ -69,6 +69,7 @@ echo -n "Assembling service package..."
 SOURCE="$FULLNAME/src/psytricks/__ps1__"
 mv "$SOURCE" "$SERVICE_DIR"
 mv "$FULLNAME/README.md" "$SERVICE_DIR"
+mv "$FULLNAME/INSTALLATION.md" "$SERVICE_DIR"
 rm "$SERVICE_DIR/psytricks-wrapper.ps1"
 rm -r "$SERVICE_DIR/sampledata"
 
