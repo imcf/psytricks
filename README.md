@@ -74,7 +74,7 @@ Controller` or `XenDesktop` installation media and install it as usual:
 
 * `Broker_PowerShellSnapIn_x64.msi`
 
-### Installing the 🐍 package
+### Installing the 🐍 Python package
 
 In case you're planning to use `psytricks` via the subprocess approach
 (discouraged but less components to set up), you will have to install the
@@ -95,10 +95,15 @@ commands provided by the PowerShell snap-in could be used directly.
 
 ### Setting up the REST service
 
-The easiest way for installing the REST service is to use [WinSW (Windows
-Service Wrapper)][www_winsw] but you may choose anything you like to launch the
-server process like NSSM, Scheduled Tasks 📅, homegrown dark magic 🪄🔮 or
-others.
+💡 When using the `ResTricksService` (recommended), only that service itself
+needs to run on a Windows machine having the *Citrix Broker PowerShell Snap-In*
+installed - the 🐍 Python package can then be used from any (Linux, ...) system
+that is able to connect to the service!
+
+The currently recommended way for installing the `ResTricksService` is using
+[WinSW (Windows Service Wrapper)][www_winsw] but you may choose anything you
+like to launch the server process like NSSM, Scheduled Tasks 📅, homegrown dark
+magic 🪄🔮 or others.
 
 🧪 A more recent approach could be [Shawl][www_shawl] - let us know if you've
 tried it and how it went!
