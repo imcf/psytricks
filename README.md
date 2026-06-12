@@ -1,9 +1,9 @@
 # PSytricks
 
-![PyPI](https://img.shields.io/pypi/v/psytricks)
+[![PyPI](https://img.shields.io/pypi/v/psytricks)](https://pypi.org/project/psytricks/)
 ![PyPI - License](https://img.shields.io/pypi/l/psytricks)
-![pdoc](https://img.shields.io/badge/docs-pdoc-brightgreen.svg)
-![black](https://img.shields.io/badge/code%20style-black-000000.svg)
+[![pdoc](https://img.shields.io/badge/docs-pdoc-brightgreen.svg)](https://imcf.one/apidocs/psytricks)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 `P`ower`S`hell P`y`thon Ci`tri`x Tri`cks` - pun intended.
 
@@ -27,10 +27,11 @@ PSyTricks ships with two options for the PowerShell layer:
   obviously this requires the code to be running as a service in an appropriate
   permission context.
 
-NOTE: this `RESTful` claim is actually not entirely true. Or basically not at
-all, it would be better called an `HTTP-JSON-RPC-API`. We'll still be using the
-term `REST` for it as this is basically what people nowadays think of when they
-are coming across this label. Sorry, [Roy T. Fielding][www_rtf].
+NOTE: this `RESTful` claim isn't fully true. Or actually not at all, it would be
+better called an `HTTP-JSON-RPC-API`. For now, we'll still be using the term
+`REST` for it as the functionality of this package basically serves a very
+similar purpose to what people think of when they are coming across this label.
+Apologies, [Roy T. Fielding][www_rtf].
 
 ## 🤯 Are you serious?
 
@@ -42,7 +43,7 @@ Really? 🧐
 Or, not sure if that's any better, implementing an HTTP REST API in plain
 PowerShell?!? 🫣
 
-### ✅ Yes. We. Are
+### ✅ Yes, we are
 
 *And the package name was chosen to reflect this.*
 
@@ -51,9 +52,9 @@ at all* an issue for us. Abysmal, as in: for every wrapped call a full (new)
 PowerShell process needs to be instantiated, usually taking something like 1-2
 seconds. ⏳
 
-The REST interface provides a much better performance, at the cost of some
-additional setup. If you're happy to take on this approach, the package offers a
-very smooth ride. 🎢🎡
+The REST / HTTP-RPC interface provides a much better performance, at the cost of
+some additional setup. If you're happy to take on this approach, the package
+offers a very smooth ride. 🎢🎡
 
 ## 🛠🚧 Installation
 
@@ -73,7 +74,7 @@ Controller` or `XenDesktop` installation media and install it as usual:
 
 * `Broker_PowerShellSnapIn_x64.msi`
 
-### Installing the 🐍 package
+### Installing the 🐍 Python package
 
 In case you're planning to use `psytricks` via the subprocess approach
 (discouraged but less components to set up), you will have to install the
@@ -94,14 +95,24 @@ commands provided by the PowerShell snap-in could be used directly.
 
 ### Setting up the REST service
 
-The easiest way for installing the REST service is to use [WinSW (Windows
-Service Wrapper)][www_winsw] but you may choose anything you like to launch the
-server process like NSSM, Scheduled Tasks 📅, homegrown dark magic 🪄🔮 or
-others.
+💡 When using the `ResTricksService` (recommended), only that service itself
+needs to run on a Windows machine having the *Citrix Broker PowerShell Snap-In*
+installed - the 🐍 Python package can then be used from any (Linux, ...) system
+that is able to connect to the service!
+
+The currently recommended way for installing the `ResTricksService` is using
+[WinSW (Windows Service Wrapper)][www_winsw] but you may choose anything you
+like to launch the server process like NSSM, Scheduled Tasks 📅, homegrown dark
+magic 🪄🔮 or others.
+
+🧪 A more recent approach could be [Shawl][www_shawl] - let us know if you've
+tried it and how it went!
 
 To go with **WinSW** simply download the bundled version provided with each
 [PSyTricks release][www_releases]. Just look for the `.zip` asset having `REST`
-and `WinSW` in its name.
+and `WinSW` in its name, matching your .NET version.
+
+#### 🔧 Configuration
 
 Unzip the downloaded file to the desired target location, e.g.
 `%PROGRAMDATA%\PSyTricks`, then copy / rename `restricks-server.example.xml` to
@@ -112,11 +123,30 @@ and make sure to update the hostname passed via the `-AdminAddress` parameter in
 the `<startarguments>` section. It needs to point to your Citrix Delivery
 Controller, just in case that's not obvious.
 
-Next step is to install and start the service:
+#### 🛑⚠️🛑 Enable execution
+
+Depending on the security policies in place on your system, the service
+components need to be explicitly unblocked before the service can be started. To
+do this, run the following commands:
 
 ```PowerShell
-cd C:\ProgramData\PSyTricks
-restricks-server.exe install
+cd C:\ProgramData\PSyTricks  # or wherever you're installing to
+Unblock-File .\psytricks-lib.ps1
+Unblock-File .\restricks-server.ps1
+Unblock-File .\restricks-server.exe
+```
+
+💡 Those steps also need to be performed when **upgrading** the service, which
+is done by replacing exactly the files listed above. For a *TL;DR* summary on
+downloading, extracting and upgrading an installation, see the
+[installation / upgrade instructions](INSTALLATION.md).
+
+#### ☑️ Register and 🏃🏼‍♀️‍➡️ run it
+
+The final step is to install and start the service:
+
+```PowerShell
+.\restricks-server.exe install
 Start-Service RESTricksServer
 ```
 
@@ -135,7 +165,9 @@ Tada! That's it, the service is now ready to take HTTP requests (from
 
 Please be aware that the REST interface doesn't do **any authentication** on
 purpose, meaning everything / everyone that can access it will be able to run
-all requests! We're using it in combination with an SSH tunnel but essentially
+all requests!
+
+We're using it in combination with an 🔐🌐 **SSH tunnel** but essentially
 anything that controls who / what can access the service will do the job.
 
 ## 🎪 What does it provide?
@@ -202,3 +234,4 @@ wrapper.set_maintenance(machine="vm42.vdi.example.xy", disable=False)
 [www_winsw]: https://github.com/winsw/winsw
 [www_releases]: https://github.com/imcf/psytricks/releases
 [www_rtf]: https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven
+[www_shawl]: https://github.com/mtkennerly/shawl

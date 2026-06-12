@@ -1,13 +1,17 @@
 #!/bin/bash
 
+# ensure required variables are set or fall back to defaults:
+: "${WINSW_RELEASE:="2.12.0"}"
+: "${WINSW_FLAVOR:="NET461"}"
+
 set -o errexit
+set -o nounset
+set -o pipefail
 
 BASEDIR="$(dirname "$(realpath "$0")")/.."
 
 PKGNAME="psytricks"
 
-WINSW_RELEASE="2.12.0"
-WINSW_FLAVOR="NET461"
 WINSW_EXE="WinSW.$WINSW_FLAVOR.exe"
 WINSW_URL="https://github.com/winsw/winsw/releases/download/v$WINSW_RELEASE/$WINSW_EXE"
 WINSW_DIR="$BASEDIR/.winsw"
@@ -18,7 +22,7 @@ test -d "$WINSW_DIR" || mkdir "$WINSW_DIR"
 cd "$WINSW_DIR"
 if ! [ -f "$WINSW_EXE" ]; then
     echo "Downloading $WINSW_URL"
-    wget -q $WINSW_URL
+    wget -q "$WINSW_URL"
 fi
 echo "[✔]"
 
@@ -43,11 +47,14 @@ echo "[✔]"
 # echo ${PARSED[2]}
 # echo ${PARSED[3]}
 
+SERVICE_DIR="${PKGNAME}-REST-${SUFFIX}_WinSW.$WINSW_FLAVOR-$WINSW_RELEASE"
+ZIP_NAME="${SERVICE_DIR}.zip"
+echo "Name of package to be built: ${ZIP_NAME}"
+
 ####
 echo -n "Checking target location..."
-SERVICEDIR="${PKGNAME}-REST-${SUFFIX}_WinSW.$WINSW_FLAVOR-$WINSW_RELEASE"
-if [ -d "$SERVICEDIR" ]; then
-    echo "Target dir [$SERVICEDIR] already exists, stopping!"
+if [ -d "$SERVICE_DIR" ]; then
+    echo "Target dir [$SERVICE_DIR] already exists, stopping!"
     exit 2
 fi
 echo "[✔]"
@@ -60,22 +67,23 @@ echo "[✔]"
 ####
 echo -n "Assembling service package..."
 SOURCE="$FULLNAME/src/psytricks/__ps1__"
-mv "$SOURCE" "$SERVICEDIR"
-mv "$FULLNAME/README.md" "$SERVICEDIR"
-rm "$SERVICEDIR/psytricks-wrapper.ps1"
-rm -r "$SERVICEDIR/sampledata"
+mv "$SOURCE" "$SERVICE_DIR"
+mv "$FULLNAME/README.md" "$SERVICE_DIR"
+mv "$FULLNAME/INSTALLATION.md" "$SERVICE_DIR"
+rm "$SERVICE_DIR/psytricks-wrapper.ps1"
+rm -r "$SERVICE_DIR/sampledata"
 
-cp "$WINSW_DIR/$WINSW_EXE" "$SERVICEDIR/restricks-server.exe"
+cp "$WINSW_DIR/$WINSW_EXE" "$SERVICE_DIR/restricks-server.exe"
 echo "[✔]"
 
 ####
 echo -n "Creating service package artifact..."
-zip -r -q "$SERVICEDIR.zip" "$SERVICEDIR"
+zip -r -q "$SERVICE_DIR.zip" "$SERVICE_DIR"
 echo "[✔]"
 
 ####
 echo -n "Cleaning up..."
-rm -r "$SERVICEDIR" "$FULLNAME"
+rm -r "$SERVICE_DIR" "$FULLNAME"
 echo "[✔]"
 
 ####

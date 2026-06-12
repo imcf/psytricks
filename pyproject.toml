@@ -1,10 +1,15 @@
-[tool.poetry]
-authors = ["Niko Ehrenfeuchter <nikolaus.ehrenfeuchter@unibas.ch>"]
-description = "PowerShell Python Citrix Tricks."
-documentation = "https://imcf.one/apidocs/psytricks/psytricks.html"
-license = "GPL-3.0-or-later"
+[project]
 name = "psytricks"
-readme = "README.md"
+description = "PowerShell Python Citrix Tricks."
+authors = [
+    { name = "Niko Ehrenfeuchter", email = "nikolaus.ehrenfeuchter@unibas.ch" },
+]
+license = "GPL-3.0-or-later"
+dynamic = ["version", "readme"]
+
+[tool.poetry]
+documentation = "https://imcf.one/apidocs/psytricks/psytricks.html"
+readme = ["README.md", "INSTALLATION.md"]
 version = "0.0.0"
 
 [tool.poetry.urls]
@@ -25,6 +30,9 @@ pylint = "^2.16.2"
 [tool.poetry.scripts]
 psytricks = "psytricks.cli:run_cli"
 
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
+
 [tool.poetry-dynamic-versioning]
 enable = true
 style = "semver"
@@ -38,8 +46,7 @@ folders = [
 
 [build-system]
 build-backend = "poetry_dynamic_versioning.backend"
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
-
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 
 [tool.ruff.lint]
 # exclude = [

@@ -18,7 +18,7 @@ from .literals import Action, RequestName, MsgStyle
 
 
 class ResTricksWrapper:
-    """Wrapper performing REST requests and processing the responses.
+    """Perform requests to a ResTricks service and process the responses.
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ class ResTricksWrapper:
         log.debug(f"{verb} 'read-only' mode.")
         self._read_only = value
 
-    def connect(self):
+    def connect(self) -> None:
         """Connect to the ResTricks service unless already connected.
 
         Raises
@@ -127,7 +127,7 @@ class ResTricksWrapper:
                     f"Connecting to {self.base_url} failed: {ex}"
                 ) from ex
 
-    def validate_version(self, server_ver):
+    def validate_version(self, server_ver) -> bool:
         """Validate the server version against the local module.
 
         Parse the version strings of the local module and the server response
@@ -187,7 +187,7 @@ class ResTricksWrapper:
         return False
 
     @staticmethod
-    def _check_response(response):
+    def _check_response(response) -> None:
         """Check the HTTP response code and JSON status attributes."""
         if response.status_code == 200:
             return
@@ -209,7 +209,9 @@ class ResTricksWrapper:
             log.warning(response.text)
             raise ValueError(f"Malformed response: {response.text}") from ex
 
-    def send_get_request(self, raw_url: str, auto_conn: bool = True):
+    def send_get_request(
+        self, raw_url: str, auto_conn: bool = True
+    ) -> list[dict] | dict | None:
         """Perform a `GET` request and process the response.
 
         Parameters
@@ -260,7 +262,9 @@ class ResTricksWrapper:
 
         return data
 
-    def send_post_request(self, raw_url: str, payload: dict, no_json: bool = False):
+    def send_post_request(
+        self, raw_url: str, payload: dict, no_json: bool = False
+    ) -> list[dict] | dict | None:
         """Perform a `POST` request and process the response.
 
         The response will be checked for a valid HTTP status code and will be
@@ -329,7 +333,23 @@ class ResTricksWrapper:
         Returns
         -------
         list(dict)
-            The `Data` dicts parsed from the JSON returned by the REST service.
+            The `Data` dicts parsed from the JSON returned by the REST service
+            with the current machine state details. Each dict is expected to
+            contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         log.debug("Requesting current status of machines...")
         return self.send_get_request("GetMachineStatus")["Data"]
@@ -341,27 +361,27 @@ class ResTricksWrapper:
         -------
         list(dict)
             The `Data` dicts parsed from the JSON returned by the REST service,
-            containing details about the currently existing sessions.
+            containing details about the currently existing sessions. Each dict
+            is expected to contain the following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
         """
         log.debug("Requesting current sessions...")
         return self.send_get_request("GetSessions")["Data"]
-
-    def get_access_users(self, group: str) -> list:
-        """Send a `GET` request with `GetAccessUsers`.
-
-        Parameters
-        ----------
-        group : str
-            The name of the Delivery Group to request users having access.
-
-        Returns
-        -------
-        list(dict)
-            The `Data` dicts parsed from the JSON returned by the REST service,
-            containing the user objects having access to the given group.
-        """
-        log.debug(f"Requesting users having access to group [{group}]...")
-        return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
 
     def disconnect_session(self, machine: str) -> dict:
         """Send a `POST` request with `DisconnectSession`.
@@ -379,7 +399,24 @@ class ResTricksWrapper:
             contains an empty `Data` object, an empty dict will be returned.
             Please note that sending a disconnect request for a session that is
             already disconnected will not change the session state but still
-            return the session details.
+            return the session details. The dict is expected to contain the
+            following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
         """
         log.debug(f"Requesting session on [{machine}] to be disconnected...")
         payload = {"DNSName": machine}
@@ -389,6 +426,34 @@ class ResTricksWrapper:
             return {}
 
         return session
+
+    def get_access_users(self, group: str) -> list:
+        """Send a `GET` request with `GetAccessUsers`.
+
+        Parameters
+        ----------
+        group : str
+            The name of the Delivery Group to request users having access.
+
+        Returns
+        -------
+        list(dict)
+            The `Data` dicts parsed from the JSON returned by the REST service,
+            containing details on the user objects having access to the given
+            Delivery Group. Each dict is expected to contain the following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
+        """
+        log.debug(f"Requesting users having access to group [{group}]...")
+        return self.send_get_request(f"GetAccessUsers/{group}")["Data"]
 
     def set_access_users(self, group: str, users: str, disable: bool) -> list:
         """Send a `POST` request with `SetAccessUsers`.
@@ -409,8 +474,19 @@ class ResTricksWrapper:
         -------
         list(dict)
             The `Data` dicts parsed from the JSON returned by the REST service,
-            containing the user objects having access to the given group *after*
-            the operation has been performed.
+            containing the user objects having access to the given Delivery
+            Group *after* the operation has been performed. Each dict is
+            expected to contain the following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
         """
         verb = "Removing" if disable else "Adding"
         log.debug(f"{verb} access to group [{group}] for user(s) [{users}]...")
@@ -436,6 +512,21 @@ class ResTricksWrapper:
         -------
         dict
             The `Data` dict parsed from the JSON returned by the REST service.
+            It is expected to contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         verb = "Disabling" if disable else "Enabling"
         log.debug(f"{verb} maintenance mode on [{machine}]...")
@@ -445,7 +536,9 @@ class ResTricksWrapper:
         }
         return self.send_post_request("SetMaintenanceMode", payload)["Data"]
 
-    def send_message(self, machine: str, message: str, title: str, style: MsgStyle):
+    def send_message(
+        self, machine: str, message: str, title: str, style: MsgStyle
+    ) -> None:
         """Send a `POST` request with `SendSessionMessage`.
 
         Parameters
@@ -483,7 +576,26 @@ class ResTricksWrapper:
         -------
         dict
             The `Data` dict parsed from the JSON returned by the REST service
-            containing details on the power action status of the machine.
+            containing details on the power action status of the machine. The
+            dict is expected to contain the following keys:
+                - `Action`
+                - `ActionCompletionTime`
+                - `ActionStartTime`
+                - `ActualPriority`
+                - `BasePriority`
+                - `DNSName`
+                - `FailureReason`
+                - `HostedMachineId`
+                - `HostedMachineName`
+                - `HypHypervisorConnectionUid`
+                - `HypervisorConnectionUid`
+                - `MachineName`
+                - `MetadataMap`
+                - `Origin`
+                - `RequestTime`
+                - `Sid`
+                - `State`
+                - `Uid`
         """
         log.debug(f"Requesting action [{action}] for machine [{machine}]...")
         payload = {
@@ -547,7 +659,9 @@ class PSyTricksWrapper:
         log.debug(f"Using PowerShell script [{self.pswrapper}].")
         log.debug(f"Using Delivery Controller [{self.deliverycontroller}].")
 
-    def run_ps1_script(self, request: RequestName, extra_params: list = None) -> list:
+    def run_ps1_script(
+        self, request: RequestName, extra_params: (list | None) = None
+    ) -> list[dict] | dict | None:
         """Call the PowerShell wrapper to retrieve information from Citrix.
 
         Parameters
@@ -560,9 +674,10 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
+        list(dict) or dict or None
             The "Data" section of the JSON parsed from the output returned by
-            the PS1 wrapper script.
+            the PS1 wrapper script. Depending on the command, this can be a list
+            of dicts or a single dict or None.
 
         Raises
         ------
@@ -612,6 +727,7 @@ class PSyTricksWrapper:
                 f"Call returned a non-zero state: {ex.returncode} {ex.stderr}"
             ) from ex
 
+        stdout = "PRE-DECODING-DUMMY-VALUE"
         try:
             tstart = time.time()
             stdout = completed.stdout.decode(encoding="cp850")
@@ -650,8 +766,23 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON.
+        list(dict)
+            A list of dicts with the current machine state details. Each dict is
+            expected to contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         return self.run_ps1_script(request="GetMachineStatus")
 
@@ -660,12 +791,29 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON.
+        list(dict)
+            A list of dicts with the current session details. Each dict is
+            expected to contain the following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
         """
         return self.run_ps1_script(request="GetSessions")
 
-    def disconnect_session(self, machine: str) -> list:
+    def disconnect_session(self, machine: str) -> dict:
         """Call the wrapper with command `DisconnectSession`.
 
         Parameters
@@ -675,8 +823,26 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        dict
+            A dict with the details on the session that was requested to be
+            disconnected. The dict is expected to contain the following keys:
+                - `ClientAddress`
+                - `ClientName`
+                - `ClientPlatform`
+                - `ClientProductId`
+                - `ClientVersion`
+                - `ConnectedViaHostName`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `MachineSummaryState`
+                - `Protocol`
+                - `SessionState`
+                - `SessionStateChangeTime`
+                - `StartTime`
+                - `Uid`
+                - `UserName`
+                - `UserUPN`
+
         """
         return self.run_ps1_script(
             request="DisconnectSession",
@@ -693,8 +859,20 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        list(dict)
+            A list of dicts with the details on the user objects having access
+            to the given Delivery Group. Each dict is expected to contain the
+            following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
         """
         return self.run_ps1_script(
             request="GetAccessUsers",
@@ -717,8 +895,20 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        list(dict)
+            A list of dicts with the details on the user objects having access
+            to the given Delivery Group *after* the operation has been
+            performed. Each dict is expected to contain the following keys:
+                - `DirectoryContext`
+                - `FullName`
+                - `HomeZoneName`
+                - `HomeZoneUid`
+                - `IdentityClaims`
+                - `Name`
+                - `NameLookupFailureCount`
+                - `PrimaryClaim`
+                - `SID`
+                - `UPN`
         """
         extra_params = [
             "-Group",
@@ -731,7 +921,7 @@ class PSyTricksWrapper:
 
         return self.run_ps1_script(request="SetAccessUsers", extra_params=extra_params)
 
-    def set_maintenance(self, machine: str, disable: bool) -> list:
+    def set_maintenance(self, machine: str, disable: bool) -> dict:
         """Call the wrapper with command `SetMaintenanceMode`.
 
         Parameters
@@ -744,8 +934,23 @@ class PSyTricksWrapper:
 
         Returns
         -------
-        list(str)
-            The parsed JSON as returned by the wrapper script.
+        dict
+            A dict created from the parsed JSON as returned by the wrapper
+            script. The dict is expected to contain the following keys:
+                - `AgentVersion`
+                - `AssociatedUserUPNs`
+                - `DesktopGroupName`
+                - `DNSName`
+                - `HostedDNSName`
+                - `InMaintenanceMode`
+                - `PowerState`
+                - `RegistrationState`
+                - `SessionClientVersion`
+                - `SessionDeviceId`
+                - `SessionStartTime`
+                - `SessionStateChangeTime`
+                - `SessionUserName`
+                - `SummaryState`
         """
         extra_params = ["-DNSName", machine]
         if disable:
@@ -755,7 +960,9 @@ class PSyTricksWrapper:
             request="SetMaintenanceMode", extra_params=extra_params
         )
 
-    def send_message(self, machine: str, message: str, title: str, style: MsgStyle):
+    def send_message(
+        self, machine: str, message: str, title: str, style: MsgStyle
+    ) -> None:
         """Call the wrapper with command `SendSessionMessage`.
 
         Parameters
@@ -783,7 +990,7 @@ class PSyTricksWrapper:
 
         self.run_ps1_script(request="SendSessionMessage", extra_params=extra_params)
 
-    def perform_poweraction(self, machine: str, action: Action) -> None:
+    def perform_poweraction(self, machine: str, action: Action) -> dict:
         """Call the wrapper with command `MachinePowerAction`.
 
         Parameters
@@ -792,6 +999,31 @@ class PSyTricksWrapper:
             The FQDN of the machine to disconnect the session on.
         action : str
             The power action to perform, one of `psytricks.literals.Action`.
+
+        Returns
+        -------
+        dict
+            The `Data` dict parsed from the JSON returned by the wrapper script,
+            containing details on the power action status of the machine. The
+            dict is expected to contain the following keys:
+                - `Action`
+                - `ActionCompletionTime`
+                - `ActionStartTime`
+                - `ActualPriority`
+                - `BasePriority`
+                - `DNSName`
+                - `FailureReason`
+                - `HostedMachineId`
+                - `HostedMachineName`
+                - `HypHypervisorConnectionUid`
+                - `HypervisorConnectionUid`
+                - `MachineName`
+                - `MetadataMap`
+                - `Origin`
+                - `RequestTime`
+                - `Sid`
+                - `State`
+                - `Uid`
         """
         extra_params = ["-DNSName", machine, "-Action", action]
         return self.run_ps1_script(

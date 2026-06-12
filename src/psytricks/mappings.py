@@ -9,7 +9,8 @@ The dicts defined here can be used to map the numerical values back to their
 descriptive names. The mapped names are corresponding to the ones described in
 the official Citrix CVAD 2203 developer docs (all transformed to lowercase):
 
-https://developer-docs.citrix.com/projects/citrix-virtual-apps-desktops-sdk/en/2203/
+* https://developer-docs.citrix.com/en-us/citrix-virtual-apps-desktops-sdk/2203/
+* https://developer-docs.citrix.com/en-us/citrix-virtual-apps-desktops-sdk/2507/
 """
 
 #######################################################################################
@@ -25,6 +26,8 @@ power_state = {
     7: "turningoff",
     8: "suspending",
     9: "resuming",
+    10: "notsupported",
+    11: "virtualmachinenotfound",
 }
 """A machine's *power status* (`Citrix.Broker.Admin.SDK.PowerState`).
 

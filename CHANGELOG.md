@@ -4,21 +4,64 @@
 
 ## 2.2.0
 
-### Added
+### 🚑️ Fixed
 
-* The constructor of `psytricks.wrapper.ResTricksWrapper` is now having an
-  additional optional parameter `lazy`. If this is set to `True` (default is
-  `False`), the initial connection check will not be performed during
-  instantiation but is deferred until the connection is actually required.
-* The instance attribute `psytricks.wrapper.ResTricksWrapper.read_only` has been
+* 💥 **`KeyError` when decoding JSON**:
+  In situations where Citrix reports a state that is not reflected in
+  `psytricks.mappings`, decoding of the JSON response failed with a `KeyError`
+  in `psytricks.decoder.parse_powershell_json`. This is now fixed by catching 🥅
+  any unknown mapping error and replacing it with `undefined-mapping-<index>`,
+  where `<index>` is the integer value reported by Citrix that should be added
+  to the corresponding mapping dict. This approach ensures that the function
+  doesn't fail while still indicating clearly what went wrong.
+
+### ✨ Added
+
+* 🔌📑 **More `PowerState` mappings**:
+  The dict `psytricks.mappings.power_state` now contains mappings for index
+  numbers `10` (*NotSupported*) and `11` (*VirtualMachineNotFound*) that
+  apparently got added in CVAD versions newer than `2203` (note that it's not
+  required for the Delivery Controller to have a more recent version for this to
+  show up, it is actually sufficient if one of the connected machines is running
+  a corresponding VDA version, e.g. `2507`).
+* 🏝️ **Lazy connection checking**:
+  * The constructor of `psytricks.wrapper.ResTricksWrapper` is now having an
+    additional optional parameter `lazy`. If this is set to `True` (default is
+    `False`), the initial connection check will not be performed during
+    instantiation but is deferred until the connection is actually required.
+  * `psytricks.wrapper.ResTricksWrapper.send_get_request` now takes an
+    additional optional parameter `auto_conn` (default is `True`) that can be
+    used to prevent it from calling `self.connect()`, which is required to avoid
+    a recursive loop triggered by the new `lazy` connection approach described
+    above.
+* 🕵🏼 **Read-only / passive operation**:
+  The instance attribute `psytricks.wrapper.ResTricksWrapper.read_only` has been
   added in order to intercept any request that would perform a *state change* to
   the CVAD platform and turn it into a `WARNING` level log message. This is
   meant for testing applications against a production CVAD or for creating
   *monitoring-only* tools.
-* `psytricks.wrapper.ResTricksWrapper.send_get_request` now takes an additional
-  optional parameter `auto_conn` (default is `True`) that can be used to prevent
-  it from calling `self.connect()`, which is required to avoid a recursive loop
-  triggered by the new `lazy` connection approach described above.
+* 👷🚚🌍🎪 **Build and publish releases via GitHub Actions**:
+  * Python 🐍 packages 📦 are now built through a GitHub Action workflow.
+  * They're automatically [published on 🎪 PyPI][www_pypi_psytricks].
+  * Packages 📦 with the Windows service 🏭 are created and attached to the
+    assets of their respective GitHub release.
+  * New releases will automatically trigger an update to the
+    [API docs available at imcf.one][www_apidocs_psytricks].
+
+### 🚀 Improved
+
+* 📝✨ **API documentation**:
+  While the exact structure of the data returned by any of the wrapped calls to
+  the CVAD infrastructure depends on the behavior of the 👽️ Citrix toolstack,
+  the respective methods now describe the expected keys of the delivered dicts
+  for CVAD version `2203` in their docstrings, for example
+  `psytricks.wrapper.ResTricksWrapper.get_machine_status`.
+* 📢📅 **Logging**:
+  The `ResTricksService` startup messages now contain more timestamps, to allow
+  for identifying the age of an entry in the log files.
+
+[www_pypi_psytricks]: https://pypi.org/project/psytricks/
+[www_apidocs_psytricks]: https://imcf.one/apidocs/psytricks/
 
 ## 2.1.6
 

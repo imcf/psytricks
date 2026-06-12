@@ -1,14 +1,40 @@
 {
     "cSpell.words": [
+        "agenterror",
+        "bytecodes",
         "conffile",
         "deliverycontroller",
         "getaccess",
+        "Hostingpoweraction",
+        "inuse",
+        "notsupported",
+        "NSSM",
+        "PKGNAME",
         "poweraction",
         "pswrapper",
+        "pydeps",
+        "pypa",
         "restricks",
+        "sampledata",
         "sendmessage",
         "serviceaccount",
         "setaccess",
-        "startarguments"
+        "shutdownlogic",
+        "snapin",
+        "snok",
+        "softprops",
+        "startarguments",
+        "TARGZ",
+        "tstart",
+        "turningoff",
+        "turningon",
+        "virtualmachinenotfound"
+    ],
+    "python-envs.pythonProjects": [
+        {
+            "path": ".",
+            "envManager": "ms-python.python:poetry",
+            "packageManager": "ms-python.python:poetry"
+        }
     ]
 }
