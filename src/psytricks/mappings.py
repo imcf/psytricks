@@ -9,8 +9,8 @@ The dicts defined here can be used to map the numerical values back to their
 descriptive names. The mapped names are corresponding to the ones described in
 the official Citrix CVAD 2203 developer docs (all transformed to lowercase):
 
-https://developer-docs.citrix.com/en-us/citrix-virtual-apps-desktops-sdk/2203/
-https://developer-docs.citrix.com/en-us/citrix-virtual-apps-desktops-sdk/2507/
+* https://developer-docs.citrix.com/en-us/citrix-virtual-apps-desktops-sdk/2203/
+* https://developer-docs.citrix.com/en-us/citrix-virtual-apps-desktops-sdk/2507/
 """
 
 #######################################################################################
