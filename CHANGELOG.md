@@ -56,6 +56,9 @@
   the respective methods now describe the expected keys of the delivered dicts
   for CVAD version `2203` in their docstrings, for example
   `psytricks.wrapper.ResTricksWrapper.get_machine_status`.
+* 📢📅 **Logging**:
+  The `ResTricksService` startup messages now contain more timestamps, to allow
+  for identifying the age of an entry in the log files.
 
 [www_pypi_psytricks]: https://pypi.org/project/psytricks/
 [www_apidocs_psytricks]: https://imcf.one/apidocs/psytricks/
