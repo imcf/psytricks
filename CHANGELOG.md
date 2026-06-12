@@ -4,7 +4,7 @@
 
 ## 2.2.0
 
-### Fixed 🚑️
+### 🚑️ Fixed
 
 * 💥 **`KeyError` when decoding JSON**:
   In situations where Citrix reports a state that is not reflected in
@@ -15,7 +15,7 @@
   to the corresponding mapping dict. This approach ensures that the function
   doesn't fail while still indicating clearly what went wrong.
 
-### Added ✨
+### ✨ Added
 
 * 🔌📑 **More `PowerState` mappings**:
   The dict `psytricks.mappings.power_state` now contains mappings for index
@@ -40,15 +40,22 @@
   the CVAD platform and turn it into a `WARNING` level log message. This is
   meant for testing applications against a production CVAD or for creating
   *monitoring-only* tools.
-* 👷🚚🌍🎪 **Build and publish via GitHub Actions**:
-  Packages are now built through a GitHub Action workflow and automatically
-  [published on 🎪 PyPI][www_pypi_psytricks], including a trigger to update the
-  [API docs available at imcf.one][www_apidocs_psytricks].
-* 📝✨ **Improved API documentation**:
+* 👷🚚🌍🎪 **Build and publish releases via GitHub Actions**:
+  * Python 🐍 packages 📦 are now built through a GitHub Action workflow.
+  * They're automatically [published on 🎪 PyPI][www_pypi_psytricks].
+  * Packages 📦 with the Windows service 🏭 are created and attached to the
+    assets of their respective GitHub release.
+  * New releases will automatically trigger an update to the
+    [API docs available at imcf.one][www_apidocs_psytricks].
+
+### 🚀 Improved
+
+* 📝✨ **API documentation**:
   While the exact structure of the data returned by any of the wrapped calls to
   the CVAD infrastructure depends on the behavior of the 👽️ Citrix toolstack,
   the respective methods now describe the expected keys of the delivered dicts
-  for CVAD version `2203` in their docstrings.
+  for CVAD version `2203` in their docstrings, for example
+  `psytricks.wrapper.ResTricksWrapper.get_machine_status`.
 
 [www_pypi_psytricks]: https://pypi.org/project/psytricks/
 [www_apidocs_psytricks]: https://imcf.one/apidocs/psytricks/
