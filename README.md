@@ -107,6 +107,8 @@ To go with **WinSW** simply download the bundled version provided with each
 [PSyTricks release][www_releases]. Just look for the `.zip` asset having `REST`
 and `WinSW` in its name, matching your .NET version.
 
+#### 🔧 Configuration
+
 Unzip the downloaded file to the desired target location, e.g.
 `%PROGRAMDATA%\PSyTricks`, then copy / rename `restricks-server.example.xml` to
 `restricks-server.xml` and open it in an editor.
@@ -139,7 +141,9 @@ Tada! That's it, the service is now ready to take HTTP requests (from
 
 Please be aware that the REST interface doesn't do **any authentication** on
 purpose, meaning everything / everyone that can access it will be able to run
-all requests! We're using it in combination with an SSH tunnel but essentially
+all requests!
+
+We're using it in combination with an 🔐🌐 **SSH tunnel** but essentially
 anything that controls who / what can access the service will do the job.
 
 ## 🎪 What does it provide?
