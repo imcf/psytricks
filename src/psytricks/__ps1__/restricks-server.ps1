@@ -93,7 +93,7 @@ if ($Shutdown) {
             Stop-Process -Name "restricks-server" -ErrorAction SilentlyContinue
         }
     } catch {
-        Write-Host "Issue shutting down: $_"
+        Write-Host "[$(Format-Date)] Issue shutting down: $_"
     } finally {
         exit
     }
@@ -474,6 +474,7 @@ function Start-ListenerBlocking {
 
 function Start-ListenerLoop {
     Write-Host "====================================================" @Blue
+    Write-Host "$(Format-Date)" @Blue
     Write-Host "Starting: $ScriptPath" @Blue
     Write-Host "PSyTricksVersion: $Version" @Blue
     Write-Host "Citrix 'AdminAddress': $AdminAddress" @Blue
@@ -495,7 +496,7 @@ function Start-ListenerLoop {
             Write-Host "====================================================" @Blue
             return
         }
-        Write-Host "No shutdown file [$StopMarker] present." @Blue
+        Write-Host "[$(Format-Date)] No shutdown file [$StopMarker] present." @Blue
         Write-Host "Re-starting in 5s, press Ctrl+C to abort..." @Blue
         Start-Sleep -Seconds 5
         Write-Host "Wait-time elapsed, re-starting the listener..."
@@ -516,7 +517,7 @@ if ($LogFile -eq "") {
     } catch {
         throw "Unable to open log file for writing: [$LogFile]"
     }
-    Write-Host "[$ScriptName] logs will go to [$LogFile]."
+    Write-Host "[$ScriptName] [$(Format-Date)] logs will go to [$LogFile]."
     # 'Write-Host' is writing to the 'Information' stream (which is #6), so we
     # need to redirect that one to the log file:
     Start-ListenerLoop 6>&1 | Out-File $LogFile -Encoding "utf8"
