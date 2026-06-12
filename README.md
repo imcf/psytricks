@@ -118,11 +118,28 @@ and make sure to update the hostname passed via the `-AdminAddress` parameter in
 the `<startarguments>` section. It needs to point to your Citrix Delivery
 Controller, just in case that's not obvious.
 
-Next step is to install and start the service:
+#### 🛑⚠️🛑 Enable execution
+
+Depending on the security policies in place on your system, the service
+components need to be explicitly unblocked before the service can be started. To
+do this, run the following commands:
 
 ```PowerShell
-cd C:\ProgramData\PSyTricks
-restricks-server.exe install
+cd C:\ProgramData\PSyTricks  # or wherever you're installing to
+Unblock-File .\psytricks-lib.ps1
+Unblock-File .\restricks-server.ps1
+Unblock-File .\restricks-server.exe
+```
+
+💡 Those steps also need to be performed when **upgrading** the service, which
+is done by replacing exactly the files listed above.
+
+#### ☑️ Register and 🏃🏼‍♀️‍➡️ run it
+
+The final step is to install and start the service:
+
+```PowerShell
+.\restricks-server.exe install
 Start-Service RESTricksServer
 ```
 
