@@ -2,6 +2,27 @@
 
 <!-- markdownlint-disable MD024 (no-duplicate-header) -->
 
+## 2.3.0
+
+### ✨ Added
+
+* **🫗 Dump response text to disk**:
+  Added the `ResTricksWrapper.dump_responses_to` attribute (and the related
+  functionality under the hood) that allows to configure a filesystem path where
+  any response's body (or the `requests.Response.text` part to be precise)
+  retrieved by a `ResTricksWrapper` instance will also be stored in single files
+  (one per response).
+
+🔥 **NOTE** 🔥
+
+This _dumping mode_ is clearly **not intended ⚠️ for production use**!
+
+The main purpose is two-fold:
+
+* 🧑‍💻🐛 Debug problematic responses.
+* 🎭📥 Collect responses from a real system to either replay them later or to
+  craft mock-data for testing.
+
 ## 2.2.0
 
 ### 🚑️ Fixed
