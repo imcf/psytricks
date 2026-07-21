@@ -19,7 +19,7 @@
 
 * 🔌📑 **More `PowerState` mappings**:
   The dict `psytricks.mappings.power_state` now contains mappings for index
-  numbers `10` (*NotSupported*) and `11` (*VirtualMachineNotFound*) that
+  numbers `10` (_NotSupported_) and `11` (_VirtualMachineNotFound_) that
   apparently got added in CVAD versions newer than `2203` (note that it's not
   required for the Delivery Controller to have a more recent version for this to
   show up, it is actually sufficient if one of the connected machines is running
@@ -36,10 +36,10 @@
     above.
 * 🕵🏼 **Read-only / passive operation**:
   The instance attribute `psytricks.wrapper.ResTricksWrapper.read_only` has been
-  added in order to intercept any request that would perform a *state change* to
+  added in order to intercept any request that would perform a _state change_ to
   the CVAD platform and turn it into a `WARNING` level log message. This is
   meant for testing applications against a production CVAD or for creating
-  *monitoring-only* tools.
+  _monitoring-only_ tools.
 * 👷🚚🌍🎪 **Build and publish releases via GitHub Actions**:
   * Python 🐍 packages 📦 are now built through a GitHub Action workflow.
   * They're automatically [published on 🎪 PyPI][www_pypi_psytricks].
@@ -115,7 +115,7 @@ No functional / code changes, only lowering minimal Python version to `3.9`.
 
 The JSON returned by the `REST` server was completely missing the `Status`
 object, this is now fixed. Additionally, that object now also contains a
-`Timestamp` property to report (in seconds since the epoch, a.k.a. *Unix time*)
+`Timestamp` property to report (in seconds since the epoch, a.k.a. _Unix time_)
 when the response has been generated.
 
 ### Added
@@ -155,10 +155,10 @@ added to facilitate and speed up interaction with the CVAD / Citrix toolstack.
 See the installation instructions for details on how to use it and please be
 aware that this is very much in an infant state 🍼.
 
-NOTE: this is an *alternative* to the original way of calling PowerShell as a
+NOTE: this is an _alternative_ to the original way of calling PowerShell as a
 Python `subprocess` (requiring the Python code to be executed in a user context
 that has access to the `Citrix Broker` Snap-In and that has appropriate
-permissions configured on the *Delivery Controller*). Wrapping this into a REST
+permissions configured on the _Delivery Controller_). Wrapping this into a REST
 service that is reachable via HTTP allows to run the Python code in a completely
 independent context.
 
@@ -170,7 +170,7 @@ independent context.
     before where a file was being read. If the file use-case is required again
     it can be simply wrapped around the method call. This change is done to
     keep consistency with the newly introduced `REST` wrapper class (see below).
-  * All *action* methods (requesting data or state changes from Citrix) in
+  * All _action_ methods (requesting data or state changes from Citrix) in
     `psytricks.wrapper.PSyTricksWrapper` have dropped the `kwargs` parameter.
     They were initially implemented to simplify the call from within
     `psytricks.cli.run_cli` but are basically just adding confusion.
@@ -200,7 +200,7 @@ independent context.
 ### Changed
 
 * 🧨 **BREAKING** 🧨
-  * The *PowerShell* wrapper script parameter `JsonConfig` has been dropped in
+  * The _PowerShell_ wrapper script parameter `JsonConfig` has been dropped in
     favor of the new `AdminAddress` that gives the address of the Delivery
     Controller to use directly. This is done for two reasons: to be more
     consistent with the original Citrix commands and to get rid of the overhead
@@ -208,7 +208,7 @@ independent context.
   * To accommodate for this, the `PSyTricksWrapper` constructor changed its
     only parameter from `conffile` to `deliverycontroller`.
   * Along those lines also the CLI tool switched from using the parameter
-    `--config` to `--cdc` (short for *Citrix Delivery Controller*).
+    `--config` to `--cdc` (short for _Citrix Delivery Controller_).
 * When requesting session details (`PSyTricksWrapper.get_sessions`) the
   following properties will now also be reported:
   * `ClientAddress`
@@ -238,7 +238,7 @@ independent context.
 ### Changed
 
 * Various `*State` fields reported by Citrix are now being mapped from numerical
-  values to their descriptive (*human readable*) names, just as PowerShell does
+  values to their descriptive (_human readable_) names, just as PowerShell does
   it when converting the resulting objects to text (e.g. for console output).
 * In case of an error while parsing the JSON returned by the PS1 script the raw
   data is now included in the error message.
@@ -258,7 +258,7 @@ independent context.
 
 ### Changed
 
-* The *command* CLI argument is now an option, requiring `--command` to be used.
+* The _command_ CLI argument is now an option, requiring `--command` to be used.
 * The JSON returned by the PowerShell wrapper script now contains two objects
   (`Status` and `Data`), making it possible to return proper exit codes and
   error messages to the calling code.
