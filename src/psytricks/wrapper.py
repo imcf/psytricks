@@ -63,6 +63,7 @@ class ResTricksWrapper:
         self._connected = False
         self._verify = verify
         self._read_only = False
+        self._dump_responses_to = None
 
         if not lazy:
             self.connect()
@@ -90,6 +91,44 @@ class ResTricksWrapper:
         verb = "Enabling" if value else "Disabling"
         log.debug(f"{verb} 'read-only' mode.")
         self._read_only = value
+
+    @property
+    def dump_responses_to(self) -> Path | None:
+        """Path to dump responses to - **DO NOT USE IN PRODUCTION**.
+
+        Default: `None`, meaning responses will **not** be written to disk.
+
+        If `dump_responses_to` is set to a valid path, any response returned
+        from a request will be dumped to a file in that path. Each dump is
+        placed in a single file with the following naming pattern with the
+        components described below:
+
+        `<command>-<method>-<status>-<timestamp>.txt`
+
+        * `<command>`: e.g. `GetSessions`, `SetMaintenanceMode`
+        * `<method>`: one of [`GET`, `POST`]
+        * `<status>`: the HTTP status of the response
+        * `<timestamp>`: milliseconds since the epoch
+
+        This is intended for debugging and may also be used to craft data mocks
+        based on real data that can be used for testing.
+
+        Notes
+        -----
+        Existing files will **NOT** be overwritten, no matter how unlikely this
+        is given the above naming scheme.
+        """
+        return self._dump_responses_to
+
+    @dump_responses_to.setter
+    def dump_responses_to(self, value: Path | None) -> None:
+        if value and not (value.is_dir() and value.exists()):
+            log.error(f"Path needs to be an existing directory: {value}")
+            return
+
+        target = str(value) if value else "<INACTIVE>"
+        log.debug(f"Setting 'dump-responses' path: {target}")
+        self._dump_responses_to = value
 
     def connect(self) -> None:
         """Connect to the ResTricks service unless already connected.
@@ -186,9 +225,10 @@ class ResTricksWrapper:
         log.error("Version mismatch! 🧨")
         return False
 
-    @staticmethod
-    def _check_response(response) -> None:
+    def _check_response(self, response: requests.Response) -> None:
         """Check the HTTP response code and JSON status attributes."""
+        self._write_response_dump(response)
+
         if response.status_code == 200:
             return
 
@@ -208,6 +248,29 @@ class ResTricksWrapper:
             log.error(f"Error fetching response payload status: {ex}")
             log.warning(response.text)
             raise ValueError(f"Malformed response: {response.text}") from ex
+
+    def _write_response_dump(self, response: requests.Response) -> Path | None:
+        """Dump the response to disk if `dump_responses_to` is set."""
+        if not self.dump_responses_to:
+            return
+
+        try:
+            timestamp = int(time.time_ns() / 1000000)
+            method = response.request.method
+            url = str(response.request.url)
+            log.trace(f"🌐 Request URL: {url}")
+            command = url.removeprefix(self.base_url).replace("/", "-")
+            status = str(response.status_code)
+            filename = f"{command}-{method}-{status}-{timestamp}.txt"
+            full_path = self.dump_responses_to / filename
+            log.warning(f"🚚 Dumping response to 🗃️: {full_path}")
+            if full_path.exists():
+                raise FileExistsError(f"File already exists: {full_path}")
+
+            with open(full_path, "w", encoding="utf8") as outfile:
+                outfile.write(response.text)
+        except Exception as ex:
+            log.error(f"🔥 Error dumping response: {ex}")
 
     def send_get_request(
         self, raw_url: str, auto_conn: bool = True
@@ -258,7 +321,7 @@ class ResTricksWrapper:
             log.error(f"{msg}\n== STATUS CODE:{response.status_code}")
             raise json.JSONDecodeError(msg, doc=response.text, pos=0)
 
-        ResTricksWrapper._check_response(response)
+        self._check_response(response)
 
         return data
 
@@ -319,7 +382,7 @@ class ResTricksWrapper:
             log.error(f"POST request [{raw_url}] failed: {ex}")
             raise ex
 
-        ResTricksWrapper._check_response(response)
+        self._check_response(response)
 
         if no_json:
             log.debug(f"No-payload response status code: {response.status_code}")
